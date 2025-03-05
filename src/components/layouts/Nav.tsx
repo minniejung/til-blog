@@ -9,7 +9,6 @@ import { cn } from '@/utils/helpers/cn'
 
 export const Nav = () => {
 	const path = usePathname()
-	console.log('path', path.slice(1))
 
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
