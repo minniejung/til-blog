@@ -135,6 +135,375 @@ Semantic Versioning:
 	},
 	{
 		id: 2,
+		date: '19/02/2025',
+		tags: ['Object', 'Array', 'JavaScript'],
+		title: 'JavaScript 1',
+		content: (
+			<div>
+				<h3>얕은 복사</h3>
+				<pre>
+					{`
+얕은 복사는 객체의 1단계 데이터만 복사하며, 중첩된 객체나 배열은 참조(주소)만 복사합니다.
+따라서, 복사본에서 중첩 데이터를 수정하면 원본에도 영향을 미칩니다.
+
+--------------------------------------------------
+
+const original = { name: "철수", info: { age: 30 } };
+const shallowCopy = { ...original }; // 얕은 복사
+shallowCopy.info.age = 31; // 중첩된 객체를 수정
+console.log(original.info.age); // 31 (원본도 영향을 받음)
+`}
+				</pre>
+
+				<h3>깊은 복사</h3>
+				<pre>
+					{`
+깊은 복사는 객체의 모든 데이터(중첩된 객체나 배열 포함)를 완전히 새로운 메모리 공간에 복사합니다. 
+복사본과 원본은 독립적이어서, 한쪽을 수정해도 다른 쪽에 영향을 미치지 않습니다.
+
+--------------------------------------------------
+
+const original = { name: "철수", info: { age: 30 } };
+const deepCopy = JSON.parse(JSON.stringify(original)); // 깊은 복사
+`}
+				</pre>
+
+				<h3>문자열</h3>
+				<pre>
+					{`
+const str = "hello world";
+console.log(str.length); // 11
+console.log(str.charAt(1)); // "e"
+console.log(str.indexOf("o")); // 4
+console.log(str.slice(0, 5)); // "hello"
+console.log(str.toUpperCase()); // "HELLO WORLD"
+`}
+				</pre>
+
+				<h3>배열</h3>
+				<pre>
+					{`
+const arr = [1, 2, 3, 4, 5];
+console.log(arr.length); // 5
+console.log(arr[2]); // 3
+console.log(arr.slice(0, 3)); // [1, 2, 3]
+console.log(arr.map(x => x * 2)); // [2, 4, 6, 8, 10]
+console.log(arr.reduce((acc, cur) => acc + cur)); // 15
+`}
+				</pre>
+
+				<h3>객체</h3>
+				<pre>
+					{`
+const obj = { name: "John", age: 30 };
+console.log(obj.name); // "John"
+console.log(Object.keys(obj)); // ["name", "age"]
+console.log(Object.values(obj)); // ["John", 30]
+console.log(Object.entries(obj)); // [["name", "John"], ["age", 30]]
+console.log(JSON.stringify(obj)); // '{"name":"John","age":30}'
+`}
+				</pre>
+
+				<h3>숫자</h3>
+				<pre>
+					{`
+const num = 3.141592;
+console.log(num.toFixed(2)); // "3.14"
+console.log(Math.floor(num)); // 3
+console.log(Math.ceil(num)); // 4
+console.log(Math.round(num)); // 3
+
+console.log(Math.max(1, 2, 3)); // 3
+console.log(Math.random()); // 임의의 0 이상 1 미만의 숫자
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 3,
+		date: '20/02/2025',
+		tags: ['원시타입', '참조타입', 'Scope', 'JavaScript'],
+		title: 'JavaScript 2',
+		content: (
+			<div>
+				<h3>원시 타입 vs 참조 타입</h3>
+				<pre>
+					{`
+원시 타입: string, number, boolean, null, undefined, bigint, symbol
+참조 타입: object, array, function
+
+let obj1 = { name: "Alice" };
+let obj2 = obj1;
+obj2.name = "Bob";
+console.log(obj1.name); // "Bob"
+`}
+				</pre>
+
+				<h3>스코프 & 키워드</h3>
+				<pre>
+					{`
+스코프 종류: 전역, 함수, 블록
+
+function testScope() {
+let a = 10;
+if (true) {
+let b = 20;
+const c = 30;}
+console.log(a); // 10}
+`}
+				</pre>
+
+				<h3>클로저</h3>
+				<pre>
+					{`
+내부 함수가 외부 함수의 변수를 기억하는 개념
+
+function outer(outerValue) {
+return function inner(innerValue) {
+console.log("Outer: $ {outerValue}, Inner: $ {innerValue}");};}
+const closureExample = outer("Hello");
+closureExample("World")
+`}
+				</pre>
+
+				<h3>Spread & Rest</h3>
+				<pre>
+					{`
+Spread는 요소 확장, Rest는 여러 인자 수집
+
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];
+console.log(arr2);
+
+function sum(...numbers) {
+return numbers.reduce((acc, num) => acc + num, 0);}
+console.log(sum(1, 2, 3, 4));
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 4,
+		date: '21/02/2025',
+		tags: ['DOM', 'JavaScript'],
+		title: 'JavaScript 3 - DOM',
+		content: (
+			<div>
+				<h3>DOM (Document Object Model)</h3>
+				<pre>
+					{`
+HTML, XML 문서의 구조를 트리 형태로 표현한 프로그래밍 인터페이스,
+이를 통해 웹 페이지의 내용과 구조를 동적으로 변경할 수 있다.
+`}
+				</pre>
+
+				<h3>DOM의 구조</h3>
+				<pre>
+					{`
+DOM은 계층적인 트리 구조를 가지며,
+
+- Document : 웹 페이지 전체를 나타내는 최상위 객체 (document 객체).
+- Element : HTML 태그 하나하나를 객체로 표현 (div, p, a 등).
+- Attribute : 요소의 속성 (id, class, src, href 등).
+- Text : 요소 안에 들어가는 텍스트 콘텐츠.
+`}
+				</pre>
+
+				<h3>DOM 조작</h3>
+				<pre>
+					{`
+JavaScript를 사용하여 DOM 조작
+
+e.g.
+
+✅ 요소 선택 방법
+document.getElementById("id값");
+document.querySelector(".class명");
+document.querySelectorAll("태그명");
+
+✅ 새로운 요소 추가
+const newElement = document.createElement("div");
+newElement.textContent = "새로운 요소";
+document.body.appendChild(newElement);
+
+✅ 요소 삭제
+const element = document.getElementById("id값");
+element.remove();
+
+✅ 스타일 변경
+element.style.color = "red";
+
+✅ 이벤트 리스너 추가
+element.addEventListener("click", () => {
+  alert("클릭됨!");
+});
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 5,
+		date: '24/02/2025',
+		tags: ['Higher order function', 'Callback', 'JavaScript'],
+		title: 'JavaScript 4 - Function',
+		content: (
+			<div>
+				<h3>일급 객체(first-class citizen)</h3>
+				<pre>
+					{`
+- 변수에 할당(assignment)할 수 있다
+- 다른 함수의 전달인자(argument)로 전달될 수 있다
+- 다른 함수의 결과로써 리턴될 수 있다
+- 함수를 변수에 할당할 수 있기 때문에, 함수를 배열의 요소나 객체의 속성 값으로 저장할 수 있습니다 
+- 함수를 데이터(string, number, boolean, array, object)처럼 다룰 수 있습니다
+`}
+				</pre>
+
+				<h3>고차 함수(higher order function)</h3>
+				<pre>
+					{`
+함수를 인자로 받을 수 있거나, 함수를 리턴할 수 있는 함수를 의미
+	예) doubleNum(func, num): 다른 함수를 인자로 받아 실행
+	예) adder(added): 함수를 리턴하는 함수
+`}
+				</pre>
+
+				<h3>콜백 함수(Callback Function)</h3>
+				<pre>
+					{`
+- 다른 함수(고차 함수)의 인자로 전달되는 함수
+- 고차 함수 내부에서 콜백 함수를 호출하거나, 조건에 따라 호출하지 않을 수도 있음
+`}
+				</pre>
+
+				<h3>커링 함수(Currying Function)</h3>
+				<pre>
+					{`
+- ‘함수를 리턴하는 함수’를 가리키는 용어
+- 고차 함수의 한 형태로 볼 수 있음
+`}
+				</pre>
+
+				<h3>내장 고차 함수</h3>
+				<pre>
+					{`
+filter, map, reduce 등
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 6,
+		date: '25/02/2025',
+		tags: ['OOP', 'JavaScript'],
+		title: 'JavaScript 4 - OOP',
+		content: (
+			<div>
+				<h3>OOP 개념</h3>
+				<pre>
+					{`
+- 객체 지향 프로그래밍(OOP)은 현실 세계를 프로그래밍에 반영하는 방식
+- 클래스(Class): 객체를 만들기 위한 청사진
+- 인스턴스(Instance): 클래스를 기반으로 생성된 실제 객체
+- 자동차 설계도(클래스) → 자동차(인스턴스)와 같은 개념
+`}
+				</pre>
+
+				<h3>캡슐화 (Encapsulation)</h3>
+				<pre>
+					{`
+- 데이터(속성)와 기능(메서드)를 하나의 객체로 묶는 것
+- **은닉화(정보 숨김)**를 통해 불필요한 접근 차단
+`}
+				</pre>
+
+				<h3>추상화 (Abstraction)</h3>
+				<pre>
+					{`
+- 필요한 기능만 공개, 복잡한 내부 구조는 감춤
+- 예: 전화기 사용자는 내부 회로를 알 필요 없음, 버튼만 누르면 됨
+`}
+				</pre>
+
+				<h3>상속 (Inheritance)</h3>
+				<pre>
+					{`
+- 부모 클래스의 속성과 메서드를 자식 클래스가 물려받음
+- 예: Human(사람) 클래스를 상속받는 Student(학생) 클래스
+`}
+				</pre>
+
+				<h3>다형성 (Polymorphism)</h3>
+				<pre>
+					{`
+- 같은 메서드 이름이라도 각 클래스에서 다르게 구현 가능
+- 예: render() 메서드가 TextBox, Checkbox에서 각기 다른 방식으로 작동
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 7,
+		date: '26/02/2025',
+		tags: ['Promise', 'async/await', 'JavaScript'],
+		title: 'JavaScript 4 - Promise',
+		content: (
+			<div>
+				<h3>Promise (new Promise)</h3>
+				<pre>
+					{`
+let promise = new Promise((resolve, reject) => {
+	// 1. 정상적으로 처리되는 경우
+	// resolve의 인자에 값을 전달할 수도 있습니다.
+	resolve(value);
+
+	// 2. 에러가 발생하는 경우
+	// reject의 인자에 에러메세지를 전달할 수도 있습니다.
+	reject(error);
+});
+`}
+				</pre>
+
+				<h3>Promise chaining with then, catch, finally</h3>
+				<pre>
+					{`
+let promise = new Promise(function(resolve, reject) {
+	resolve('성공');
+	...
+});
+
+promise
+  .then((value) => {
+    console.log(value);
+    return '성공';
+  })
+  .then((value) => {
+    console.log(value);
+    return '성공';
+  })
+  .then((value) => {
+    console.log(value);
+    return '성공';
+  })
+  .catch((error) => {
+    console.log(error);
+    return '실패';
+  })
+  .finally(() => {
+    console.log('성공이든 실패든 작동!');
+  });
+  `}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 8,
 		date: '05/03/2025 (1)',
 		tags: ['Client', 'Server', '2-Tier', '3-Tier', 'Architecture', 'Serverless'],
 		title: '2-Tier Architecture',
@@ -161,7 +530,7 @@ Dapp의 경우, 컨트랙트를 이용하여 데이터를 제공해 줄 수 있�
 		),
 	},
 	{
-		id: 3,
+		id: 9,
 		date: '05/03/2025 (2)',
 		tags: ['HTTP', 'HTTPS', 'Stateless', 'Request', 'Response'],
 		title: 'HTTP',
@@ -216,7 +585,7 @@ HTTP로 클라이언트와 서버가 통신을 주고받는 과정에서, HTTP�
 		),
 	},
 	{
-		id: 4,
+		id: 10,
 		date: '05/03/2025 (3)',
 		tags: ['URL', 'URI', 'IP', 'Port', 'Domain', 'DNS'],
 		title: '브라우저의 보이지 않는 곳',
@@ -265,7 +634,7 @@ HTTP로 클라이언트와 서버가 통신을 주고받는 과정에서, HTTP�
 		),
 	},
 	{
-		id: 5,
+		id: 11,
 		date: '05/03/2025 (4)',
 		tags: ['SPA', 'AJAX', 'SSR', 'CSR'],
 		title: '브라우저의 보이는 곳',
@@ -318,7 +687,7 @@ Q. 브라우저가 다른 경로로 이동하면 어떻게 될까요?
 		),
 	},
 	{
-		id: 6,
+		id: 12,
 		date: '05/03/2025 (5)',
 		tags: ['REST API'],
 		title: 'REST API (WIP)',
