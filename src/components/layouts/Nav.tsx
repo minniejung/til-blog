@@ -1,11 +1,16 @@
 'use client'
 
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 import { HiMenu } from 'react-icons/hi'
 
+import { cn } from '@/utils/helpers/cn'
+
 export const Nav = () => {
+	const path = usePathname()
+	console.log('path', path.slice(1))
+
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
 	return (
@@ -15,7 +20,10 @@ export const Nav = () => {
 					<div
 						key={link}
 						onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
-						className='cursor-pointer text-[#777] transition hover:text-black'>
+						className={cn(
+							'cursor-pointer text-[#777]',
+							path.slice(1) === link.toLocaleLowerCase() ? 'font-bold' : 'transition hover:text-black',
+						)}>
 						{link}
 					</div>
 				))}
@@ -34,7 +42,10 @@ export const Nav = () => {
 						<div
 							key={link}
 							onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
-							className='cursor-pointer text-[#777] transition hover:text-black'>
+							className={cn(
+								'cursor-pointer text-[#777]',
+								path.slice(1) === link.toLocaleLowerCase() ? 'font-bold' : 'transition hover:text-black',
+							)}>
 							{link}
 						</div>
 					))}
