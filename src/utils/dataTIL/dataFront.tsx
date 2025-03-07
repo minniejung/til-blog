@@ -688,17 +688,246 @@ Q. 브라우저가 다른 경로로 이동하면 어떻게 될까요?
 	},
 	{
 		id: 12,
-		date: '05/03/2025 (5)',
-		tags: ['REST API'],
-		title: 'REST API (WIP)',
+		date: '07/03/2025',
+		tags: ['Math module', 'Types', 'Python'],
+		title: 'Python 1',
 		content: (
 			<div>
-				<h3>REST API</h3>
-				<pre>
-					{`
+				<h3>Basic Syntax</h3>
+				<pre>{`
+- f-string(f"{}")은 자바스크립트의 템플릿 리터럴과 유사한 개념
+- Scope가 없는 대신, 들여쓰기가 매우 중요!
+- 변수명을 작성할 때 스네이크 케이스(snake_case) 사용
 
-`}
-				</pre>
+for i in range(1, 10):
+    print(f"2 x {i} = {2 * i}")
+				`}</pre>
+
+				<h3>List</h3>
+				<pre>{`
+fruits = ["사과", "바나나", "딸기"]
+fruits.append("오렌지")  # 리스트에 값 추가
+print(fruits)  # 출력: ["사과", "바나나", "딸기", "오렌지"]				
+				`}</pre>
+
+				<h3>Dictionary</h3>
+				<pre>{`
+person = {"name": "John", "age": 30}
+person["age"] = 31  # 값 변경
+print(person)  # 출력: {"name": "John", "age": 31}			
+				`}</pre>
+
+				<h3>Set</h3>
+				<pre>{`
+unique_numbers = {1, 2, 3}
+unique_numbers.add(4)  # 값 추가
+print(unique_numbers)  # 출력: {1, 2, 3, 4}		
+				`}</pre>
+
+				<h3>데이터 타입 확인</h3>
+				<pre>{`
+print(type(42))  # <class 'int'>
+print(type("안녕"))  # <class 'str'>
+print(type(True))  # <class 'bool'>
+print(type(None))  # <class 'NoneType'>
+				`}</pre>
+
+				<h3>math 모듈의 주요 함수</h3>
+				<pre>{`
+math.floor(x)	x를 내림 (가장 가까운 작은 정수)
+math.ceil(x)	x를 올림 (가장 가까운 큰 정수)
+math.fabs(x)	x의 절대값 (항상 양수)
+math.sqrt(x)	x의 제곱근 계산
+math.pow(x, y)	x의 y제곱 (x^y)
+math.factorial(x)	x의 팩토리얼 계산 (x!)
+
+print(int(10.9))    # 10 (소수점 버림)
+print(float(10))    # 10.0 (정수를 실수로 변환)
+				`}</pre>
+
+				<h3>String</h3>
+				<pre>{`
+삼중 따옴표(''' 또는 """)를 사용하면 여러 줄 문자열(Multiline String) 작성 가능
+'''
+Python은 배우기 쉬운 문법과 강력한 기능을 제공하는 프로그래밍 언어입니다.
+다양한 분야에서 활용됩니다.
+'''
+				`}</pre>
+
+				<h3>길이 확인 len</h3>
+				<pre>{`
+print(len("欢迎你"))  # 3
+print(len("파이썬은 배우기 쉬운 언어입니다."))  # 17
+				`}</pre>
+
+				<h3>대소문자</h3>
+				<pre>{`
+print("HELLO WORLD".lower())  # 'hello world'
+print("hello world".upper())  # 'HELLO WORLD'
+				`}</pre>
+
+				<h3>문자 포함 여부 확인</h3>
+				<pre>{`
+print("🍎🍓🍉🍇".count("🍎"))  # 1
+print("파이썬은 배우기 쉬운 언어입니다.".count("배우기"))  # 1
+print("파이썬" in "파이썬은 배우기 쉬운 언어입니다.")  # True
+				`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 13,
+		date: '07/03/2025 (2)',
+		tags: ['Loop', 'Conditions', 'Function', 'Python'],
+		title: 'Python 2',
+		content: (
+			<div>
+				<h3>lambda 함수</h3>
+				<pre>{`
+짧고 간결한 함수를 만들 때 유용
+
+add = lambda x, y: x + y
+print(add(2, 3))  # 출력: 5
+				`}</pre>
+
+				<h3>if else</h3>
+				<pre>{`
+name = "aliceKim"
+rocket = "boost"
+
+if name == "aliceKim" and rocket == "boost":
+    print("정보가 일치합니다.")
+elif name == "aliceKim" and rocket != "boost":
+    print("코스를 확인하세요.")  # 출력: '코스를 확인하세요.'
+else:
+    print("일치하지 않는 정보입니다.")			
+				`}</pre>
+
+				<h3>Ternary operator</h3>
+				<pre>{`
+한 줄로 간결하게 조건을 표현할 때 유용
+
+num = 5
+print("짝수" if num % 2 == 0 else "홀수")  # 출력: '홀수'		
+				`}</pre>
+
+				<h3>for문 (반복문)</h3>
+				<pre>{`
+result = 0
+
+for num in range(1, 6):
+    result += num
+
+print(result)  # 출력: 15
+				`}</pre>
+
+				<h3>while 문 (조건이 참일 동안 반복)</h3>
+				<pre>{`
+user_input = ""
+while user_input != "exit":
+    user_input = input("입력하세요 (종료: exit): ")
+    print(f"입력한 값: {user_input}")
+				`}</pre>
+
+				<h3>List</h3>
+				<pre>{`
+fruits = ["apple", "banana"]
+fruits.append("cherry")  # 리스트 끝에 요소 추가
+print(fruits)  # ['apple', 'banana', 'cherry']
+
+fruits.pop()  # 마지막 요소 제거
+print(fruits)  # ['apple', 'banana']
+
+fruits.insert(0, "grape")  # 특정 위치에 요소 추가
+print(fruits)  # ['grape', 'apple', 'banana']
+
+fruits.remove("apple")  # 특정 요소 제거
+print(fruits)  # ['grape', 'banana']
+				`}</pre>
+
+				<h3>List - 리스트 변환 및 필터링</h3>
+				<pre>{`
+numbers = [1, 2, 3, 4]
+
+doubled = [num * 2 for num in numbers]  # 리스트 내포(List Comprehension) 사용
+print(doubled)  # [2, 4, 6, 8]
+
+evens = list(filter(lambda num: num % 2 == 0, numbers))  # 짝수만 필터링
+print(evens)  # [2, 4]
+				`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 14,
+		date: '07/03/2025 (3)',
+		tags: ['Generic', '<T>', 'Public', 'Private', 'Readonly', 'Typescript'],
+		title: 'Typescript',
+		content: (
+			<div>
+				<h3>public, private</h3>
+				<pre>{`
+type Person {
+  public name: string;
+  private age: number;
+}
+				`}</pre>
+
+				<h3>readonly</h3>
+				<pre>{`
+type Mydog {
+    readonly name: string;
+    constructor(theName: string) {
+        this.name = theName;
+    }
+}
+				`}</pre>
+
+				<h3>Generic</h3>
+				<pre>{`				
+function printLog<T>(text: T): T {
+	return text;
+}	
+
+--------------------------------------------------
+
+interface Item<T> {
+	name: T;
+	stock: number;
+	selected: boolean;
+}
+
+--------------------------------------------------
+
+function printLog<T>(text: T): T {
+	console.log(text.length);
+	return text;
+}
+				`}</pre>
+
+				<h3>제네릭 제약 조건</h3>
+				<pre>{`
+interface TextLength {
+	length: number;
+}
+
+function printLog<T extends TextLength>(text: T): T {
+	console.log(text.length);
+	return text;
+}
+
+--------------------------------------------------
+
+interface Item<T> {
+	name: T;
+	stock: number;
+	selected: boolean;
+}
+
+function printLog<T extends keyof Item>(text: T): T {
+	return text;
+}
+				`}</pre>
 			</div>
 		),
 	},
