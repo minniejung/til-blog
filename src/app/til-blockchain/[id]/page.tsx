@@ -23,9 +23,15 @@ const TilBlockchainSinglePage = () => {
 				<HiArrowLeft className='fill-[#5e5e5e]' />
 				<span>Prev page</span>
 			</div>
-			<div className='tilPageWrapper'>
-				{foundData ? foundData.content : <div className='w-screen'>No data found</div>}
-			</div>
+			{foundData ? (
+				<div className='tilPageWrapper space-y-8'>
+					<div className='text-3xl font-bold'>{foundData.title}</div>
+					<hr />
+					<div>{foundData.content}</div>
+				</div>
+			) : (
+				<div>No data found</div>
+			)}{' '}
 		</div>
 	)
 }
