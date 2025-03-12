@@ -1103,7 +1103,6 @@ EVM 호환성
 - 투자 및 경제 모델 측면에서 강력함
 	•	CHZ는 이미 스포츠 팬덤 기반으로 실사용 사례가 많음
 	•	기존 Tokenomics에서 벗어나, EIP-1559 기반의 소각 모델 + 점진적인 인플레이션 감소 적용 → 장기적으로 토큰 가치 방어 가능성 높음
-	•	거래 수수료 소각 모델이 들어가면서, 장기적으로 디플레이션 가능성 있음
 	•	팬덤 기반 경제 모델이라 단순 투기보다는 실제 사용성이 높은 블록체인
 
 - 결론: 팬덤이 강한 만큼 강한 블록체인, 하지만 완전한 탈중앙화 블록체인은 아님
@@ -1177,6 +1176,216 @@ EVM 호환성
 ❌ PoS 단점
 	•	자본력에 따라 검증자 독점 가능성 (부자가 더 많은 블록을 생성할 가능성 높음)
 	•	Slashing(처벌 메커니즘) 필요 (검증자가 악의적인 행동을 할 경우 스테이킹 토큰을 삭감)
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 18,
+		date: '12/03/2025',
+		tags: ['On-chain', 'Blockchain'],
+		title: 'On-chain data',
+		content: (
+			<div>
+				<h3>트랜잭션 데이터(Transaction Data)</h3>
+				<pre>
+					{`
+- 트랜잭션 ID (Transaction Hash): 트랜잭션을 식별하는 고유한 해시 값
+- 보낸 주소 (From Address): 트랜잭션을 보낸 계정 주소
+- 받는 주소 (To Address): 트랜잭션을 받는 계정 주소 또는 스마트 컨트랙트 주소
+- 전송된 금액 (Value): 트랜잭션에서 이동한 암호화폐 또는 토큰의 양
+- 가스 사용량 (Gas Used): 트랜잭션을 처리하는 데 사용된 가스 양
+`}
+				</pre>
+
+				<h3>블록 데이터(Block Data)</h3>
+				<pre>
+					{`
+- 블록 해시 (Block Hash): 특정 블록을 식별하는 고유한 해시 값
+- 블록 번호 (Block Number): 해당 블록의 높이(높은 숫자일수록 최신 블록)
+- 블록 생성 시간 (Timestamp): 블록이 생성된 시간
+- 채굴자 주소 (Miner Address): 블록을 생성한 채굴자의 주소
+- 트랜잭션 목록 (Transactions): 블록에 포함된 모든 트랜잭션
+`}
+				</pre>
+
+				<h3>상태 데이터(State Data)</h3>
+				<pre>
+					{`
+- 계정 잔액 (Account Balance): 특정 계정의 보유 암호화폐 양.
+- 스마트 컨트랙트 저장소 (Contract Storage): 스마트 컨트랙트가 저장하는 데이터.
+- 토큰 보유량 (Token Balance): ERC-20 같은 토큰을 보유한 계정의 잔액 정보.
+`}
+				</pre>
+
+				<h3>온체인 데이터를 조회하는 방법</h3>
+				<pre>
+					{`
+- 직접 노드 운영 → Geth, Erigon, Besu 등 실행.
+- RPC 인프라 제업체 이용 → Infura, Alchemy, QuickNode 등 사용.
+- Web3 SDK 활용 → Web3.js, Ethers.js 등을 사용해 온체인 데이터 조회.
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 19,
+		date: '12/03/2025 (2)',
+		tags: ['RPC', 'JSON', 'Node', 'Blockchain'],
+		title: 'Node',
+		content: (
+			<div>
+				<h3>Node</h3>
+				<pre>
+					{`
+- 블록체인은 블록과 트랜잭션 데이터를 확인할 수 있는 소프트웨어(노드)를 실행하는 컴퓨터의 분산 네트워크. 
+- 노드를 "실행"하려면 컴퓨터에 "클라이언트"라고 하는 응용 프로그램이 필요합니다 eg. Bitcoin Core, Geth 등
+`}
+				</pre>
+
+				<h3>JSON-RPC</h3>
+				<pre>
+					{`
+- RPC(Remote Procedure Call) : 
+	* 별도의 원격 제어를 위한 코딩 없이 다른 주소 공간에서 리모트의 함수나 프로시저를 실행 할 수 있게 해주는 프로세스간 통신
+- JSON-RPC API : 
+	* JSON-RPC는 무상태성(Stateless)의 경량 RPC(원격 프로시저 호출) 프로토콜
+	* 소켓 통신이나 HTTP 등 다양한 메시지 전달 환경에서 사용할 수 있도록 추상화 되어 있음
+	* JSON(RFC 4627)의 데이터 형식으로 사용
+`}
+				</pre>
+
+				<h3>e.g. 터미널에서 RPC-call 해보기</h3>
+				<pre>
+					{`
+curl -X POST https://public-en-kairos.node.kaia.io \
+  -H "Content-Type: application/json" \
+  --data '{
+    "jsonrpc": "2.0",
+    "method": "eth_getBalance",
+    "params": ["0x7F4eCb81082eE10c330B926F64E34a9102de4F03", "latest"],
+    "id": 1
+  }'
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 20,
+		date: '12/03/2025 (3)',
+		tags: ['Gwei', 'Wei', 'Ether', 'ETH', 'Blockchain'],
+		title: 'Ether units',
+		content: (
+			<div>
+				<h3>Units</h3>
+				<pre>
+					{`
+이 단위들은 이더리움 네트워크에서 트랜잭션 수수료(Gas Fee) 계산 및 정밀한 금액을 표현하는 데 필수적
+
+1 ETH = 1,000,000,000 Gwei (10⁹ Gwei)
+1 Gwei = 1,000,000,000 Wei (10⁹ Wei)
+0.0001 ETH = 100,000 Gwei
+`}
+				</pre>
+
+				<h3>3가지 주요 단위</h3>
+				<pre>
+					{`
+✅ Wei
+이더리움의 가장 작은 단위.
+스마트 컨트랙트와 트랜잭션에서 정밀한 계산이 필요할 때 사용됨
+1 Wei = 0000000000000000001 ETH (10⁻¹⁸ ETH)
+
+✅ Gwei (가스 가격 단위)
+이더리움 트랜잭션 수수료(Gas Fee) 계산에서 주로 사용됨
+대부분의 블록 탐색기나 지갑에서 **Gas Price(가스 가격)**는 Gwei 단위로 표시됨
+
+예: 50 Gwei = 0.00000005 ETH
+
+✅ Ether (ETH)
+이더리움 네트워크의 기본 화폐 단위
+일반적으로 ETH 단위로 잔액을 표시하며, 트랜잭션 송금에도 사용됨
+`}
+				</pre>
+
+				<h3>이더리움 단위가 다양한 이유</h3>
+				<pre>
+					{`
+- 높은 정밀도 필요: Wei 같은 작은 단위를 사용하여 정확한 수수료 계산 및 미세한 거래 가능
+- 가스비 최적화: Gwei 단위를 활용하면 가스 비용을 쉽게 조정할 수 있음
+- 스마트 컨트랙트 개발 최적화: 스마트 컨트랙트는 Wei 단위를 사용하여 정확한 연산 수행 가능
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 21,
+		date: '12/03/2025 (4)',
+		tags: ['API', 'Infura', 'Ganache', 'Blockchain'],
+		title: 'Ganache',
+		content: (
+			<div>
+				<h3>이더리움 노드</h3>
+				<pre>
+					{`
+이더리움 노드는 Geth나 Parity를 사용하여 실제 이더리움 메인(또는 테스트) 네트워크에 접속하여 블록을 모두 동기화시켜야 
+그러나 블록을 동기화 시키는데만 해도 2-3일 정도 소요되며, 
+트랜잭션을 보내도 블록을 생성하기까지 기다려야 하는 등 스마트 컨트랙트를 개발 할 때 불편한 점이 많습니다!
+
+그래서 Ganache 같은 가상/프라이빗 네트워크 상에서 컨트랙트를 구동해 볼 수 있음
+`}
+				</pre>
+
+				<h3>Ganache</h3>
+				<pre>
+					{`
+가나슈(Ganache)는 가상의 이더리움 네트워크를 생성해서 스마트 컨트랙트를 실행할 수 있도록 해주는 프로그램
+가나슈 등을 이용해 만든 가상 환경이 TestRPC
+`}
+				</pre>
+
+				<h3>e.g. API Call</h3>
+				<pre>
+					{`
+curl -X POST https://polygon-amoy.infura.io/v3/{자신의 API Key} \
+  -H "Content-Type: application/json" \
+  --data '{
+    "jsonrpc": "2.0",
+    "method": "eth_getBalance",
+    "params": ["{자신의 지갑 주소}", "latest"],
+    "id": 1
+  }'
+`}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 22,
+		date: '12/03/2025 (5)',
+		tags: ['Web3js', 'JSON RPC', 'P2P', 'Blockchain'],
+		title: 'Web3.js',
+		content: (
+			<div>
+				<pre>
+					{`
+- Web3.js는 이더리움 블록체인과 JSON RPC(Remote Procedure Call)를 사용하여 소통
+- 이더리움은 여러 노드로 구성된 P2P 네트워크이며 블록체인에 있는 모든 데이터와 코드의 사본을 저장하고 있음
+- Web3.js는 네트워크에 있는 데이터를 읽거나 써야 할 때 JSON RPC를 사용해 하나의 이더리움 노드에게 요청을 보냄
+	(이더리움에서는 클라이언트가 JSON RPC라는 정해진 형식에 맞춰서 이더리움 노드에 데이터를 요청)
+`}
+				</pre>
+				<h3>Modules</h3>
+				<pre>
+					{`
+web3-eth: 이더리움 블록체인과 스마트 컨트랙트 모듈
+web3-shh: P2P 커뮤니케이션과 브로드캐스트를 위한 위스퍼 프로토콜 모듈
+web3-bzz: 탈중앙화 파일 스토리지를 위한 스왐 프로토콜 모듈
+web3-utils: dApp 개발자를 위한 유용한 헬퍼 함수들을 모아둔 모듈
 `}
 				</pre>
 			</div>

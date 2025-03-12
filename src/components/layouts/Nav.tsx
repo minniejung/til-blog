@@ -54,4 +54,4 @@ export const Nav = () => {
 	)
 }
 
-const links = ['About', 'TIL-blockchain', 'TIL-Front', 'TIL-Back', 'TIL-Solidity', 'Scoby', 'Chart']
+const links = ['About', 'TIL-Blockchain', 'TIL-Front', 'TIL-Back', 'TIL-Solidity', 'Scoby', 'Chart']
