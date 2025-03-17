@@ -20,8 +20,9 @@ export const Nav = () => {
 						key={link}
 						onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
 						className={cn(
-							'cursor-pointer text-[#777]',
-							path.slice(1) === link.toLocaleLowerCase() ? 'font-bold' : 'transition hover:text-black',
+							'cursor-pointer',
+							path.slice(1) === link.toLocaleLowerCase() && 'font-bold',
+							link === 'Wallet' ? 'text-orange-500' : 'text-[#777] hover:text-black',
 						)}>
 						{link}
 					</div>
@@ -42,8 +43,9 @@ export const Nav = () => {
 							key={link}
 							onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
 							className={cn(
-								'cursor-pointer text-[#777]',
-								path.slice(1) === link.toLocaleLowerCase() ? 'font-bold' : 'transition hover:text-black',
+								'cursor-pointer transition',
+								path.slice(1) === link.toLocaleLowerCase() && 'font-bold',
+								link === 'Wallet' ? 'text-orange-500' : 'text-[#777] hover:text-black',
 							)}>
 							{link}
 						</div>
@@ -54,4 +56,4 @@ export const Nav = () => {
 	)
 }
 
-const links = ['About', 'TIL-Blockchain', 'TIL-Front', 'TIL-Back', 'TIL-Solidity', 'Scoby', 'Chart']
+const links = ['About', 'TIL-Blockchain', 'TIL-Front', 'TIL-Back', 'TIL-Solidity', 'Scoby', 'Chart', 'Wallet']
