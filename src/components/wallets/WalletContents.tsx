@@ -10,13 +10,11 @@ import { Faucet } from './Faucet'
 import { SendTxForm } from './SendTxForm'
 import { TxHashes } from './TxHashes'
 
-type WalletContentsType = {
-	web3: Web3
-}
-
-export const WalletContents = ({ web3 }: WalletContentsType) => {
+export const WalletContents = () => {
 	const wallet = useAtomValue(web3WalletAtom)
 	const network = useAtomValue(networkAtom)
+
+	const web3 = new Web3(network.rpcUrl)
 
 	const setBalance = useSetAtom(balanceAtom)
 
@@ -34,7 +32,7 @@ export const WalletContents = ({ web3 }: WalletContentsType) => {
 		if (wallet) {
 			fetchBalance()
 		}
-	}, [wallet])
+	}, [wallet, network])
 
 	return (
 		wallet && (

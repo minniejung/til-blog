@@ -3,7 +3,6 @@
 import React from 'react'
 
 import { useAtom, useSetAtom } from 'jotai'
-import Web3 from 'web3'
 
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
 import { ButtonCreateWallet } from '@/components/wallets/ButtonCreateWallet'
@@ -12,8 +11,6 @@ import { ButtonImportWalletByMnemonic } from '@/components/wallets/ButtonImportW
 // import { ButtonMetamaskWallet } from '@/components/wallets/ButtonMetamaskWallet'
 import { WalletContents } from '@/components/wallets/WalletContents'
 import { txHashesAtom, web3WalletAtom } from '@/stores/atoms'
-
-const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 
 const WalletPage = () => {
 	const [wallet, setWallet] = useAtom(web3WalletAtom)
@@ -41,7 +38,7 @@ const WalletPage = () => {
 				<div>
 					<ButtonGoBack onClick={disconnect}>Prev Page</ButtonGoBack>
 					<div className='flex w-full flex-col items-center gap-8'>
-						<WalletContents web3={web3} />
+						<WalletContents />
 					</div>
 				</div>
 			)}

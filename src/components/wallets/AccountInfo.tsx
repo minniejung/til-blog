@@ -20,8 +20,6 @@ export const AccountInfo = ({ web3, wallet, fetchBalance }: AccountInfoType) => 
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-	console.log('network', network)
-
 	useEffect(() => {
 		setIsModalOpen(false)
 	}, [network])
