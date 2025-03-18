@@ -4,6 +4,7 @@ import { redirect, usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 import { HiMenu } from 'react-icons/hi'
+import { IoWallet, IoWalletOutline } from 'react-icons/io5'
 
 import { cn } from '@/utils/helpers/cn'
 
@@ -11,6 +12,7 @@ export const Nav = () => {
 	const path = usePathname()
 
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+	const [isHovered, setIsHovered] = useState<boolean>(false)
 
 	return (
 		<>
@@ -18,13 +20,19 @@ export const Nav = () => {
 				{links.map(link => (
 					<div
 						key={link}
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
 						onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
 						className={cn(
 							'cursor-pointer',
 							path.slice(1) === link.toLocaleLowerCase() && 'font-bold',
-							link === 'Wallet' ? 'text-orange-500' : 'text-[#777] hover:text-black',
+							link === 'Wallet' ? 'text-purple-500' : 'text-[#777] hover:text-black',
 						)}>
-						{link}
+						{link === 'Wallet' ? (
+							<span className='text-2xl'>{isHovered ? <IoWallet /> : <IoWalletOutline />}</span>
+						) : (
+							link
+						)}
 					</div>
 				))}
 			</nav>

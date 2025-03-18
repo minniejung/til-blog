@@ -1,21 +1,21 @@
 import React from 'react'
 
-import { useSetAtom } from 'jotai'
-import { PiCoinsLight } from 'react-icons/pi'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { MdWaterDrop } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import Web3, { Web3Account } from 'web3'
+import Web3 from 'web3'
 
-import { txHashesAtom } from '@/stores/atoms'
+import { txHashesAtom, web3WalletAtom } from '@/stores/atoms'
 
-import Button from '../Button'
+import Button from '../buttons/Button'
 
 type FaucetType = {
 	web3: Web3
-	wallet: Web3Account
 	fetchBalance: () => void
 }
 
-export const Faucet = ({ web3, wallet, fetchBalance }: FaucetType) => {
+export const Faucet = ({ web3, fetchBalance }: FaucetType) => {
+	const wallet = useAtomValue(web3WalletAtom)
 	const setTxHashes = useSetAtom(txHashesAtom)
 
 	const getToken = async () => {
@@ -47,9 +47,9 @@ export const Faucet = ({ web3, wallet, fetchBalance }: FaucetType) => {
 
 	return (
 		<>
-			<p className='text-2xl font-bold text-[#5e5e5e]'>Faucet</p>
-			<Button onClick={getToken} width='w-[200px] flex flex-row gap-2'>
-				<PiCoinsLight />
+			{/* <p className='text-2xl font-bold text-[#5e5e5e]'>Faucet</p> */}
+			<Button onClick={getToken} className='flex w-[200px] flex-row items-center gap-2'>
+				<MdWaterDrop className='text-xl text-blue-500' />
 				Get 0.01 KAIA
 			</Button>
 		</>

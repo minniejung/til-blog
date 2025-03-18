@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
 
-import { useSetAtom } from 'jotai'
-import Web3, { Web3Account } from 'web3'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { TbTransfer } from 'react-icons/tb'
+import { toast } from 'react-toastify'
+import Web3 from 'web3'
 
-import { txHashesAtom } from '@/stores/atoms'
+import { balanceAtom, txHashesAtom, web3WalletAtom } from '@/stores/atoms'
 
-import Button from '../Button'
+import Button from '../buttons/Button'
+import { ErrorMessage } from '../ErrorMessage'
 
 type SendTxFormType = {
 	web3: Web3
-	wallet: Web3Account
-	balance: string
 	fetchBalance: () => void
 }
 
-export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormType) => {
+export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
+	const wallet = useAtomValue(web3WalletAtom)
+	const balance = useAtomValue(balanceAtom)
+
 	const [recipient, setRecipient] = useState<string>('')
 	const [amount, setAmount] = useState<string>('')
 	const [gasFee, setGasFee] = useState<string>('0')
@@ -22,6 +26,8 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 	const setTxHashes = useSetAtom(txHashesAtom)
 
 	const maxSpendable = (parseFloat(balance) - parseFloat(gasFee)).toFixed(6)
+
+	const InsufficientBalance = Number(maxSpendable) <= 0 || Number(balance) <= 0 || Number(amount) > Number(maxSpendable)
 
 	const estimateGasFee = async () => {
 		if (!wallet || !recipient || !amount || isNaN(Number(amount))) return
@@ -38,13 +44,9 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 
 			if (!gasPrice || !estimatedGas) throw new Error('Failed to get gas estimate.')
 
-			// Apply 10% increase directly
 			const increasedGas = Math.ceil(Number(estimatedGas) * 1.1)
 			const gasFeeWei = BigInt(increasedGas) * BigInt(gasPrice)
 			const gasFeeEth = web3.utils.fromWei(gasFeeWei.toString(), 'ether')
-
-			console.log('gasFeeWei', gasFeeWei)
-			console.log('gasFeeEth', gasFeeEth)
 
 			const maxSpendable = parseFloat(balance) - parseFloat(gasFeeEth)
 			if (maxSpendable < 0) {
@@ -80,8 +82,11 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 			fetchBalance()
 			setRecipient('')
 			setAmount('')
+
+			toast.success('Transaction Successful!')
 		} catch (error) {
 			console.error('Transaction Failed:', error)
+			toast.error('Transaction failed')
 		}
 	}
 
@@ -93,11 +98,19 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 
 	return (
 		<>
-			<p className='text-2xl font-bold text-[#5e5e5e]'>Send transaction</p>
-			<div className='flex w-[500px] flex-col gap-4'>
-				<div className='flex flex-col gap-6 rounded-lg border border-gray-300 p-4'>
+			<div className='flex w-[500px] flex-col space-y-2 rounded-lg border border-gray-300 p-4'>
+				<div className='flex pb-2 font-bold text-gray-600'>
+					<span className='flex flex-row items-center gap-2'>
+						<TbTransfer className='text-2xl' />
+						Send transaction
+					</span>
+				</div>
+
+				<hr className='pb-2' />
+
+				<div className='flex flex-col gap-6'>
 					<div className='flex flex-col gap-2'>
-						<label className='w-[90px] font-bold'>Recipient</label>
+						<label className='ml-2 font-bold'>Recipient</label>
 						<input
 							type='text'
 							placeholder='받는 주소'
@@ -111,7 +124,7 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 					</div>
 
 					<div className='relative flex flex-col gap-2'>
-						<label className='w-[90px] font-bold'>Amount</label>
+						<label className='ml-2 font-bold'>Amount</label>
 						<input
 							type='text'
 							placeholder='보낼 금액 (KAIA)'
@@ -125,7 +138,8 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 							className='absolute right-2 top-10 px-3 py-1 text-sm font-bold text-orange-500'>
 							Max
 						</button>
-						<div className='mt-1 space-y-1'>
+
+						<div className='m-2 space-y-1'>
 							<p className='text-right text-xs text-gray-500'>Available: {balance} KAIA</p>
 							<p className='text-right text-xs text-gray-500'>Estimated Gas Fee: {gasFee} KAIA</p>
 							<p className='text-right text-xs text-gray-500'>Max Spendable: {maxSpendable} KAIA</p>
@@ -133,14 +147,9 @@ export const SendTxForm = ({ web3, wallet, balance, fetchBalance }: SendTxFormTy
 					</div>
 				</div>
 
-				{(Number(maxSpendable) <= 0 || Number(balance) <= 0 || Number(amount) > Number(maxSpendable)) && (
-					<p className='text-center text-xs font-bold text-red-500'>Not enough balance</p>
-				)}
+				<ErrorMessage condition={InsufficientBalance}>Insufficient balance</ErrorMessage>
 
-				<Button
-					onClick={sendTransaction}
-					disabled={Number(maxSpendable) <= 0 || Number(balance) <= 0 || Number(amount) > Number(maxSpendable)}
-					className='bg-blue-500 text-white'>
+				<Button onClick={sendTransaction} disabled={InsufficientBalance} className='bg-blue-500 text-white'>
 					SEND
 				</Button>
 			</div>

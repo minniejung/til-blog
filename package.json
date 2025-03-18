@@ -11,8 +11,10 @@
 		"test-ethers": "npx ts-node src/test/sendTx.ethersjs.test.ts"
 	},
 	"dependencies": {
+		"@scure/bip32": "^1.6.2",
+		"@scure/bip39": "^1.5.4",
 		"@tanstack/react-query": "^5.67.1",
-		"ethers": "^6.13.5",
+		"framer-motion": "^12.5.0",
 		"idb": "^8.0.0",
 		"jotai": "^2.10.3",
 		"next": "15.1.6",

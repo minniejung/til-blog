@@ -3,8 +3,7 @@
 import { useParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
-import { HiArrowLeft } from 'react-icons/hi'
-
+import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
 import { dataFront } from '@/utils/dataTIL/dataFront'
 
 const TilFrontSinglePage = () => {
@@ -17,12 +16,7 @@ const TilFrontSinglePage = () => {
 
 	return (
 		<div className='pt-2'>
-			<div
-				onClick={() => router.back()}
-				className='mb-8 flex cursor-pointer flex-row items-center gap-2 text-[#5e5e5e]'>
-				<HiArrowLeft className='fill-[#5e5e5e]' />
-				<span>Prev page</span>
-			</div>
+			<ButtonGoBack onClick={() => router.back()}>Prev Page</ButtonGoBack>
 
 			{foundData ? (
 				<div className='tilPageWrapper space-y-8'>

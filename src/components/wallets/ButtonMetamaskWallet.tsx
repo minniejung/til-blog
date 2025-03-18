@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
+import { IoWalletOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
-import Button from '../Button'
+import Button from '../buttons/Button'
 
 declare global {
 	interface Window {
@@ -14,7 +15,7 @@ declare global {
 
 const web3 = new Web3(window.ethereum!)
 
-export const MetamaskWallet = () => {
+export const ButtonMetamaskWallet = () => {
 	const [, setMetamaskWallet] = useState<{ address: string } | null>(null)
 
 	const connectWallet = async () => {
@@ -77,17 +78,13 @@ export const MetamaskWallet = () => {
 	// 	}
 	// }
 
-	// const getAccountByPrivateKey = async (privateKey: string) => {
-	// 	const account = web3.eth.accounts.privateKeyToAccount(privateKey)
-	// 	return account
-	// }
-
-	// console.log(getAccountByPrivateKey('0x23a1bbabd464ccca18beec903fb5c19cc4a43366a1987b813434cda7f49fc28e'))
-
 	return (
 		<>
-			<Button onClick={connectWallet} width='w-[200px] cursor-not-allowed'>
-				메타마스크 연결
+			<Button
+				onClick={connectWallet}
+				className='flex w-full cursor-not-allowed flex-row items-center gap-2 hover:border-purple-300 hover:bg-purple-50'>
+				<IoWalletOutline />
+				Connect with Metamask
 			</Button>
 		</>
 	)

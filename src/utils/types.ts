@@ -7,3 +7,8 @@ export type TilCardType = {
 	title: string
 	content: ReactNode
 }
+
+export type NetworkType = {
+	id: bigint
+	name: string
+}
