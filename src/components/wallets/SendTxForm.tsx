@@ -25,17 +25,13 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 
 	const setTxHashes = useSetAtom(txHashesAtom)
 
-	const maxSpendable = (parseFloat(balance) - parseFloat(gasFee)).toFixed(6)
-
-	const InsufficientBalance = Number(maxSpendable) <= 0 || Number(balance) <= 0 || Number(amount) > Number(maxSpendable)
-
 	const estimateGasFee = async () => {
-		if (!wallet || !recipient || !amount || isNaN(Number(amount))) return
+		if (!wallet || !recipient) return
 
 		try {
 			const value = web3.utils.toWei(amount, 'ether')
-			const gasPrice = await web3.eth.getGasPrice()
 
+			const gasPrice = await web3.eth.getGasPrice()
 			const estimatedGas = await web3.eth.estimateGas({
 				from: wallet.address,
 				to: recipient,
@@ -48,17 +44,15 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 			const gasFeeWei = BigInt(increasedGas) * BigInt(gasPrice)
 			const gasFeeEth = web3.utils.fromWei(gasFeeWei.toString(), 'ether')
 
-			const maxSpendable = parseFloat(balance) - parseFloat(gasFeeEth)
-			if (maxSpendable < 0) {
-				throw new Error('Insufficient balance to cover gas fees')
-			}
-
 			setGasFee(gasFeeEth)
 		} catch (error) {
 			console.error('Failed to estimate gas:', error)
 			setGasFee('0')
 		}
 	}
+
+	const maxSpendable = (parseFloat(balance) - parseFloat(gasFee)).toFixed(6)
+	const InsufficientBalance = Number(maxSpendable) <= 0 || Number(balance) <= 0 || Number(amount) > Number(maxSpendable)
 
 	const sendTransaction = async () => {
 		if (!wallet || !recipient || !amount) return
@@ -91,10 +85,8 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 	}
 
 	useEffect(() => {
-		if (amount) {
-			estimateGasFee()
-		}
-	}, [amount])
+		estimateGasFee()
+	}, [amount, recipient])
 
 	return (
 		<>
