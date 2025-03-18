@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { TbCoinBitcoin, TbWorldCode } from 'react-icons/tb'
 import Web3 from 'web3'
 
@@ -16,8 +16,6 @@ type NetworkModalProps = {
 
 export const ModalNetwork = ({ web3 }: NetworkModalProps) => {
 	const setNetwork = useSetAtom(networkAtom)
-	const network = useAtomValue(networkAtom)
-	console.log('network', network)
 
 	const changeNetwork = (network: NetworkType) => {
 		web3.setProvider(new web3.providers.HttpProvider(network.rpcUrl))
