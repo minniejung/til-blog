@@ -9,6 +9,7 @@ import Web3 from 'web3'
 
 import Button from '@/components/buttons/Button'
 import { balanceAtom, networkAtom, web3WalletAtom } from '@/stores/atoms'
+import { defaultNetwork } from '@/utils/consts'
 
 const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 
@@ -22,7 +23,7 @@ export const ButtonCreateWallet = () => {
 
 		setWallet(newWallet)
 		setBalance('0')
-		setNetwork({ id: BigInt(0), name: '' })
+		setNetwork(defaultNetwork)
 
 		toast.success('New wallet created!')
 	}

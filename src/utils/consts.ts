@@ -1,5 +1,12 @@
 import { NetworkType } from './types'
 
+export const defaultNetwork = {
+	id: 1001,
+	name: 'Kaia Kairos Testnet',
+	currency: 'KAIA',
+	rpcUrl: 'https://public-en-kairos.node.kaia.io',
+}
+
 export const networks: NetworkType[] = [
 	{ id: 1, name: 'Ethereum Mainnet', currency: 'ETH', rpcUrl: 'https://mainnet.infura.io' },
 	{ id: 137, name: 'Polygon Mainnet', currency: 'POL', rpcUrl: 'https://polygon-rpc.com' },
