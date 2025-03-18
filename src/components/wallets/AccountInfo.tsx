@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAtomValue } from 'jotai'
 import { FaCopy } from 'react-icons/fa'
 import { HiRefresh } from 'react-icons/hi'
 import { PiShareNetwork } from 'react-icons/pi'
-import { Web3Account } from 'web3'
+import Web3, { Web3Account } from 'web3'
 
-import { balanceAtom } from '@/stores/atoms'
+import { balanceAtom, networkAtom } from '@/stores/atoms'
 import { copyToClipboard } from '@/utils/helpers/copyToClipboard'
-import { NetworkType } from '@/utils/types'
 
-type AccountInfoType = {
-	network: NetworkType
-	wallet: Web3Account
-	fetchBalance: () => void
-}
+import { Modal } from '../Modal'
+import { ModalNetwork } from '../ModalNetwork'
 
-export const AccountInfo = ({ network, wallet, fetchBalance }: AccountInfoType) => {
+type AccountInfoType = { web3: Web3; wallet: Web3Account; fetchBalance: () => void }
+
+export const AccountInfo = ({ web3, wallet, fetchBalance }: AccountInfoType) => {
 	const balance = useAtomValue(balanceAtom)
+	const network = useAtomValue(networkAtom)
+
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+	console.log('network', network)
 
 	useEffect(() => {
-		if (wallet) {
-			fetchBalance()
-		}
-	}, [balance])
+		setIsModalOpen(false)
+	}, [network])
 
 	return (
 		<div className='flex w-[500px] flex-col space-y-2 rounded-lg border border-gray-300 p-4'>
@@ -32,6 +33,7 @@ export const AccountInfo = ({ network, wallet, fetchBalance }: AccountInfoType) 
 					<span className='flex flex-row items-center gap-2'>
 						<PiShareNetwork className='text-2xl' />
 						{network.name}
+						<HiRefresh onClick={() => setIsModalOpen(true)} className='cursor-pointer text-purple-400' />
 					</span>
 				) : (
 					<span>Network data fetching...</span>
@@ -39,6 +41,10 @@ export const AccountInfo = ({ network, wallet, fetchBalance }: AccountInfoType) 
 			</div>
 
 			<hr className='pb-2' />
+
+			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+				<ModalNetwork web3={web3} />
+			</Modal>
 
 			<div className='ml-8 flex flex-row items-center gap-2'>
 				<span className='mr-2 w-fit font-bold'>Address : </span>{' '}
@@ -52,7 +58,7 @@ export const AccountInfo = ({ network, wallet, fetchBalance }: AccountInfoType) 
 				<span className='mr-2 w-fit font-bold'>Balance : </span>{' '}
 				{balance !== null ? (
 					<span>
-						{balance} {network.id === BigInt(80001) ? 'MATIC' : network.id === BigInt(1001) ? 'KAIA' : 'Unknown'}
+						{balance} {network.currency}
 					</span>
 				) : (
 					<span>Balance data fetching...</span>

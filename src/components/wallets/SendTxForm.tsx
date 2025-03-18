@@ -5,7 +5,7 @@ import { TbTransfer } from 'react-icons/tb'
 import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
-import { balanceAtom, txHashesAtom, web3WalletAtom } from '@/stores/atoms'
+import { balanceAtom, networkAtom, txHashesAtom, web3WalletAtom } from '@/stores/atoms'
 
 import Button from '../buttons/Button'
 import { ErrorMessage } from '../ErrorMessage'
@@ -18,6 +18,7 @@ type SendTxFormType = {
 export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 	const wallet = useAtomValue(web3WalletAtom)
 	const balance = useAtomValue(balanceAtom)
+	const network = useAtomValue(networkAtom)
 
 	const [recipient, setRecipient] = useState<string>('')
 	const [amount, setAmount] = useState<string>('')
@@ -119,7 +120,7 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 						<label className='ml-2 font-bold'>Amount</label>
 						<input
 							type='text'
-							placeholder='보낼 금액 (KAIA)'
+							placeholder={`보낼 금액 (${network.currency})`}
 							value={amount}
 							onChange={e => setAmount(e.target.value)}
 							className='flex w-full rounded-lg border border-gray-400 p-2'
@@ -132,9 +133,15 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 						</button>
 
 						<div className='m-2 space-y-1'>
-							<p className='text-right text-xs text-gray-500'>Available: {balance} KAIA</p>
-							<p className='text-right text-xs text-gray-500'>Estimated Gas Fee: {gasFee} KAIA</p>
-							<p className='text-right text-xs text-gray-500'>Max Spendable: {maxSpendable} KAIA</p>
+							<p className='text-right text-xs text-gray-500'>
+								Available: {balance} {network.currency}
+							</p>
+							<p className='text-right text-xs text-gray-500'>
+								Estimated Gas Fee: {gasFee} {network.currency}
+							</p>
+							<p className='text-right text-xs text-gray-500'>
+								Max Spendable: {maxSpendable} {network.currency}
+							</p>
 						</div>
 					</div>
 				</div>

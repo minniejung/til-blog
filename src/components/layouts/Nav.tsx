@@ -53,7 +53,7 @@ export const Nav = () => {
 							className={cn(
 								'cursor-pointer transition',
 								path.slice(1) === link.toLocaleLowerCase() && 'font-bold',
-								link === 'Wallet' ? 'text-orange-500' : 'text-[#777] hover:text-black',
+								link === 'Wallet' ? 'text-purple-500' : 'text-[#777] hover:text-black',
 							)}>
 							{link}
 						</div>

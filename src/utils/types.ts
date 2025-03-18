@@ -9,6 +9,8 @@ export type TilCardType = {
 }
 
 export type NetworkType = {
-	id: bigint
+	id: number
 	name: string
+	currency: string
+	rpcUrl: string
 }
