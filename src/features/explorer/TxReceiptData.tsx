@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from 'next/link'
 import React from 'react'
 
@@ -13,7 +14,7 @@ export const TxReceiptData = ({ hash }: { hash: string }) => {
 	const baseStyle = 'border-b p-4'
 	const linkStyle = 'text-blue-600 hover:underline'
 
-	const formatValue = (key: string, value: string | bigint | string[] | undefined) => {
+	const formatValue = (key: string, value: any) => {
 		switch (key) {
 			case 'blockNumber':
 				return (
