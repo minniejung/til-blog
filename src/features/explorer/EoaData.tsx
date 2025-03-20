@@ -17,8 +17,7 @@ export const EoaData = ({ address }: { address: string }) => {
 	const baseStyleTd = 'break-all border-r p-2'
 	const linkStyle = 'text-blue-600 hover:underline'
 
-	//TODO
-	const formatValue = (key: string, value: any) => {
+	const formatValue = (key: string, value: string | bigint | string[] | undefined) => {
 		if (value === null || value === undefined) return '-'
 
 		switch (key) {

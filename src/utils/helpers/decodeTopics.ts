@@ -10,7 +10,9 @@ export const decodeTopic = (topic: string) => {
 		if (decodedText.trim().length > 0) {
 			return decodedText
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.error('Error decoding topic:', error)
+	}
 
 	if (topic.length === 66 && topic.startsWith('0x')) {
 		const possibleAddress = '0x' + topic.slice(26)

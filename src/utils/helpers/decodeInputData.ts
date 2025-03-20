@@ -2,6 +2,8 @@
 
 import Web3 from 'web3'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const web3 = new Web3('https://polygon-rpc.com')
 
 export const decodeInputData = (input: string, abi: any) => {
@@ -32,5 +34,3 @@ export const decodeInputData = (input: string, abi: any) => {
 		return { error: error instanceof Error ? error.message : 'Unknown decoding error' }
 	}
 }
-
-// TODO : Abi type

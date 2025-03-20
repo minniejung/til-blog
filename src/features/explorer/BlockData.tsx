@@ -13,8 +13,7 @@ export const BlockData = ({ blockNumber }: { blockNumber: number }) => {
 	const baseStyle = 'border-b p-4'
 	const linkStyle = 'text-blue-600 hover:underline'
 
-	//TODO
-	const formatValue = (key: string, value: any) => {
+	const formatValue = (key: string, value: string | bigint | string[] | undefined) => {
 		switch (key) {
 			case 'number':
 				return (
