@@ -20,8 +20,8 @@ export const Nav = () => {
 				{links.map(link => (
 					<div
 						key={link}
-						onMouseEnter={() => setIsHovered(true)}
-						onMouseLeave={() => setIsHovered(false)}
+						onMouseEnter={() => link === 'Wallet' && setIsHovered(true)}
+						onMouseLeave={() => link === 'Wallet' && setIsHovered(false)}
 						onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
 						className={cn(
 							'cursor-pointer',
@@ -64,4 +64,14 @@ export const Nav = () => {
 	)
 }
 
-const links = ['About', 'TIL-Blockchain', 'TIL-Front', 'TIL-Back', 'TIL-Solidity', 'Scoby', 'Chart', 'Wallet']
+const links = [
+	'About',
+	'TIL-Blockchain',
+	'TIL-Front',
+	'TIL-Back',
+	'TIL-Solidity',
+	'Scoby',
+	'Chart',
+	'Explorer',
+	'Wallet',
+]

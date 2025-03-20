@@ -6,11 +6,10 @@ import { HiRefresh } from 'react-icons/hi'
 import { PiShareNetwork } from 'react-icons/pi'
 import Web3, { Web3Account } from 'web3'
 
+import { Modal } from '@/components/Modal'
+import { ModalNetwork } from '@/components/ModalNetwork'
 import { balanceAtom, networkAtom } from '@/stores/atoms'
 import { copyToClipboard } from '@/utils/helpers/copyToClipboard'
-
-import { Modal } from '../Modal'
-import { ModalNetwork } from '../ModalNetwork'
 
 type AccountInfoType = { web3: Web3; wallet: Web3Account; fetchBalance: () => void }
 

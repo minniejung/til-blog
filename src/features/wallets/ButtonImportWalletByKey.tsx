@@ -8,9 +8,8 @@ import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
 import Button from '@/components/buttons/Button'
+import { Modal } from '@/components/Modal'
 import { web3WalletAtom } from '@/stores/atoms'
-
-import { Modal } from '../Modal'
 
 const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 
@@ -56,7 +55,7 @@ export const ButtonImportWalletByKey = () => {
 					onChange={e => setPrivateKey(e.target.value)}
 					className='w-full rounded-lg border border-gray-300 p-3'
 				/>
-				
+
 				<div className='flex w-full justify-end gap-2'>
 					<Button onClick={() => setIsModalOpen(false)} className='w-[30%] bg-gray-100 hover:bg-gray-200'>
 						Cancel

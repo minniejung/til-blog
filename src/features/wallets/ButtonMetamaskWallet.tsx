@@ -4,7 +4,7 @@ import { IoWalletOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
-import Button from '../buttons/Button'
+import Button from '@/components/buttons/Button'
 
 declare global {
 	interface Window {

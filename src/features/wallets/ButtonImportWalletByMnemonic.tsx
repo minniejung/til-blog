@@ -11,9 +11,8 @@ import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
 import Button from '@/components/buttons/Button'
+import { Modal } from '@/components/Modal'
 import { web3WalletAtom } from '@/stores/atoms'
-
-import { Modal } from '../Modal'
 
 const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 

@@ -29,9 +29,9 @@ export const TxHashes = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{txHashes.map((hash, index) => (
-							<tr key={index} className='border-b border-gray-300'>
-								<td className={cn('border-r text-center font-bold', tableStyle)}>{index + 1}</td>
+						{txHashes.map((hash: string, i: number) => (
+							<tr key={i} className='border-b border-gray-300'>
+								<td className={cn('border-r text-center font-bold', tableStyle)}>{i + 1}</td>
 								<td className={cn('border-r', tableStyle)}>
 									<a
 										href={`https://kairos.kaiascan.io/tx/${hash}`}

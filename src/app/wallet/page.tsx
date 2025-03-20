@@ -5,11 +5,11 @@ import React from 'react'
 import { useAtom, useSetAtom } from 'jotai'
 
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
-import { ButtonCreateWallet } from '@/components/wallets/ButtonCreateWallet'
-import { ButtonImportWalletByKey } from '@/components/wallets/ButtonImportWalletByKey'
-import { ButtonImportWalletByMnemonic } from '@/components/wallets/ButtonImportWalletByMnemonic'
-// import { ButtonMetamaskWallet } from '@/components/wallets/ButtonMetamaskWallet'
-import { WalletContents } from '@/components/wallets/WalletContents'
+import { ButtonCreateWallet } from '@/features/wallets/ButtonCreateWallet'
+import { ButtonImportWalletByKey } from '@/features/wallets/ButtonImportWalletByKey'
+import { ButtonImportWalletByMnemonic } from '@/features/wallets/ButtonImportWalletByMnemonic'
+// import { ButtonMetamaskWallet } from '@/features/wallets/ButtonMetamaskWallet'
+import { WalletContents } from '@/features/wallets/WalletContents'
 import { txHashesAtom, web3WalletAtom } from '@/stores/atoms'
 
 const WalletPage = () => {

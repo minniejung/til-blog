@@ -5,10 +5,9 @@ import { TbTransfer } from 'react-icons/tb'
 import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
+import Button from '@/components/buttons/Button'
+import { ErrorMessage } from '@/components/ErrorMessage'
 import { balanceAtom, networkAtom, txHashesAtom, web3WalletAtom } from '@/stores/atoms'
-
-import Button from '../buttons/Button'
-import { ErrorMessage } from '../ErrorMessage'
 
 type SendTxFormType = {
 	web3: Web3

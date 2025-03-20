@@ -5,9 +5,8 @@ import { MdWaterDrop } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
+import Button from '@/components/buttons/Button'
 import { txHashesAtom, web3WalletAtom } from '@/stores/atoms'
-
-import Button from '../buttons/Button'
 
 type FaucetType = {
 	web3: Web3
