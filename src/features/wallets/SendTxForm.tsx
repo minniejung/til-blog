@@ -145,7 +145,7 @@ export const SendTxForm = ({ web3, fetchBalance }: SendTxFormType) => {
 					</div>
 				</div>
 
-				<ErrorMessage condition={InsufficientBalance}>Insufficient balance</ErrorMessage>
+				{InsufficientBalance && <ErrorMessage msg='Insufficient balance' />}
 
 				<Button onClick={sendTransaction} disabled={InsufficientBalance} className='bg-blue-500 text-white'>
 					SEND

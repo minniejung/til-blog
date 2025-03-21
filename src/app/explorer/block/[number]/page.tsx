@@ -7,13 +7,10 @@ import { LuBlocks } from 'react-icons/lu'
 
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
 import { BlockData } from '@/features/explorer/BlockData'
-import useBlockData from '@/features/explorer/hooks/useBlockData'
 
 const BlockDetailPage = () => {
 	const router = useRouter()
 	const { number: blockNumber } = useParams()
-
-	const { error } = useBlockData(Number(blockNumber))
 
 	return (
 		<div className='space-y-8'>
@@ -23,8 +20,6 @@ const BlockDetailPage = () => {
 				<LuBlocks className='font-medium' />
 				Block Detail Page #{blockNumber}
 			</div>
-
-			{error && <div>Error: {error}</div>}
 
 			<BlockData blockNumber={Number(blockNumber)} />
 		</div>

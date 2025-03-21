@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { motion } from 'framer-motion'
-
+import { ErrorMessage } from '@/components/ErrorMessage'
+import { LoadingMessage } from '@/components/LoadingMessage'
 import { cn } from '@/utils/helpers/cn'
 
 import useContractChecker from './hooks/useContractChecker'
 
 export const ContractData = ({ address }: { address: string }) => {
-	const { contractData } = useContractChecker(address)
+	const { contractData, loading, error } = useContractChecker(address)
 
 	const baseStyle = 'border-b p-4'
 
@@ -30,28 +30,33 @@ export const ContractData = ({ address }: { address: string }) => {
 						<th className={cn(baseStyle)}>Value</th>
 					</tr>
 				</thead>
-				{contractData ? (
-					<tbody>
-						{Object.entries(contractData).map(([key, value], i) => (
-							<tr key={i} className='border-b last:border-b-0'>
-								<td className='w-[185px] border-r p-4 font-bold'>{key}</td>
-								<td className='break-all p-4'>{formatValue(key, value)}</td>
-							</tr>
-						))}
-					</tbody>
-				) : (
+				{loading ? (
 					<tbody>
 						<tr>
 							<td colSpan={2} className={cn('p-4 text-center')}>
-								<motion.div
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}>
-									Loading contract detail...
-								</motion.div>
+								<LoadingMessage msg='Loading contract detail...' />
 							</td>
 						</tr>
 					</tbody>
+				) : error ? (
+					<tbody>
+						<tr>
+							<td colSpan={2} className={cn('p-4 text-center')}>
+								<ErrorMessage msg={error} />
+							</td>
+						</tr>
+					</tbody>
+				) : (
+					contractData && (
+						<tbody>
+							{Object.entries(contractData).map(([key, value], i) => (
+								<tr key={i} className='border-b last:border-b-0'>
+									<td className='w-[185px] border-r p-4 font-bold'>{key}</td>
+									<td className='break-all p-4'>{formatValue(key, value)}</td>
+								</tr>
+							))}
+						</tbody>
+					)
 				)}
 			</table>
 		</div>

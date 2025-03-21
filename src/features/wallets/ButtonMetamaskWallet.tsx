@@ -56,7 +56,7 @@ export const ButtonMetamaskWallet = () => {
 	// 		console.log('amount', amount)
 	// 		console.log('valueInWei', valueInWei)
 	// 		console.log('valueInWei', typeof valueInWei)
-	// 		// console.log('Sending:', amount, 'KAIA =>', valueInWei, 'Wei')
+	// 		console.log('Sending:', amount, 'KAIA =>', valueInWei, 'Wei')
 	// 		const txHash = await window.ethereum.request({
 	// 			method: 'eth_sendTransaction',
 	// 			params: [

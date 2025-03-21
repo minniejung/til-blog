@@ -2,7 +2,7 @@
 
 // import Web3 from 'web3'
 
-// const web3 = new Web3('https://polygon-rpc.com')
+// const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
 // const useContractInfo = (contractAddress: string, userAddress?: string) => {
 // 	const [isContract, setIsContract] = useState<boolean | null>(null)

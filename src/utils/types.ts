@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 
+import { Address } from 'web3'
+
 export type TilCardType = {
 	id: number
 	date: string
@@ -13,6 +15,14 @@ export type NetworkType = {
 	name: string
 	currency: string
 	rpcUrl: string
+}
+
+export type ContractDataType = {
+	name?: string
+	symbol?: string
+	totalSupply?: string
+	decimals?: number
+	code: string
 }
 
 export type BlockDataType = {
@@ -39,14 +49,29 @@ export type BlockDataType = {
 	uncles: string[]
 }
 
+export type BlockTxDataType = {
+	hash: string
+	nonce: bigint
+	blockHash: string
+	blockNumber: number | undefined
+	transactionIndex: number | undefined
+	from: string | Address
+	to: string | Address
+	value: bigint
+	gas: bigint
+	gasPrice: bigint
+	input: string
+	timestamp?: string
+}
+
 export type TxDataType = {
 	hash: string
 	nonce: string
 	blockHash: string
-	blockNumber: string | undefined
-	transactionIndex: string | undefined
-	from: string
-	to: string
+	blockNumber: number | undefined
+	transactionIndex: number | undefined
+	from: string | Address
+	to: string | Address
 	value: string
 	gas: string
 	gasPrice: string
@@ -57,6 +82,7 @@ export type TxDataType = {
 export type DecodedParams = Record<string, string | bigint>
 
 export type DecodedInputDataType = {
+	status: string
 	methodName: string
 	methodId: string
 	params: DecodedParams

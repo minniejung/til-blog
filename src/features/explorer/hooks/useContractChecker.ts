@@ -5,24 +5,16 @@ import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 
 import { ERC20_ABI } from '@/utils/abi/ERC20_ABI'
+import { ContractDataType } from '@/utils/types'
 
-const web3 = new Web3('https://polygon-rpc.com')
-
-// 클릭하면 link
-// 실패한 원인 찾기
+const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
 const useContractChecker = (address: string) => {
 	const [isContract, setIsContract] = useState<boolean | null>(null)
 	const [code, setCode] = useState<string | null>(null)
 	const [loading, setLoading] = useState<boolean>(true)
 	const [error, setError] = useState<string | null>(null)
-	const [contractData, setContractData] = useState<{
-		name?: string
-		symbol?: string
-		totalSupply?: string
-		decimals?: number
-		code: string
-	}>({})
+	const [contractData, setContractData] = useState<ContractDataType | null>(null)
 
 	useEffect(() => {
 		const checkContract = async () => {
@@ -41,24 +33,24 @@ const useContractChecker = (address: string) => {
 
 					const contract = new web3.eth.Contract(ERC20_ABI, address)
 
-					const [name, symbol, decimals, totalSupply] = await Promise.all([
-						contract.methods.name().call(),
-						contract.methods.symbol().call(),
-						contract.methods.decimals().call(),
-						contract.methods.totalSupply().call(),
-					])
+					const name = (await contract.methods.name().call()) as string
+					const symbol = (await contract.methods.symbol().call()) as string
+					const decimals = (await contract.methods.decimals().call()) as string
+					const totalSupply = (await contract.methods.totalSupply().call()) as string
 
 					setContractData({
 						name,
 						symbol,
 						decimals: Number(decimals),
 						totalSupply: web3.utils.fromWei(totalSupply, 'ether'),
-						contractCode,
+						code: contractCode,
 					})
 				}
 			} catch (err) {
 				setError(err instanceof Error ? err.message : 'Unknown error')
 			} finally {
+				const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+				await delay(2000)
 				setLoading(false)
 			}
 		}

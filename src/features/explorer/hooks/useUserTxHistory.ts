@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 
 import Web3 from 'web3'
 
-import { TxDataType } from '@/utils/types'
+import { BlockTxDataType } from '@/utils/types'
 
-const web3 = new Web3('https://polygon-rpc.com')
+const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
-const useUserTxHistory = (address: string, maxBlocks: number = 10, maxTxs: number = 10) => {
-	const [transactions, setTransactions] = useState<TxDataType[]>([])
+const useUserTxHistory = (address: string, maxBlocks: number = 20, maxTxs: number = 10) => {
+	const [transactions, setTransactions] = useState<BlockTxDataType[]>([])
 	const [loading, setLoading] = useState<boolean>(true)
 	const [error, setError] = useState<string | null>(null)
 
@@ -26,21 +26,22 @@ const useUserTxHistory = (address: string, maxBlocks: number = 10, maxTxs: numbe
 
 				console.log(`Scanning transactions for ${address} from block ${latestBlock} down to ${startBlock}...`)
 
-				const txs: TxDataType[] = []
+				const txs: BlockTxDataType[] = []
 
 				for (let i = latestBlock; i >= startBlock && txs.length < maxTxs; i--) {
 					const block = await web3.eth.getBlock(i, true)
 
 					if (block && block.transactions) {
-						for (const tx of block.transactions) {
+						for (const tx of block.transactions as BlockTxDataType[]) {
 							if (
 								(tx.from.toLowerCase() === address.toLowerCase() || tx.to?.toLowerCase() === address.toLowerCase()) &&
 								txs.length < maxTxs
 							) {
-								// Fetch block details for timestamp
 								const txBlock = await web3.eth.getBlock(tx.blockNumber)
-								tx.timestamp = txBlock.timestamp // Attach timestamp to the transaction
-								txs.push(tx)
+								txs.push({
+									...tx,
+									timestamp: txBlock.timestamp.toString(),
+								})
 							}
 						}
 					}
@@ -54,6 +55,8 @@ const useUserTxHistory = (address: string, maxBlocks: number = 10, maxTxs: numbe
 				setError('Error fetching transactions')
 				console.error(err)
 			} finally {
+				const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+				await delay(1000)
 				setLoading(false)
 			}
 		}

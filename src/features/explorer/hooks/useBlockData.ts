@@ -4,7 +4,7 @@ import Web3 from 'web3'
 
 import { BlockDataType } from '@/utils/types'
 
-const web3 = new Web3('https://polygon-rpc.com')
+const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
 const useBlockData = (blockNumber: number) => {
 	const [block, setBlock] = useState<BlockDataType | null>(null)
@@ -20,6 +20,8 @@ const useBlockData = (blockNumber: number) => {
 			} catch (err) {
 				setError('Failed to fetch block data' + err)
 			} finally {
+				const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+				await delay(2000)
 				setLoading(false)
 			}
 		}
@@ -31,29 +33,3 @@ const useBlockData = (blockNumber: number) => {
 }
 
 export default useBlockData
-
-// const [transactions, setTransactions] = useState<any[]>([])
-
-// const txs = await fetchRecentTransactions(address)
-// setTransactions(txs)
-
-// const fetchRecentTransactions = async (contractAddress: string) => {
-// 	try {
-// 		const response = await fetch(
-// 			// `https://api.polygonscan.com/api?module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=desc&apikey=${POLYGONSCAN_API_KEY}`,
-
-// 		)
-// 		const data = await response.json()
-// 		if (data.status === '1') {
-// 			const top5Data = data.result.slice(0, 5)
-// 			console.log('top5Data', top5Data)
-
-// 			return top5Data // Return only the 5 most recent transactions
-// 		}
-
-// 		throw new Error('No transactions found')
-// 	} catch (error) {
-// 		console.error('Error fetching transactions:', error)
-// 		return []
-// 	}
-// }

@@ -6,7 +6,7 @@ import Web3 from 'web3'
 
 import { TxDataType, TxReceiptDataType } from '@/utils/types'
 
-const web3 = new Web3('https://polygon-rpc.com')
+const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
 const useTxData = (txHash: string) => {
 	const [transaction, setTransaction] = useState<TxDataType | null>(null)
@@ -38,7 +38,7 @@ const useTxData = (txHash: string) => {
 
 				const txReceipt = (await web3.eth.getTransactionReceipt(txHash)) as TxReceiptDataType
 				if (txReceipt) {
-					console.log('txReceipt', txReceipt)
+					// console.log('txReceipt', txReceipt)
 					setReceipt(txReceipt)
 					setStatus(txReceipt.status ? 'success' : 'failed')
 
@@ -51,6 +51,8 @@ const useTxData = (txHash: string) => {
 			} catch (err) {
 				setError(err instanceof Error ? err.message : 'Unknown error occurred')
 			} finally {
+				const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
+				await delay(2000)
 				setLoading(false)
 			}
 		}

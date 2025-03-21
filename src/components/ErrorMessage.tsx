@@ -1,18 +1,12 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
-import { IoAlertCircleOutline } from 'react-icons/io5'
+import { TiWarningOutline } from 'react-icons/ti'
 
-type ErrorMessageType = {
-	condition: boolean
-	children: ReactNode
-}
-export const ErrorMessage = ({ condition, children }: ErrorMessageType) => {
+export const ErrorMessage = ({ msg }: { msg: string }) => {
 	return (
-		condition && (
-			<span className='itmes-center flex flex-row gap-2 self-center text-center text-xs font-bold text-red-500'>
-				<IoAlertCircleOutline className='text-lg' />
-				{children}
-			</span>
-		)
+		<span className='flex flex-row items-center justify-center gap-2 text-sm font-semibold text-red-600'>
+			<TiWarningOutline className='text-lg' />
+			{msg}
+		</span>
 	)
 }

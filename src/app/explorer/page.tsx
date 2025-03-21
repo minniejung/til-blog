@@ -10,10 +10,10 @@ import Button from '@/components/buttons/Button'
 import { copyToClipboard } from '@/utils/helpers/copyToClipboard'
 
 const testItems = [
-	{ title: 'Block Number', value: '69226465' },
-	{ title: 'CA', value: '0x0000000000000000000000000000000000001010' },
-	{ title: 'EOA', value: '0xf6B5286c0e9F85600821E9Cf52314aaBadf41ac2' },
-	{ title: 'Tx Hash', value: '0x7c1f32cd6fa4df7c0e9a72b3de2217382d4abcd54c48e3cb06d09e44b6e29d94' },
+	{ title: 'Block Number', value: '19459296' },
+	{ title: 'CA', value: '0xFcB3E963ae85Ae70B884C2FcE183E77969CD038e' },
+	{ title: 'EOA', value: '0xfcA1C3A52C77e89f0A2A8AC635AfCAEc3F76e5EE' },
+	{ title: 'Tx Hash', value: '0x003f65113bee597e5985a3f46d87e1752d715fb123773fab9d5ffc94cb7df1cb' },
 ]
 
 const ExplorerPage = () => {
@@ -36,7 +36,6 @@ const ExplorerPage = () => {
 
 	const handleSearch = () => {
 		const type = getSearchType(searchInput)
-		console.log('type', type)
 		if (type === 'address') {
 			router.push(`/explorer/contract/${searchInput}`)
 		} else if (type === 'tx') {
@@ -66,7 +65,7 @@ const ExplorerPage = () => {
 			</div>
 
 			<div className='ml-4 mt-10'>
-				<p>Try with it 👀 </p>
+				<p>Try with it 👀 (https://amoy.polygonscan.com/)</p>
 
 				<div className='mt-4 space-y-2'>
 					{testItems.map((item, i) => (
@@ -74,8 +73,8 @@ const ExplorerPage = () => {
 							<b>{item.title} :</b>
 							<span
 								onClick={() => {
-									copyToClipboard(item.value)
 									setSearchInput(item.value)
+									copyToClipboard(item.value)
 								}}
 								className='flex cursor-pointer flex-row items-baseline gap-2 hover:underline'>
 								{item.value}

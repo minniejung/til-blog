@@ -7,16 +7,16 @@ const signer = new ethers.Wallet(senderPrivateKey, provider)
 
 export const sendETH = async (to: ethers.JsonRpcSigner, amount: string) => {
 	try {
-		console.log(`from: ${signer.address}`)
-		console.log(`to: ${to}`)
-		console.log(`amount: ${amount} ETH`)
+		// console.log(`from: ${signer.address}`)
+		// console.log(`to: ${to}`)
+		// console.log(`amount: ${amount} ETH`)
 
 		const tx = await signer.sendTransaction({
 			to,
 			value: ethers.parseEther(amount),
 		})
 
-		console.log(`hash: ${tx.hash}`)
+		// console.log(`hash: ${tx.hash}`)
 		return tx.hash
 	} catch (error) {
 		console.error('error transferring ETH:', error)
@@ -27,13 +27,13 @@ export const sendETH = async (to: ethers.JsonRpcSigner, amount: string) => {
 export const testSendETH = async () => {
 	try {
 		const accounts = await provider.listAccounts()
-		console.log(
-			'accounts:',
-			accounts.map(acc => acc.address),
-		)
+		// console.log(
+		// 	'accounts:',
+		// 	accounts.map(acc => acc.address),
+		// )
 
 		const to = accounts[4] // to
-		console.log('to', to)
+		// console.log('to', to)
 		const amount = '29'
 
 		await sendETH(to, amount)

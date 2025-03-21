@@ -3,10 +3,9 @@
 import { useParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaSpinner } from 'react-icons/fa'
 import { FaXmark } from 'react-icons/fa6'
 import { LuBlocks } from 'react-icons/lu'
-import { TiWarningOutline } from 'react-icons/ti'
 
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
 import { Tabs } from '@/components/Tabs'
@@ -28,11 +27,8 @@ const TxDetailPage = () => {
 
 	const [activeTab, setActiveTab] = useState('receipt')
 
-	const { error, status, failureReason } = useTxData(hash)
-
+	const { status, loading, error } = useTxData(hash)
 	const isStatusSuccess = status === 'success'
-
-	console.log('failureReason', failureReason)
 
 	return (
 		<div className='space-y-8'>
@@ -45,9 +41,13 @@ const TxDetailPage = () => {
 					<div
 						className={cn(
 							'flex flex-row items-center gap-1 rounded-2xl border px-4 py-1 text-xs uppercase',
-							isStatusSuccess ? 'border-green-600 text-green-600' : 'border-red-600 text-red-600',
+							loading && 'border-0',
+							isStatusSuccess && 'border-green-600 text-green-600',
+							error && 'border-red-600 text-red-600',
 						)}>
-						{isStatusSuccess ? (
+						{loading ? (
+							<FaSpinner className='animate-spin text-xl text-gray-500' />
+						) : isStatusSuccess ? (
 							<>
 								<FaCheck />
 								Success
@@ -61,16 +61,7 @@ const TxDetailPage = () => {
 					</div>
 				</div>
 				<p className='p-2 pl-10 text-lg font-bold text-gray-600'>{hash}</p>
-
-				{!isStatusSuccess && (
-					<div className='mb-10 flex flex-row items-center gap-1 pl-10 text-sm font-semibold text-red-600'>
-						<TiWarningOutline className='text-lg' />
-						{failureReason}
-					</div>
-				)}
 			</div>
-
-			{error && <div>Error: {error}</div>}
 
 			<Tabs tabs={TxTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
 

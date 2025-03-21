@@ -4,9 +4,9 @@ const web3 = new Web3('http://127.0.0.1:7545') // Ganache
 
 export const sendETH = async (from: string, to: string, amount: string) => {
 	try {
-		console.log(`from: ${from}`)
-		console.log(`to: ${to}`)
-		console.log(`amount: ${amount} ETH`)
+		// console.log(`from: ${from}`)
+		// console.log(`to: ${to}`)
+		// console.log(`amount: ${amount} ETH`)
 
 		const tx = await web3.eth.sendTransaction({
 			from,
@@ -14,7 +14,7 @@ export const sendETH = async (from: string, to: string, amount: string) => {
 			value: web3.utils.toWei(amount, 'ether'),
 		})
 
-		console.log(`tx hash: ${tx.transactionHash}`)
+		// console.log(`tx hash: ${tx.transactionHash}`)
 		return tx.transactionHash
 	} catch (error) {
 		console.error('error transferring ETH:', error)
@@ -25,7 +25,7 @@ export const sendETH = async (from: string, to: string, amount: string) => {
 export const testSendETH = async () => {
 	try {
 		const accounts = await web3.eth.getAccounts()
-		console.log('accounts', accounts)
+		// console.log('accounts', accounts)
 
 		const from = accounts[0]
 		const to = accounts[1]

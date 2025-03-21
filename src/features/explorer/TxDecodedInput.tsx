@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import Web3 from 'web3'
 
+import { ErrorMessage } from '@/components/ErrorMessage'
+import { LoadingMessage } from '@/components/LoadingMessage'
 import { ERC20_ABI } from '@/utils/abi/ERC20_ABI'
 import { cn } from '@/utils/helpers/cn'
 import { decodeInputData } from '@/utils/helpers/decodeInputData'
@@ -10,12 +12,11 @@ import { DecodedInputDataType } from '@/utils/types'
 
 import useTxData from './hooks/useTxData'
 
-const web3 = new Web3('https://polygon-rpc.com')
+const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 
 export const TxDecodedInput = ({ hash }: { hash: string }) => {
 	const [decodedInput, setDecodedInput] = useState<DecodedInputDataType | null>(null)
-
-	const { transaction } = useTxData(hash)
+	const { transaction, loading } = useTxData(hash)
 
 	const baseStyle = 'border-b p-4'
 	const baseStyleTd = 'w-[185px] border-r p-4 font-bold'
@@ -53,35 +54,45 @@ export const TxDecodedInput = ({ hash }: { hash: string }) => {
 						<th className={cn(baseStyle)}>Value</th>
 					</tr>
 				</thead>
-				{decodedInput ? (
-					<tbody>
-						<tr>
-							<td className={cn('border-b', baseStyleTd)}>Method ID</td>
-							<td className='border-b p-4'>{decodedInput.methodId}</td>
-						</tr>
-						<tr>
-							<td className={cn('border-b', baseStyleTd)}>Method Name</td>
-							<td className='border-b p-4'>{decodedInput.methodName || 'N/A'}</td>
-						</tr>
-
-						{decodedInput.params &&
-							Object.entries(decodedInput.params)
-								.filter(([key]) => isNaN(Number(key)))
-								.map(([key, value], i) => (
-									<tr key={i} className='border-b last:border-b-0'>
-										<td className={cn(baseStyleTd)}>{key}</td>
-										<td className='p-4'>{formatValue(key, value)}</td>
-									</tr>
-								))}
-					</tbody>
-				) : (
+				{loading ? (
 					<tbody>
 						<tr>
 							<td colSpan={2} className={cn('p-4 text-center')}>
-								No decoded input data found
+								<LoadingMessage msg='Loading transaction data...' />
 							</td>
 						</tr>
 					</tbody>
+				) : decodedInput?.status === 'error' ? (
+					<tbody>
+						<tr>
+							<td colSpan={2} className={cn('p-4 text-center')}>
+								<ErrorMessage msg='Decoded input not found' />
+							</td>
+						</tr>
+					</tbody>
+				) : (
+					decodedInput?.status === 'success' && (
+						<tbody>
+							<tr>
+								<td className={cn('border-b', baseStyleTd)}>Method ID</td>
+								<td className='border-b p-4'>{decodedInput.methodId}</td>
+							</tr>
+							<tr>
+								<td className={cn('border-b', baseStyleTd)}>Method Name</td>
+								<td className='border-b p-4'>{decodedInput.methodName || 'N/A'}</td>
+							</tr>
+
+							{decodedInput.params &&
+								Object.entries(decodedInput.params)
+									.filter(([key]) => isNaN(Number(key)))
+									.map(([key, value], i) => (
+										<tr key={i} className='border-b last:border-b-0'>
+											<td className={cn(baseStyleTd)}>{key}</td>
+											<td className='p-4'>{formatValue(key, value)}</td>
+										</tr>
+									))}
+						</tbody>
+					)
 				)}
 			</table>
 		</div>
