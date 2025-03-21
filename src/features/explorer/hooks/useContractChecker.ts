@@ -8,7 +8,6 @@ import { ERC20_ABI } from '@/utils/abi/ERC20_ABI'
 
 const web3 = new Web3('https://polygon-rpc.com')
 
-
 // 클릭하면 link
 // 실패한 원인 찾기
 

@@ -32,8 +32,6 @@ const useBlockData = (blockNumber: number) => {
 
 export default useBlockData
 
-// const POLYGONSCAN_API_KEY = 'P9ZTN1TBFMZA4C8G2IWGK44KU62H1FBWBI'
-
 // const [transactions, setTransactions] = useState<any[]>([])
 
 // const txs = await fetchRecentTransactions(address)
@@ -43,7 +41,7 @@ export default useBlockData
 // 	try {
 // 		const response = await fetch(
 // 			// `https://api.polygonscan.com/api?module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=desc&apikey=${POLYGONSCAN_API_KEY}`,
-// 			`https://api.polygonscan.com/api?module=account&action=txlist&address=${contractAddress}&startblock=0&endblock=99999999&sort=desc&apikey=P9ZTN1TBFMZA4C8G2IWGK44KU62H1FBWBI`,
+
 // 		)
 // 		const data = await response.json()
 // 		if (data.status === '1') {
