@@ -1,4 +1,13 @@
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 import { TilCardType } from '../types'
+
+{
+	/* <SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+{``}
+</SyntaxHighlighter> */
+}
 
 export const dataSolidity: TilCardType[] = [
 	{
@@ -9,28 +18,29 @@ export const dataSolidity: TilCardType[] = [
 		content: (
 			<div>
 				<h3>1. Compile</h3>
-				<pre>{`
-컴파일 과정은 Solidity 코드를 EVM이 이해할 수 있도록 변환하는 과정
-Solidity 코드를 EVM이 이해할 수 있는 바이트코드(Bytecode)로 변환
-
--------------------------------------
-truffle compile
+				<pre>
+					{`✔ 컴파일 과정은 Solidity 코드를 EVM이 이해할 수 있도록 변환하는 과정
+✔ Solidity 코드를 EVM이 이해할 수 있는 바이트코드(Bytecode)로 변환
+`}
+				</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`truffle compile
 or
-npx hardhat compile​
--------------------------------------
-
-✔ Solidity 소스 코드(.sol) → 바이트코드(.bin)로 변환
-✔ ABI(Application Binary Interface) 생성 (.json 파일)
-	=> 컴파일 후 생성되는 파일 구조 (build/contracts/or artifacts/)
-✔ 컴파일 된 JSON 파일 저장
-`}</pre>
+npx hardhat compile​`}
+				</SyntaxHighlighter>
+				<pre>
+					{`	* Solidity 소스 코드(.sol) → 바이트코드(.bin)로 변환
+	* ABI(Application Binary Interface) 생성 (.json 파일)
+		=> 컴파일 후 생성되는 파일 구조 (build/contracts/or artifacts/)
+	* 컴파일 된 JSON 파일 저장
+`}
+				</pre>
 
 				<h3>2. Deploy</h3>
-				<pre>{`
-배포 과정은 변환된 바이트코드를 블록체인에 올리는 과정
+				<pre>{`✔ 배포 과정은 변환된 바이트코드를 블록체인에 올리는 과정
 
-✔ 스마트 컨트랙트 배포 트랜잭션 생성 및 블록체인에 전송
-✔ 배포된 컨트랙트 주소 반환
+	* 스마트 컨트랙트 배포 트랜잭션 생성 및 블록체인에 전송
+	* 배포된 컨트랙트 주소 반환
 `}</pre>
 			</div>
 		),
@@ -43,59 +53,55 @@ npx hardhat compile​
 		content: (
 			<div>
 				<h3>Setting</h3>
-				<pre>{`
--------------------------------------
-npm install -g truffle
--------------------------------------
-
-Truffle 공식 문서
-https://trufflesuite.com/docs/truffle/overview
-`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`npm install -g truffle`}
+				</SyntaxHighlighter>
+				<pre>
+					{`✔ Truffle 공식 문서
+  https://trufflesuite.com/docs/truffle/overview
+`}
+				</pre>
 
 				<h3>Project creation</h3>
-				<pre>{`
-mkdir sample
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`mkdir sample
 cd sample
-truffle init
-
--------------------------------------
-
-contracts: solidity로 개발된 스마튼 컨트랙트 소스 파일 폴더
-migrations: 스크립트 가능한 파일을 위한 폴더
-test: 개발된 컨트랙트를 테스트 하기 위한 폴더
-truffle-config.js: truffle 설정 파일
+truffle init`}
+				</SyntaxHighlighter>
+				<pre>{`* contracts: solidity로 개발된 스마튼 컨트랙트 소스 파일 폴더
+* migrations: 스크립트 가능한 파일을 위한 폴더
+* test: 개발된 컨트랙트를 테스트 하기 위한 폴더
+* truffle-config.js: truffle 설정 파일
 `}</pre>
 
 				<h3>Truffle Develop : 이더리움 클라이언트 실행</h3>
-				<pre>{`
--------------------------------------
-truffle develop
--------------------------------------
 
-위 명령어를 프로젝트 루트폴더(sample 폴더)에서 실행하면 
-10개의 Accounts와 Private Keys 가 리스트업 되면서 
-truffle(develop)> 프롬프트가 나타나게 됩니다.
-또한 JSON-RPC용(http://127.0.0.1:9545/) 서비스가 제공됩니다.
-
-콘솔 종료 : .exit
-`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`truffle develop`}
+				</SyntaxHighlighter>
+				<pre>{`* 위 명령어를 프로젝트 루트폴더(sample 폴더)에서 실행하면 
+* 10개의 Accounts와 Private Keys 가 리스트업 되면서 
+* truffle(develop)> 프롬프트가 나타나게 됩니다.
+* 또한 JSON-RPC용(http://127.0.0.1:9545/) 서비스가 제공됩니다.`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`.exit // 콘솔 종료`}
+				</SyntaxHighlighter>
 
 				<h3>스마트 컨트랙트 코드 작성 예시</h3>
-				<pre>{`
-1. /contracts 폴더에 SimpleContract.sol 파일 생성
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>{`1. /contracts 폴더에 SimpleContract.sol 파일 생성
 
 2. truffle(develop)> compile
-	=> /build 폴더가 생성이 되며 contracts 폴더 아래에 있는 solidity 파일이 json 형태로 변경되어 생성
+	// /build 폴더가 생성이 되며 contracts 폴더 아래에 있는 solidity 파일이 json 형태로 변경되어 생성
 
 3. /migrations 폴더에 1_deploy_contracts.js 파일 생성
 
 4. truffle(develop)> migrate
-	=> 로컬 블록체인에 컨트랙트가 배포
+	// 로컬 블록체인에 컨트랙트가 배포
 
 5. /test 폴더에 SimpleContract.test.js 파일 생성
 
 6. truffle(develop)> test
-`}</pre>
+`}</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -107,8 +113,8 @@ truffle(develop)> 프롬프트가 나타나게 됩니다.
 		content: (
 			<div>
 				<h3>1. networks (네트워크 설정)</h3>
-				<pre>{`
-networks: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`networks: {
   development: {
     host: "127.0.0.1", // 로컬 이더리움 노드
     port: 8545,        // 기본 Ethereum RPC 포트
@@ -121,12 +127,12 @@ networks: {
     confirmations: 2,    // 배포 시 몇 개의 블록을 기다릴지 설정
     timeoutBlocks: 200,  // 몇 블록 이후 타임아웃될지 설정
     skipDryRun: true,    // 배포 전에 dry-run(테스트 배포) 스킵 여부
-  }
-`}</pre>
+  }`}
+				</SyntaxHighlighter>
 
 				<h3>2. compilers (Solidity 컴파일러 설정)</h3>
-				<pre>{`
-compilers: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`compilers: {
   solc: {
     version: "0.8.21", // 사용하려는 Solidity 버전 (truffle의 기본 버전이 아닌 직접 지정 가능)
     settings: {
@@ -137,19 +143,19 @@ compilers: {
       evmVersion: "byzantium" // 특정 EVM 버전 설정 가능
     }
   }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>mocha (테스트 설정)</h3>
-				<pre>{`
-mocha: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`mocha: {
   timeout: 100000 // 테스트 실행 시간 제한 (기본값보다 크게 설정 가능)
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>4. db (Truffle DB 설정)</h3>
-				<pre>{`
-db: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`db: {
   enabled: false,  // 기본적으로 비활성화됨
   host: "127.0.0.1",
   adapter: {
@@ -158,8 +164,8 @@ db: {
       directory: ".db"
     }
   }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -171,46 +177,44 @@ db: {
 		content: (
 			<div>
 				<h3>Project creation</h3>
-				<pre>{`
-mkdir sample-hardhat
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`mkdir sample-hardhat
 cd sample-hardhat
 npx hardhat init
--------------------------------------
-Create a TypeScript project
--------------------------------------
 
-contracts: solidity로 개발된 스마튼 컨트랙트 소스 파일 폴더
-ignition: 배포 모듈을 관리하는 폴더
-(이전 버전) scripts: 배포관련 스크립트를 관리하는 폴더
-test: 개발된 컨트랙트를 테스트 하기 위한 폴더
-hardhat.config.js: hardhat 설정 파일
+>> Create a TypeScript project
+`}
+				</SyntaxHighlighter>
+
+				<pre>{`* contracts: solidity로 개발된 스마튼 컨트랙트 소스 파일 폴더
+* ignition: 배포 모듈을 관리하는 폴더
+* (이전 버전) scripts: 배포관련 스크립트를 관리하는 폴더
+* test: 개발된 컨트랙트를 테스트 하기 위한 폴더
+* hardhat.config.js: hardhat 설정 파일
 `}</pre>
 
 				<h3>로컬 블록체인 네트워크 실행</h3>
-				<pre>{`
--------------------------------------
-npx hardhat node
--------------------------------------
-`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`npx hardhat node`}
+				</SyntaxHighlighter>
 
 				<h3>스마트 컨트랙트 코드 작성</h3>
-				<pre>{`
-1. /contracts 폴더에 SimpleContract.sol 파일 생성
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>{`1. /contracts 폴더에 SimpleContract.sol 파일 생성
 
 2. npx hardhat compile
-	=> 프로젝트 루트 폴더에 artifacts , cache폴더가 생성
-		artifacts : Solidity 스마트 컨트랙트를 컴파일한 후 생성된 아티팩트(배포 정보)가 저장됩니다.
-		cache : Hardhat이 컴파일된 파일을 캐싱하여, 변경되지 않은 파일을 다시 컴파일하지 않도록 합니다.
+	// 프로젝트 루트 폴더에 artifacts , cache폴더가 생성
+	// artifacts : Solidity 스마트 컨트랙트를 컴파일한 후 생성된 아티팩트(배포 정보)가 저장됩니다.
+	// cache : Hardhat이 컴파일된 파일을 캐싱하여, 변경되지 않은 파일을 다시 컴파일하지 않도록 합니다.
 
 3. ignition/modules 폴더에 SimpleContract.ts 파일 생성
 
 4. npx hardhat ignition deploy ignition/modules/SimpleContract.ts     
-	=> 로컬 블록체인에 컨트랙트가 배포
+	// 로컬 블록체인에 컨트랙트가 배포
 
 5. test 폴더에 SimpleContract.test.ts 파일 생성
 
 6. npx hardhat test
-`}</pre>
+`}</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -222,14 +226,13 @@ npx hardhat node
 		content: (
 			<div>
 				<h3>1. defaultNetwork (기본 네트워크)</h3>
-				<pre>{`
-Hardhat 실행 시 기본으로 사용할 네트워크 지정 (hardhat, localhost, sepolia 등)
-npx hardhat test 또는 npx hardhat deploy 실행 시 이 네트워크를 사용
+				<pre>{`✔️ Hardhat 실행 시 기본으로 사용할 네트워크 지정 (hardhat, localhost, sepolia 등)
+✔️ npx hardhat test 또는 npx hardhat deploy 실행 시 이 네트워크를 사용
 `}</pre>
 
 				<h3>2. networks (네트워크 설정)</h3>
-				<pre>{`
-networks: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`networks: {
   hardhat: {},  // Hardhat 내장 네트워크
   localhost: {
     url: "http://127.0.0.1:8545",
@@ -246,11 +249,12 @@ networks: {
     gasPrice: "auto",
   },
 },
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>3. solidity (컴파일러 설정)</h3>
-				<pre>{`
-solidity: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`solidity: {
   version: "0.8.20",
   settings: {
     optimizer: {
@@ -260,58 +264,61 @@ solidity: {
     evmVersion: "paris", // 이더리움 Merge 이후의 환경을 따름
   },
 },
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>4. paths (폴더 경로 설정)</h3>
-				<pre>{`
-paths: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`paths: {
   root: "./",
   sources: "./contracts",
   tests: "./test",
   cache: "./cache",
   artifacts: "./artifacts",
 },
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>5. mocha (테스트 설정)</h3>
-				<pre>{`
-mocha: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`mocha: {
   timeout: 40000, // 40초 동안 실행되지 않으면 테스트 실패 처리
 },
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>6. gasReporter (가스 리포트 활성화)</h3>
-				<pre>{`
-gasReporter: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`gasReporter: {
   enabled: process.env.REPORT_GAS === "true",
   currency: "USD",
   gasPrice: 100,
   coinmarketcap: process.env.COINMARKETCAP_API_KEY,
-},
+},`}
+				</SyntaxHighlighter>
 
-
-Hardhat에서 실행되는 트랜잭션의 가스 비용을 분석하여 리포트 생성
-환경 변수 REPORT_GAS가 "true"일 때만 활성화
-CoinMarketCap API를 활용하여 실시간 가스비 변환 가능
-
--------------------------------------
-npm install hardhat-gas-reporter --save-dev
--------------------------------------
+				<pre>{`* Hardhat에서 실행되는 트랜잭션의 가스 비용을 분석하여 리포트 생성
+* 환경 변수 REPORT_GAS가 "true"일 때만 활성화
+* CoinMarketCap API를 활용하여 실시간 가스비 변환 가능
 `}</pre>
 
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`npm install hardhat-gas-reporter --save-dev`}
+				</SyntaxHighlighter>
+
 				<h3>7. etherscan (컨트랙트 검증)</h3>
-				<pre>{`
-etherscan: {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`npm install @nomicfoundation/hardhat-etherscan --save-dev`}
+				</SyntaxHighlighter>
+
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`etherscan: {
   apiKey: process.env.ETHERSCAN_API_KEY,
 },
 
-컨트랙트 검증 실행:
-npx hardhat verify --network sepolia <DEPLOYED_CONTRACT_ADDRESS>
-
--------------------------------------
-npm install @nomicfoundation/hardhat-etherscan --save-dev
--------------------------------------
-`}</pre>
+npx hardhat verify --network sepolia <DEPLOYED_CONTRACT_ADDRESS> // 컨트랙트 검증 실행
+`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -323,20 +330,20 @@ npm install @nomicfoundation/hardhat-etherscan --save-dev
 		content: (
 			<div>
 				<h3>Solidity 코드 예시 (기본 구조)</h3>
-				<pre>{`
-// SPDX-License-Identifier: MIT
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 contract SimpleContract {
-    // 1️⃣ 상태 변수 (State Variables)
+    // 1. 상태 변수 (State Variables)
     string public message;
 
-    // 2️⃣ 생성자 (Constructor)
+    // 2. 생성자 (Constructor)
     constructor(string memory _message) {
         message = _message;
     }
 
-    // 3️⃣ 함수 (Functions)
+    // 3. 함수 (Functions)
     function setMessage(string memory _newMessage) public {
         message = _newMessage;
     }
@@ -344,29 +351,28 @@ contract SimpleContract {
     function getMessage() public view returns (string memory) {
         return message;
     }
-}
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>콘솔 출력</h3>
-				<pre>{`
-contract Logger {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract Logger {
     event Log(string message);
 
     function logMessage(string memory _message) public {
         emit Log(_message);
     }
-}
-
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>오류 처리</h3>
-				<pre>{`
-contract ErrorHandling {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ErrorHandling {
     function fail() public pure {
         require(false, "This function always fails");
     }
-}
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -378,17 +384,16 @@ contract ErrorHandling {
 		content: (
 			<div>
 				<h3>uint & int</h3>
-				<pre>{`
-uint256 public positiveNumber = 100; // 0 이상의 정수
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`uint256 public positiveNumber = 100; // 0 이상의 정수
 uint8 public smallNumber = 255; // 8비트 정수 (0 ~ 255)
 
 int256 public negativeNumber = -50; // 음수도 포함하는 정수
-int8 public smallInt = -128; // -128 ~ 127 범위
-				`}</pre>
+int8 public smallInt = -128; // -128 ~ 127 범위`}
+				</SyntaxHighlighter>
 
 				<h3>uint 범위</h3>
-				<pre>{`
-uint8: 0 ~ 255
+				<pre>{`uint8: 0 ~ 255
 uint16: 0 ~ 65,535
 uint32: 0 ~ 4,294,967,295
 uint64: 0 ~ 18,446,744,073,709,551,615
@@ -397,25 +402,23 @@ uint256: 0 ~ (2²⁵⁶ - 1)
 				`}</pre>
 
 				<h3>int 범위</h3>
-				<pre>{`
-int8: -128 ~ 127
+				<pre>{`int8: -128 ~ 127
 int16: -32,768 ~ 32,767
 int32: -2,147,483,648 ~ 2,147,483,647
 int64: -9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807
 int128: -1.70141183460469231731687303715884105728 × 10³⁸ ~ 1.70141183460469231731687303715884105728 × 10³⁸
-int256: -(2²⁵⁵) ~ (2²⁵⁵ - 1)
-				`}</pre>
+int256: -(2²⁵⁵) ~ (2²⁵⁵ - 1)`}</pre>
 
 				<h3>주의사항</h3>
-				<pre>{`
-* Solidity에서는 0으로 나누는 연산은 require을 사용하여 방지해야 함!
+				<pre>{`📌 Solidity에서는 0으로 나누는 연산은 require을 사용하여 방지해야 함!`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`// e.g.
 
-e.g.
-	function mod(uint256 a, uint256 b) public pure returns (uint256) {
+function mod(uint256 a, uint256 b) public pure returns (uint256) {
 	require(b > 0, "Cannot divide by zero");
 	return a % b;
-}
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -427,30 +430,22 @@ e.g.
 		content: (
 			<div>
 				<h3>Value type : BOOLEAN</h3>
-				<pre>{`
-bool public isActive = true;
-				`}</pre>
-
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`bool public isActive = true;`}
+				</SyntaxHighlighter>
 				<h3>e.g.</h3>
-				<pre>{`
-------------------------------------------
-
-contract Voting {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract Voting {
     bool public votingOpen = true;
     
     function closeVoting() public {
         votingOpen = false;
     }
-}
-
-------------------------------------------
-				`}</pre>
-
+}`}
+				</SyntaxHighlighter>
 				<h3>e.g.</h3>
-				<pre>{`
-------------------------------------------
-
-contract AccessControl {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract AccessControl {
     bool public isAdmin = false;
     
     modifier onlyAdmin() {
@@ -465,10 +460,8 @@ contract AccessControl {
     function adminFunction() public onlyAdmin {
         // 관리자만 실행 가능
     }
-}
-
-------------------------------------------
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -480,21 +473,23 @@ contract AccessControl {
 		content: (
 			<div>
 				<h3>Address type</h3>
-				<pre>{`
-address public wallet = 0x1234567890abcdef1234567890abcdef12345678;
-address payable public recipient = payable(wallet);
-
-address는 20바이트(160비트) 크기를 가짐
-특정 계정이나 스마트 컨트랙트 주소를 저장할 때 사용됨
-address payable을 사용하면 이더를 송금할 수 있는 주소로 변환 가능
-`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`address public wallet = 0x1234567890abcdef1234567890abcdef12345678;
+address payable public recipient = payable(wallet);`}
+				</SyntaxHighlighter>
+				<pre>
+					{`* address는 20바이트(160비트) 크기를 가짐
+* 특정 계정이나 스마트 컨트랙트 주소를 저장할 때 사용됨
+* address payable을 사용하면 이더를 송금할 수 있는 주소로 변환 가능`}
+				</pre>
 
 				<h3>이더 송금 (transfer & send & call)</h3>
-				<pre>{`
-Address 타입의 주요 기능 (Methods)
-	=> Solidity의 address 타입은 내장된 기능(Methods)을 제공하여 주소 관련 작업을 수행할 수 있습니다.
+				<pre>{`📌 Address 타입의 주요 기능 (Methods)
+	=> Solidity의 address 타입은 내장된 기능(Methods)을 제공하여 주소 관련 작업을 수행할 수 있음
+`}</pre>
 
-contract SendEther {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract SendEther {
     function sendViaTransfer(address payable recipient) public payable {
         recipient.transfer(msg.value); // 실패 시 트랜잭션 자동 revert
     }
@@ -508,25 +503,28 @@ contract SendEther {
         (bool success, ) = recipient.call{value: msg.value}("");
         require(success, "Call failed");
     }
-}
-
-- transfer: 실패 시 자동 revert (가장 안전함)
-- send: 실패 시 false 반환 (별도 처리 필요)
-- call: 가장 유연하지만 보안 위험이 있음 (외부 컨트랙트 실행 가능)
-`}</pre>
+}`}
+				</SyntaxHighlighter>
+				<pre>
+					{`* transfer: 실패 시 자동 revert (가장 안전함)
+* send: 실패 시 false 반환 (별도 처리 필요)
+* call: 가장 유연하지만 보안 위험이 있음 (외부 컨트랙트 실행 가능)
+`}
+				</pre>
 
 				<h3>특정 주소의 이더 잔액 확인</h3>
-				<pre>{`
-contract CheckBalance {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract CheckBalance {
     function getBalance(address _addr) public view returns (uint256) {
         return _addr.balance;
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>특정 주소가 스마트 컨트랙트인지 확인</h3>
-				<pre>{`
-contract AddressCheck {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract AddressCheck {
     function isContract(address _addr) public view returns (bool) {
         uint256 codeSize;
         assembly {
@@ -534,8 +532,8 @@ contract AddressCheck {
         }
         return codeSize > 0;
     }
-}
-				`}</pre>
+}`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -547,28 +545,30 @@ contract AddressCheck {
 		content: (
 			<div>
 				<h3>Bytes (bytes1 ~ bytes32)</h3>
-				<pre>{`
-bytes32 public data = "0xabcdef123456";
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`bytes32 public data = "0xabcdef123456";
 bytes32 public fixedBytes = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>고정 크기 바이트 배열 (bytes1 ~ bytes32)</h3>
-				<pre>{`
-- bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
-- 더 적은 가스를 사용하며, 연산 속도가 빠름
+				<pre>{`* bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
+* 더 적은 가스를 사용하며, 연산 속도가 빠름
 `}</pre>
 
 				<h3>가변 크기 바이트 배열 (bytes)</h3>
-				<pre>{`
-bytes public dynamicBytes = "Hello";
-	- bytes는 동적 크기의 바이트 배열
-	- string과 유사하지만, 메모리 최적화 측면에서 더 효율적
-	- 개별 바이트 접근 가능
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`bytes public dynamicBytes = "Hello";`}
+				</SyntaxHighlighter>
+
+				<pre>{`* bytes는 동적 크기의 바이트 배열
+* string과 유사하지만, 메모리 최적화 측면에서 더 효율적
+* 개별 바이트 접근 가능
 `}</pre>
 
 				<h3>바이트 배열 길이 확인</h3>
-				<pre>{`
-contract BytesLength {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesLength {
     function getLength(bytes memory data) public pure returns (uint) {
         return data.length;
     }
@@ -582,12 +582,12 @@ contract BytesLength {
     }
 }
 
-=> bytes("Hello")를 입력하면 5 반환
-`}</pre>
+// bytes("Hello")를 입력하면 5 반환`}
+				</SyntaxHighlighter>
 
 				<h3>특정 바이트 값 접근</h3>
-				<pre>{`
-contract BytesAccess {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesAccess {
     function getByteAt(bytes memory data, uint256 index) public pure returns (bytes1) {
         require(index < data.length, "Index out of bounds");
         return data[index];
@@ -603,12 +603,12 @@ contract BytesAccess {
     }
 }
 
-=> getByteAt(bytes("Hello"), 1) → "e" 반환
-`}</pre>
+// getByteAt(bytes("Hello"), 1) → "e" 반환`}
+				</SyntaxHighlighter>
 
 				<h3>바이트 배열 추가</h3>
-				<pre>{`
-contract BytesAppend {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesAppend {
     function appendByte(bytes memory original, bytes1 newByte) public pure returns (bytes memory) {
         bytes memory newArray = new bytes(original.length + 1);
         for (uint256 i = 0; i < original.length; i++) {
@@ -619,8 +619,8 @@ contract BytesAppend {
     }
 }
 
-=> appendByte(bytes("Hi"), "!") 실행 시 "Hi!"가 반환됨
-				`}</pre>
+// appendByte(bytes("Hi"), "!") 실행 시 "Hi!"가 반환됨`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -632,8 +632,8 @@ contract BytesAppend {
 		content: (
 			<div>
 				<h3>e.g. Enums</h3>
-				<pre>{`
-contract OrderManagement {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract OrderManagement {
     enum Status { Pending, Shipped, Delivered, Canceled }
     Status public orderStatus;
 
@@ -644,12 +644,12 @@ contract OrderManagement {
     function getStatus() public view returns (Status) {
         return orderStatus;
     }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>Enum 값의 숫자 확인</h3>
-				<pre>{`
-contract EnumValues {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract EnumValues {
     enum Status { Pending, Shipped, Delivered, Canceled }
 
     function getNumericValue() public pure returns (uint) {
@@ -657,12 +657,12 @@ contract EnumValues {
     }
 }
 
-=> 결과: getNumericValue() 호출 시 1 반환 (Pending=0, Shipped=1)
-`}</pre>
+// 결과: getNumericValue() 호출 시 1 반환 (Pending=0, Shipped=1)`}
+				</SyntaxHighlighter>
 
 				<h3>특정 상태만 허용하는 로직 추가</h3>
-				<pre>{`
-contract Workflow {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract Workflow {
     enum Stage { Start, Process, Completed }
     Stage public currentStage;
 
@@ -676,15 +676,14 @@ contract Workflow {
     }
 }
 
-
-=>
-modifier onlyAtStage(Stage _stage)를 사용하여 특정 상태에서만 함수 실행 가능
-proceedToNextStage()는 현재 상태가 Start일 때만 Process로 변경 가능
-`}</pre>
+// modifier onlyAtStage(Stage _stage)를 사용하여 특정 상태에서만 함수 실행 가능
+// proceedToNextStage()는 현재 상태가 Start일 때만 Process로 변경 가능
+`}
+				</SyntaxHighlighter>
 
 				<h3>Enum을 조건문과 함께 사용하기</h3>
-				<pre>{`
-contract EnumWithConditions {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract EnumWithConditions {
     enum Light { Red, Yellow, Green }
     Light public trafficLight;
 
@@ -703,10 +702,9 @@ contract EnumWithConditions {
     }
 }
 
-=>
-Light enum을 선언하여 신호등 상태(Red, Yellow, Green)를 정의
-setLight()를 사용하여 상태를 설정하고, getAction()을 호출하면 해당 상태에 맞는 메시지 반환
-`}</pre>
+// Light enum을 선언하여 신호등 상태(Red, Yellow, Green)를 정의
+// setLight()를 사용하여 상태를 설정하고, getAction()을 호출하면 해당 상태에 맞는 메시지 반환`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -714,91 +712,89 @@ setLight()를 사용하여 상태를 설정하고, getAction()을 호출하면 �
 		id: 11,
 		date: '25/03/2025',
 		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
-		title: 'STRING',
+		title: 'STRING (Reference Type)',
 		content: (
 			<div>
-				<h3>STRING (Reference Type)</h3>
-				<pre>{`
-* string 타입은 텍스트 데이터를 저장하는 데 사용
-* Solidity는 문자열 조작 기능이 제한적이며, 가스 비용이 높은 연산이 많기 때문에 주의가 필요
-* bytes 타입을 활용하는 것이 성능 면에서 더 효율적일 수 있음.
+				<pre>{`✔️ string 타입은 텍스트 데이터를 저장하는 데 사용
+✔️ Solidity는 문자열 조작 기능이 제한적이며, 가스 비용이 높은 연산이 많기 때문에 주의가 필요
+✔️ bytes 타입을 활용하는 것이 성능 면에서 더 효율적일 수 있음.
 `}</pre>
 
 				<h3>특징</h3>
-				<pre>{`
-1. UTF-8 인코딩된 문자들을 저장
-2. string은 동적 크기(dynamic size)를 가지며, 배열처럼 개별 문자에 직접 접근할 수 없음
-3. Solidity는 문자열 연결(concatenation), 길이 확인(length) 등의 문자열 조작 기능이 제한적
-4. 문자열을 더 효율적으로 조작하려면 bytes 타입을 사용하는 것이 더 좋음
+				<pre>{`* UTF-8 인코딩된 문자들을 저장
+* string은 동적 크기(dynamic size)를 가지며, 배열처럼 개별 문자에 직접 접근할 수 없음
+* Solidity는 문자열 연결(concatenation), 길이 확인(length) 등의 문자열 조작 기능이 제한적
+* 문자열을 더 효율적으로 조작하려면 bytes 타입을 사용하는 것이 더 좋음
 `}</pre>
 
 				<h3>기본적인 String 선언</h3>
-				<pre>{`
-contract StringExample {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringExample {
     string public message = "Hello, Ethereum!";
 }
 
-=> message 변수에 문자열을 저장하고, public으로 선언하여 자동 getter 함수 생성
-`}</pre>
+// message 변수에 문자열을 저장하고, public으로 선언하여 자동 getter 함수 생성`}
+				</SyntaxHighlighter>
 
 				<h3>문자열 길이 확인 (개별 문자 접근이 불가)</h3>
-				<pre>{`
-Solidity에는 string.length 속성이 없기 때문에, 길이를 확인하려면 bytes로 변환해야 합니다.
-
-contract StringLength {
+				<pre>{`📌 Solidity에는 string.length 속성이 없기 때문에, 길이를 확인하려면 bytes로 변환해야 합니다.`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringLength {
     function getLength(string memory str) public pure returns (uint) {
         return bytes(str).length;
     }
 }
 
-=> bytes(str).length를 사용하여 문자열 길이 확인 가능
-`}</pre>
+// bytes(str).length를 사용하여 문자열 길이 확인 가능
+`}
+				</SyntaxHighlighter>
 
 				<h3>Concatenation</h3>
-				<pre>{`
-contract StringConcat {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringConcat {
     function concatenate(string memory str1, string memory str2) public pure returns (string memory) {
         return string(abi.encodePacked(str1, str2));
     }
 }
 
-=> abi.encodePacked()를 활용하여 문자열을 안전하게 연결
-`}</pre>
+// abi.encodePacked()를 활용하여 문자열을 안전하게 연결
+`}
+				</SyntaxHighlighter>
 
-				<h3>string / bytes 변환</h3>
-				<pre>{`
-string → bytes 변환
-
-	contract StringToBytes {
+				<h3>string → bytes 변환</h3>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringToBytes {
 		function convertToBytes(string memory str) public pure returns (bytes memory) {
 			return bytes(str);
 		}
 	}
 
-=> bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능
+// bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능`}
+				</SyntaxHighlighter>
 
-bytes → string 변환
+				<h3>bytes → string 변환</h3>
 
-	contract BytesToString {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesToString {
 		function convertToString(bytes memory byteData) public pure returns (string memory) {
 			return string(byteData);
 		}
 	}
-=> string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능
-`}</pre>
+// string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능`}
+				</SyntaxHighlighter>
 
 				<h3>문자열 비교 (해시 값 비교 방식)</h3>
-				<pre>{`
-Solidity는 string 타입에 대해 직접 비교 연산(==)을 지원하지 않으므로 keccak256 해시 값을 비교하는 방법을 사용합니다.
+				<pre>{`📌 Solidity는 string 타입에 대해 직접 비교 연산(==)을 지원하지 않으므로, keccak256 해시 값을 비교하는 방법을 사용합니다.`}</pre>
 
-	contract StringCompare {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringCompare {
 		function isEqual(string memory str1, string memory str2) public pure returns (bool) {
 			return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
 		}
 	}
 
-=> keccak256을 사용하여 문자열을 비교하는 것이 가장 안전한 방법
-`}</pre>
+// keccak256을 사용하여 문자열을 비교하는 것이 가장 안전한 방법`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -809,95 +805,96 @@ Solidity는 string 타입에 대해 직접 비교 연산(==)을 지원하지 않
 		title: 'ARRAY (Reference Type)',
 		content: (
 			<div>
-				<h3>ARRAY (Reference Type) 특징</h3>
-				<pre>{`
-* array(배열)는 같은 데이터 타입의 여러 값을 저장하는 자료구조
+				<pre>{`✔️ array(배열)는 같은 데이터 타입의 여러 값을 저장하는 자료구조
 
-* 배열은 동적 크기(Dynamic)와 고정 크기(Fixed) 배열로 나뉨
-* push(), pop() 등의 내장 함수 제공
-* 특정 요소 접근 및 수정 가능 (array[index])
-* Solidity의 배열은 가스 비용이 높을 수 있음 → 최적화 필요
+	* 배열은 동적 크기(Dynamic)와 고정 크기(Fixed) 배열로 나뉨
+	* push(), pop() 등의 내장 함수 제공
+	* 특정 요소 접근 및 수정 가능 (array[index])
+	* Solidity의 배열은 가스 비용이 높을 수 있음 → 최적화 필요
 `}</pre>
 
 				<h3>동적 크기 배열 (Dynamic Array)</h3>
-				<pre>{`
-📌 numbers.push(num)를 사용하여 배열에 값을 추가 가능
+				<pre>{`📌 numbers.push(num)를 사용하여 배열에 값을 추가 가능`}</pre>
 
-contract DynamicArray {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract DynamicArray {
     uint256[] public numbers;
 
     function addNumber(uint256 num) public {
         numbers.push(num);
     }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>고정 크기 배열 (Fixed-Size Array)</h3>
-				<pre>{`
-📌 고정 크기 배열은 선언 후 크기를 변경할 수 없음
+				<pre>{`📌 고정 크기 배열은 선언 후 크기를 변경할 수 없음`}</pre>
 
-contract FixedArray {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract FixedArray {
     uint256[3] public fixedNumbers = [1, 2, 3];
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>요소 추가 (push())</h3>
-				<pre>{`
-📌 push()를 사용하여 배열 끝에 요소 추가 가능 (동적 배열에서만 사용 가능)
+				<pre>{`📌 push()를 사용하여 배열 끝에 요소 추가 가능 (동적 배열에서만 사용 가능)`}</pre>
 
-contract ArrayPush {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayPush {
     uint256[] public numbers;
 
     function addNumber(uint256 num) public {
         numbers.push(num);
     }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>요소 제거 (pop())</h3>
-				<pre>{`
-📌 pop()을 사용하면 배열의 마지막 요소 제거 (고정 크기 배열에서는 사용 불가)
+				<pre>{`📌 pop()을 사용하면 배열의 마지막 요소 제거 (고정 크기 배열에서는 사용 불가)`}</pre>
 
-contract ArrayPop {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayPop {
     uint256[] public numbers = [10, 20, 30];
 
     function removeLast() public {
         numbers.pop();
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>특정 인덱스 값 가져오기 (array[index])</h3>
-				<pre>{`
-📌 배열의 특정 인덱스에 접근하려면 array[index] 형식 사용
+				<pre>{`📌 배열의 특정 인덱스에 접근하려면 array[index] 형식 사용`}</pre>
 
-contract ArrayAccess {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayAccess {
     uint256[] public numbers = [5, 10, 15];
 
     function getValue(uint256 index) public view returns (uint256) {
         return numbers[index];
     }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>배열 길이 확인 (.length)</h3>
-				<pre>{`
-📌 .length 속성을 사용하여 배열 크기 확인 가능
+				<pre>{`📌 .length 속성을 사용하여 배열 크기 확인 가능`}</pre>
 
-contract ArrayLength {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayLength {
     uint256[] public numbers = [1, 2, 3, 4];
 
     function getLength() public view returns (uint256) {
         return numbers.length;
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>배열과 루프 활용 - 배열을 반복문으로 조회하기</h3>
-				<pre>{`
-📌 배열의 모든 요소를 합산하는 sumArray() 함수
+				<pre>{`📌 배열의 모든 요소를 합산하는 sumArray() 함수`}</pre>
 
-contract ArrayLoop {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayLoop {
     uint256[] public numbers = [1, 2, 3, 4, 5];
 
     function sumArray() public view returns (uint256 sum) {
@@ -906,26 +903,28 @@ contract ArrayLoop {
         }
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>다차원 배열 (Multi-dimensional Array) - 2차원 배열 선언 및 사용</h3>
-				<pre>{`
-📌 배열의 배열(2D 배열) 구조로 데이터를 저장 가능
+				<pre>{`📌 배열의 배열(2D 배열) 구조로 데이터를 저장 가능`}</pre>
 
-contract MultiDimArray {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract MultiDimArray {
     uint256[][] public matrix;
 
     function addRow(uint256[] memory row) public {
         matrix.push(row);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>특정 인덱스 요소 삭제 (delete)</h3>
-				<pre>{`
-📌 delete numbers[index]를 사용하면 해당 인덱스의 값이 0으로 초기화됨 (배열 크기는 변하지 않음)
+				<pre>{`📌 delete numbers[index]를 사용하면 해당 인덱스의 값이 0으로 초기화됨 (배열 크기는 변하지 않음)`}</pre>
 
-contract ArrayDelete {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract ArrayDelete {
     uint256[] public numbers = [10, 20, 30, 40];
 
     function removeElement(uint256 index) public {
@@ -933,13 +932,14 @@ contract ArrayDelete {
         delete numbers[index];
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>특정 요소를 삭제 후 배열 크기 줄이기</h3>
-				<pre>{`
-📌 삭제 후 요소를 이동하여 배열 크기를 줄이는 방식 (가스 비용 높음 → 최적화 필요)
+				<pre>{`📌 삭제 후 요소를 이동하여 배열 크기를 줄이는 방식 (가스 비용 높음 → 최적화 필요)`}</pre>
 
-contract RemoveAndShift {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract RemoveAndShift {
     uint256[] public numbers = [10, 20, 30, 40];
 
     function removeAt(uint256 index) public {
@@ -950,7 +950,8 @@ contract RemoveAndShift {
         numbers.pop();
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -961,19 +962,17 @@ contract RemoveAndShift {
 		title: 'MAPPING (Reference Type)',
 		content: (
 			<div>
-				<h3>특징</h3>
-				<pre>{`
-키-값(Key-Value) 쌍을 저장하는 자료구조
+				<pre>{`✔️ 키-값(Key-Value) 쌍을 저장하는 자료구조
 
-- mapping(KeyType => ValueType) 형식으로 선언
-- 키를 입력하면 해당하는 값을 즉시 조회 가능
-- 모든 키는 기본적으로 0 또는 false와 같은 초기값을 가짐
-- storage에만 저장 가능 (메모리 변수로 사용 불가)
+	* mapping(KeyType => ValueType) 형식으로 선언
+	* 키를 입력하면 해당하는 값을 즉시 조회 가능
+	* 모든 키는 기본적으로 0 또는 false와 같은 초기값을 가짐
+	* storage에만 저장 가능 (메모리 변수로 사용 불가)
 `}</pre>
 
 				<h3>e.g. 특정 주소의 잔액을 저장하고 조회하는 간단한 매핑 예제</h3>
-				<pre>{`
-contract SimpleMapping {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract SimpleMapping {
     mapping(address => uint256) public balances;
 
     function setBalance(address user, uint256 amount) public {
@@ -984,28 +983,36 @@ contract SimpleMapping {
         return balances[user];
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>매핑의 주요 기능</h3>
-				<pre>{`
-값 설정 (쓰기 연산)
-	=> balances[msg.sender] = 100;
-	📌 특정 주소(msg.sender)의 값을 100으로 설정
+				<pre>{`* 값 설정 (쓰기 연산)`}</pre>
 
-값 읽기 (조회 연산)
-	=> uint256 myBalance = balances[msg.sender];
-	📌 특정 주소의 값을 읽어오기
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`balances[msg.sender] = 100;
+// 특정 주소(msg.sender)의 값을 100으로 설정`}
+				</SyntaxHighlighter>
 
-값 삭제 (delete)
-	=>delete balances[msg.sender];
-	📌 특정 주소의 값을 초기화 (0으로 설정됨)
-`}</pre>
+				<pre>{`* 값 읽기 (조회 연산)`}</pre>
+
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`uint256 myBalance = balances[msg.sender];
+// 특정 주소의 값을 읽어오기`}
+				</SyntaxHighlighter>
+
+				<pre>{`* 값 삭제 (delete)`}</pre>
+
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`delete balances[msg.sender];
+// 특정 주소의 값을 초기화 (0으로 설정됨)`}
+				</SyntaxHighlighter>
 
 				<h3>중첩 매핑 (Nested Mapping)</h3>
-				<pre>{`
-📌 주소별 특정 ID의 권한을 설정 및 조회할 수 있는 중첩 매핑 예제
+				<pre>{`📌 주소별 특정 ID의 권한을 설정 및 조회할 수 있는 중첩 매핑 예제`}</pre>
 
-contract NestedMapping {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract NestedMapping {
     mapping(address => mapping(uint256 => bool)) public permissions;
 
     function setPermission(address user, uint256 id, bool status) public {
@@ -1016,13 +1023,14 @@ contract NestedMapping {
         return permissions[user][id];
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>매핑과 구조체(Struct) 결합</h3>
-				<pre>{`
-📌 사용자 정보를 저장하는 구조체와 매핑을 조합한 예제
+				<pre>{`📌 사용자 정보를 저장하는 구조체와 매핑을 조합한 예제`}</pre>
 
-contract StructMapping {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructMapping {
     struct User {
         string name;
         uint256 balance;
@@ -1038,14 +1046,14 @@ contract StructMapping {
         return (users[_addr].name, users[_addr].balance);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>매핑을 사용할 때 주의할 점</h3>
-				<pre>{`
-✔ 매핑은 storage에서만 사용 가능하며, memory 변수로 선언할 수 없음
+				<pre>{`✔ 매핑은 storage에서만 사용 가능하며, memory 변수로 선언할 수 없음
 ✔ 반복문을 사용하여 모든 키를 조회할 수 없음 (키 목록을 별도로 관리해야 함)
 ✔ 매핑의 키를 delete 하면 기본값으로 초기화되며, 완전히 제거되지 않음
-✔ 매핑은 기본적으로 0 또는 false 값을 반환하므로, 존재 여부를 체크하려면 별도의 플래그 변수가 필요할 수 있음
+✔ 매핑은 기본적으로 0 또는 false 값을 반환하므로, 존재 여부를 체크하려면 별도의 플래그 변수가 필요
 `}</pre>
 			</div>
 		),
@@ -1057,19 +1065,16 @@ contract StructMapping {
 		title: 'STRUCT (Reference Type)',
 		content: (
 			<div>
-				<h3>특징</h3>
-				<pre>{`
-여러 개의 변수를 하나의 사용자 정의 데이터 타입으로 묶어 저장하는 자료구조
+				<pre>{`✔️ 여러 개의 변수를 하나의 사용자 정의 데이터 타입으로 묶어 저장하는 자료구조
 
-- 여러 타입의 변수를 하나의 데이터 구조로 묶을 수 있음
-- storage, memory 키워드를 사용하여 저장 방식 선택 가능
-- 매핑(mapping)과 함께 사용하면 강력한 데이터 저장 기능을 제공
-
+	* 여러 타입의 변수를 하나의 데이터 구조로 묶을 수 있음
+	* storage, memory 키워드를 사용하여 저장 방식 선택 가능
+	* 매핑(mapping)과 함께 사용하면 강력한 데이터 저장 기능을 제공
 `}</pre>
 
 				<h3>e.g. 구조체를 사용하여 사용자 정보를 저장 및 조회하는 예제</h3>
-				<pre>{`
-contract StructExample {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructExample {
     struct User {
         string name;
         uint256 age;
@@ -1086,11 +1091,12 @@ contract StructExample {
         return (user.name, user.age, user.wallet);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>구조체를 배열로 선언하고, push()를 사용하여 데이터 추가 가능</h3>
-				<pre>{`
-contract StructArray {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructArray {
     struct User {
         string name;
         uint256 age;
@@ -1102,13 +1108,14 @@ contract StructArray {
         users.push(User(_name, _age));
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>매핑과 구조체 결합-</h3>
-				<pre>{`
-📌 사용자의 address를 키로 하여 데이터를 효율적으로 관리 가능
+				<pre>{`📌 사용자의 address를 키로 하여 데이터를 효율적으로 관리 가능`}</pre>
 
-contract StructMapping {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructMapping {
     struct User {
         string name;
         uint256 balance;
@@ -1124,13 +1131,14 @@ contract StructMapping {
         return (users[_addr].name, users[_addr].balance);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>구조체 내부 값 수정</h3>
-				<pre>{`
-📌 user.age = _newAge;를 통해 구조체 내부 값 수정 가능
+				<pre>{`📌 user.age = _newAge;를 통해 구조체 내부 값 수정 가능`}</pre>
 
-contract StructUpdate {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructUpdate {
     struct User {
         string name;
         uint256 age;
@@ -1146,13 +1154,14 @@ contract StructUpdate {
         user.age = _newAge;
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>구조체 삭제 (delete)</h3>
-				<pre>{`
-📌 delete 키워드를 사용하여 구조체 값을 초기화할 수 있음
+				<pre>{`📌 delete 키워드를 사용하여 구조체 값을 초기화할 수 있음`}</pre>
 
-contract StructDelete {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StructDelete {
     struct User {
         string name;
         uint256 age;
@@ -1167,14 +1176,14 @@ contract StructDelete {
     function deleteUser() public {
         delete user; // 모든 필드를 초기화 (name = "", age = 0)
     }
-}
-`}</pre>
+}`}
+				</SyntaxHighlighter>
 
 				<h3>메모리 구조체 사용 (임시 데이터 저장)</h3>
-				<pre>{`
-📌 메모리에서만 사용되는 구조체는 가스 비용 절감 효과가 있음
+				<pre>{`📌 메모리에서만 사용되는 구조체는 가스 비용 절감 효과가 있음`}</pre>
 
-contract MemoryStruct {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract MemoryStruct {
     struct User {
         string name;
         uint256 age;
@@ -1184,13 +1193,14 @@ contract MemoryStruct {
         return User(_name, _age);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>저장소(Storage) 구조체 사용 (영구 데이터 저장)</h3>
-				<pre>{`
-📌 저장소(storage)에 데이터를 저장하면 영구적으로 보관됨
+				<pre>{`📌 저장소(storage)에 데이터를 저장하면 영구적으로 보관됨`}</pre>
 
-contract StorageStruct {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StorageStruct {
     struct User {
         string name;
         uint256 age;
@@ -1202,7 +1212,8 @@ contract StorageStruct {
         user = User(_name, _age);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
@@ -1213,99 +1224,104 @@ contract StorageStruct {
 		title: 'BYTES (Reference Type)',
 		content: (
 			<div>
-				<h3>특징</h3>
-				<pre>{`
-이진 데이터(Binary Data)를 저장하는 데 사용됩니다. 
-bytes 타입은 크게 고정 크기 바이트 배열과 가변 크기 바이트 배열로 나뉩니다.
+				<pre>{`✔️ 이진 데이터(Binary Data)를 저장하는 데 사용됩니다. 
+✔️ bytes 타입은 크게 고정 크기 바이트 배열과 가변 크기 바이트 배열로 나뉩니다.`}</pre>
 
-- bytes 타입은 UTF-8 문자열을 바이트 형태로 저장할 수 있음
-- 고정 크기(bytes1 ~ bytes32)와 가변 크기(bytes) 배열이 존재
-- string보다 효율적인 저장 및 조작이 가능하며, 가스 비용 절감 효과가 있음
+				<h3>BYTES 특징</h3>
+				<pre>{`
+* bytes 타입은 UTF-8 문자열을 바이트 형태로 저장할 수 있음
+* 고정 크기(bytes1 ~ bytes32)와 가변 크기(bytes) 배열이 존재
+* string보다 효율적인 저장 및 조작이 가능하며, 가스 비용 절감 효과가 있음
 `}</pre>
 
 				<h3>고정 크기 바이트 배열 (bytes1 ~ bytes32)</h3>
-				<pre>{`
-bytes32 public fixedBytes = 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef;
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`bytes32 public fixedBytes = 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef;`}
+				</SyntaxHighlighter>
 
+				<pre>{`
 📌 특징
-	- bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
-	- 더 적은 가스를 사용하며, 연산 속도가 빠름
-	- 크기가 정해져 있어 push()나 pop() 등의 조작이 불가능
+
+	* bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
+	* 더 적은 가스를 사용하며, 연산 속도가 빠름
+	* 크기가 정해져 있어 push()나 pop() 등의 조작이 불가능
 `}</pre>
 
 				<h3>가변 크기 바이트 배열 (bytes)</h3>
-				<pre>{`
-bytes public dynamicBytes = "Hello";
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`bytes public dynamicBytes = "Hello";`}
+				</SyntaxHighlighter>
 
+				<pre>{`
 📌 특징
 
-	- bytes는 동적 크기의 바이트 배열
-	- string과 유사하지만, 더 적은 가스를 사용하며 개별 바이트 접근 가능
-	- push(), pop() 등을 사용하여 크기를 조정할 수 있음
+	* bytes는 동적 크기의 바이트 배열
+	* string과 유사하지만, 더 적은 가스를 사용하며 개별 바이트 접근 가능
+	* push(), pop() 등을 사용하여 크기를 조정할 수 있음
 `}</pre>
 
 				<h3>바이트 배열 길이 확인 (.length)</h3>
-				<pre>{`
-contract BytesLength {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesLength {
     function getLength(bytes memory data) public pure returns (uint) {
         return data.length;
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>특정 바이트 값 접근</h3>
-				<pre>{`
-contract BytesAccess {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesAccess {
     function getByteAt(bytes memory data, uint256 index) public pure returns (bytes1) {
         require(index < data.length, "Index out of bounds");
         return data[index];
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>바이트 배열 추가 (push())</h3>
-				<pre>{`
-contract BytesPush {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>{`contract BytesPush {
     bytes public data;
 
     function addByte(bytes1 newByte) public {
         data.push(newByte);
     }
 }
-`}</pre>
+`}</SyntaxHighlighter>
 
 				<h3>바이트 배열 삭제 (pop())</h3>
-				<pre>{`
-contract BytesPop {
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>{`contract BytesPop {
     bytes public data = "Hello";
 
     function removeLast() public {
         data.pop();
     }
 }
-`}</pre>
+`}</SyntaxHighlighter>
 
 				<h3>string → bytes 변환</h3>
-				<pre>{`
-📌 bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능
-
-contract StringToBytes {
+				<pre>{`📌 bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract StringToBytes {
     function convertToBytes(string memory str) public pure returns (bytes memory) {
         return bytes(str);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 
 				<h3>bytes → string 변환</h3>
-				<pre>{`
-📌 string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능
-
-contract BytesToString {
+				<pre>{`📌 string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능`}</pre>
+				<SyntaxHighlighter language='tsx' style={vscDarkPlus}>
+					{`contract BytesToString {
     function convertToString(bytes memory byteData) public pure returns (string memory) {
         return string(byteData);
     }
 }
-`}</pre>
+`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},

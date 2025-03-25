@@ -74,12 +74,12 @@ ol {
 }
 
 .tilPageWrapper pre {
-	padding: 0 1rem;
-}
-
-.tilPageWrapper pre {
 	white-space: pre-wrap;
 	word-wrap: break-word;
 	overflow-x: auto;
-	padding-bottom: 2rem;
+	padding: 1rem;
+}
+
+.tilPageWrapper h3:not(:first-of-type) {
+	padding-top: 1.5rem;
 }
