@@ -373,7 +373,7 @@ contract ErrorHandling {
 	{
 		id: 6,
 		date: '24/03/2025',
-		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		tags: ['Value Type', 'Solidity', 'Smart Contract', 'Blockchain'],
 		title: 'NUMBER (Value type)',
 		content: (
 			<div>
@@ -422,7 +422,7 @@ e.g.
 	{
 		id: 7,
 		date: '24/03/2025',
-		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		tags: ['Value Type', 'Solidity', 'Smart Contract', 'Blockchain'],
 		title: 'BOOLEAN (Value type)',
 		content: (
 			<div>
@@ -475,7 +475,7 @@ contract AccessControl {
 	{
 		id: 8,
 		date: '24/03/2025',
-		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		tags: ['Value Type', 'Solidity', 'Smart Contract', 'Blockchain'],
 		title: 'ADDRESS (Value type)',
 		content: (
 			<div>
@@ -542,7 +542,7 @@ contract AddressCheck {
 	{
 		id: 9,
 		date: '24/03/2025',
-		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		tags: ['Value Type', 'Solidity', 'Smart Contract', 'Blockchain'],
 		title: 'BYTES (Value type)',
 		content: (
 			<div>
@@ -627,7 +627,7 @@ contract BytesAppend {
 	{
 		id: 10,
 		date: '24/03/2025',
-		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		tags: ['Value Type', 'Solidity', 'Smart Contract', 'Blockchain'],
 		title: 'ENUMS',
 		content: (
 			<div>
@@ -706,6 +706,605 @@ contract EnumWithConditions {
 =>
 Light enum을 선언하여 신호등 상태(Red, Yellow, Green)를 정의
 setLight()를 사용하여 상태를 설정하고, getAction()을 호출하면 해당 상태에 맞는 메시지 반환
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 11,
+		date: '25/03/2025',
+		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'STRING',
+		content: (
+			<div>
+				<h3>STRING (Reference Type)</h3>
+				<pre>{`
+* string 타입은 텍스트 데이터를 저장하는 데 사용
+* Solidity는 문자열 조작 기능이 제한적이며, 가스 비용이 높은 연산이 많기 때문에 주의가 필요
+* bytes 타입을 활용하는 것이 성능 면에서 더 효율적일 수 있음.
+`}</pre>
+
+				<h3>특징</h3>
+				<pre>{`
+1. UTF-8 인코딩된 문자들을 저장
+2. string은 동적 크기(dynamic size)를 가지며, 배열처럼 개별 문자에 직접 접근할 수 없음
+3. Solidity는 문자열 연결(concatenation), 길이 확인(length) 등의 문자열 조작 기능이 제한적
+4. 문자열을 더 효율적으로 조작하려면 bytes 타입을 사용하는 것이 더 좋음
+`}</pre>
+
+				<h3>기본적인 String 선언</h3>
+				<pre>{`
+contract StringExample {
+    string public message = "Hello, Ethereum!";
+}
+
+=> message 변수에 문자열을 저장하고, public으로 선언하여 자동 getter 함수 생성
+`}</pre>
+
+				<h3>문자열 길이 확인 (개별 문자 접근이 불가)</h3>
+				<pre>{`
+Solidity에는 string.length 속성이 없기 때문에, 길이를 확인하려면 bytes로 변환해야 합니다.
+
+contract StringLength {
+    function getLength(string memory str) public pure returns (uint) {
+        return bytes(str).length;
+    }
+}
+
+=> bytes(str).length를 사용하여 문자열 길이 확인 가능
+`}</pre>
+
+				<h3>Concatenation</h3>
+				<pre>{`
+contract StringConcat {
+    function concatenate(string memory str1, string memory str2) public pure returns (string memory) {
+        return string(abi.encodePacked(str1, str2));
+    }
+}
+
+=> abi.encodePacked()를 활용하여 문자열을 안전하게 연결
+`}</pre>
+
+				<h3>string / bytes 변환</h3>
+				<pre>{`
+string → bytes 변환
+
+	contract StringToBytes {
+		function convertToBytes(string memory str) public pure returns (bytes memory) {
+			return bytes(str);
+		}
+	}
+
+=> bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능
+
+bytes → string 변환
+
+	contract BytesToString {
+		function convertToString(bytes memory byteData) public pure returns (string memory) {
+			return string(byteData);
+		}
+	}
+=> string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능
+`}</pre>
+
+				<h3>문자열 비교 (해시 값 비교 방식)</h3>
+				<pre>{`
+Solidity는 string 타입에 대해 직접 비교 연산(==)을 지원하지 않으므로 keccak256 해시 값을 비교하는 방법을 사용합니다.
+
+	contract StringCompare {
+		function isEqual(string memory str1, string memory str2) public pure returns (bool) {
+			return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
+		}
+	}
+
+=> keccak256을 사용하여 문자열을 비교하는 것이 가장 안전한 방법
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 12,
+		date: '25/03/2025',
+		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'ARRAY (Reference Type)',
+		content: (
+			<div>
+				<h3>ARRAY (Reference Type) 특징</h3>
+				<pre>{`
+* array(배열)는 같은 데이터 타입의 여러 값을 저장하는 자료구조
+
+* 배열은 동적 크기(Dynamic)와 고정 크기(Fixed) 배열로 나뉨
+* push(), pop() 등의 내장 함수 제공
+* 특정 요소 접근 및 수정 가능 (array[index])
+* Solidity의 배열은 가스 비용이 높을 수 있음 → 최적화 필요
+`}</pre>
+
+				<h3>동적 크기 배열 (Dynamic Array)</h3>
+				<pre>{`
+📌 numbers.push(num)를 사용하여 배열에 값을 추가 가능
+
+contract DynamicArray {
+    uint256[] public numbers;
+
+    function addNumber(uint256 num) public {
+        numbers.push(num);
+    }
+}
+`}</pre>
+
+				<h3>고정 크기 배열 (Fixed-Size Array)</h3>
+				<pre>{`
+📌 고정 크기 배열은 선언 후 크기를 변경할 수 없음
+
+contract FixedArray {
+    uint256[3] public fixedNumbers = [1, 2, 3];
+}
+`}</pre>
+
+				<h3>요소 추가 (push())</h3>
+				<pre>{`
+📌 push()를 사용하여 배열 끝에 요소 추가 가능 (동적 배열에서만 사용 가능)
+
+contract ArrayPush {
+    uint256[] public numbers;
+
+    function addNumber(uint256 num) public {
+        numbers.push(num);
+    }
+}
+`}</pre>
+
+				<h3>요소 제거 (pop())</h3>
+				<pre>{`
+📌 pop()을 사용하면 배열의 마지막 요소 제거 (고정 크기 배열에서는 사용 불가)
+
+contract ArrayPop {
+    uint256[] public numbers = [10, 20, 30];
+
+    function removeLast() public {
+        numbers.pop();
+    }
+}
+`}</pre>
+
+				<h3>특정 인덱스 값 가져오기 (array[index])</h3>
+				<pre>{`
+📌 배열의 특정 인덱스에 접근하려면 array[index] 형식 사용
+
+contract ArrayAccess {
+    uint256[] public numbers = [5, 10, 15];
+
+    function getValue(uint256 index) public view returns (uint256) {
+        return numbers[index];
+    }
+}
+`}</pre>
+
+				<h3>배열 길이 확인 (.length)</h3>
+				<pre>{`
+📌 .length 속성을 사용하여 배열 크기 확인 가능
+
+contract ArrayLength {
+    uint256[] public numbers = [1, 2, 3, 4];
+
+    function getLength() public view returns (uint256) {
+        return numbers.length;
+    }
+}
+`}</pre>
+
+				<h3>배열과 루프 활용 - 배열을 반복문으로 조회하기</h3>
+				<pre>{`
+📌 배열의 모든 요소를 합산하는 sumArray() 함수
+
+contract ArrayLoop {
+    uint256[] public numbers = [1, 2, 3, 4, 5];
+
+    function sumArray() public view returns (uint256 sum) {
+        for (uint256 i = 0; i < numbers.length; i++) {
+            sum += numbers[i];
+        }
+    }
+}
+`}</pre>
+
+				<h3>다차원 배열 (Multi-dimensional Array) - 2차원 배열 선언 및 사용</h3>
+				<pre>{`
+📌 배열의 배열(2D 배열) 구조로 데이터를 저장 가능
+
+contract MultiDimArray {
+    uint256[][] public matrix;
+
+    function addRow(uint256[] memory row) public {
+        matrix.push(row);
+    }
+}
+`}</pre>
+
+				<h3>특정 인덱스 요소 삭제 (delete)</h3>
+				<pre>{`
+📌 delete numbers[index]를 사용하면 해당 인덱스의 값이 0으로 초기화됨 (배열 크기는 변하지 않음)
+
+contract ArrayDelete {
+    uint256[] public numbers = [10, 20, 30, 40];
+
+    function removeElement(uint256 index) public {
+        require(index < numbers.length, "Index out of bounds");
+        delete numbers[index];
+    }
+}
+`}</pre>
+
+				<h3>특정 요소를 삭제 후 배열 크기 줄이기</h3>
+				<pre>{`
+📌 삭제 후 요소를 이동하여 배열 크기를 줄이는 방식 (가스 비용 높음 → 최적화 필요)
+
+contract RemoveAndShift {
+    uint256[] public numbers = [10, 20, 30, 40];
+
+    function removeAt(uint256 index) public {
+        require(index < numbers.length, "Index out of bounds");
+        for (uint256 i = index; i < numbers.length - 1; i++) {
+            numbers[i] = numbers[i + 1];
+        }
+        numbers.pop();
+    }
+}
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 13,
+		date: '25/03/2025',
+		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'MAPPING (Reference Type)',
+		content: (
+			<div>
+				<h3>특징</h3>
+				<pre>{`
+키-값(Key-Value) 쌍을 저장하는 자료구조
+
+- mapping(KeyType => ValueType) 형식으로 선언
+- 키를 입력하면 해당하는 값을 즉시 조회 가능
+- 모든 키는 기본적으로 0 또는 false와 같은 초기값을 가짐
+- storage에만 저장 가능 (메모리 변수로 사용 불가)
+`}</pre>
+
+				<h3>e.g. 특정 주소의 잔액을 저장하고 조회하는 간단한 매핑 예제</h3>
+				<pre>{`
+contract SimpleMapping {
+    mapping(address => uint256) public balances;
+
+    function setBalance(address user, uint256 amount) public {
+        balances[user] = amount;
+    }
+
+    function getBalance(address user) public view returns (uint256) {
+        return balances[user];
+    }
+}
+`}</pre>
+
+				<h3>매핑의 주요 기능</h3>
+				<pre>{`
+값 설정 (쓰기 연산)
+	=> balances[msg.sender] = 100;
+	📌 특정 주소(msg.sender)의 값을 100으로 설정
+
+값 읽기 (조회 연산)
+	=> uint256 myBalance = balances[msg.sender];
+	📌 특정 주소의 값을 읽어오기
+
+값 삭제 (delete)
+	=>delete balances[msg.sender];
+	📌 특정 주소의 값을 초기화 (0으로 설정됨)
+`}</pre>
+
+				<h3>중첩 매핑 (Nested Mapping)</h3>
+				<pre>{`
+📌 주소별 특정 ID의 권한을 설정 및 조회할 수 있는 중첩 매핑 예제
+
+contract NestedMapping {
+    mapping(address => mapping(uint256 => bool)) public permissions;
+
+    function setPermission(address user, uint256 id, bool status) public {
+        permissions[user][id] = status;
+    }
+
+    function hasPermission(address user, uint256 id) public view returns (bool) {
+        return permissions[user][id];
+    }
+}
+`}</pre>
+
+				<h3>매핑과 구조체(Struct) 결합</h3>
+				<pre>{`
+📌 사용자 정보를 저장하는 구조체와 매핑을 조합한 예제
+
+contract StructMapping {
+    struct User {
+        string name;
+        uint256 balance;
+    }
+
+    mapping(address => User) public users;
+
+    function setUser(address _addr, string memory _name, uint256 _balance) public {
+        users[_addr] = User(_name, _balance);
+    }
+
+    function getUser(address _addr) public view returns (string memory, uint256) {
+        return (users[_addr].name, users[_addr].balance);
+    }
+}
+`}</pre>
+
+				<h3>매핑을 사용할 때 주의할 점</h3>
+				<pre>{`
+✔ 매핑은 storage에서만 사용 가능하며, memory 변수로 선언할 수 없음
+✔ 반복문을 사용하여 모든 키를 조회할 수 없음 (키 목록을 별도로 관리해야 함)
+✔ 매핑의 키를 delete 하면 기본값으로 초기화되며, 완전히 제거되지 않음
+✔ 매핑은 기본적으로 0 또는 false 값을 반환하므로, 존재 여부를 체크하려면 별도의 플래그 변수가 필요할 수 있음
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 14,
+		date: '25/03/2025',
+		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'STRUCT (Reference Type)',
+		content: (
+			<div>
+				<h3>특징</h3>
+				<pre>{`
+여러 개의 변수를 하나의 사용자 정의 데이터 타입으로 묶어 저장하는 자료구조
+
+- 여러 타입의 변수를 하나의 데이터 구조로 묶을 수 있음
+- storage, memory 키워드를 사용하여 저장 방식 선택 가능
+- 매핑(mapping)과 함께 사용하면 강력한 데이터 저장 기능을 제공
+
+`}</pre>
+
+				<h3>e.g. 구조체를 사용하여 사용자 정보를 저장 및 조회하는 예제</h3>
+				<pre>{`
+contract StructExample {
+    struct User {
+        string name;
+        uint256 age;
+        address wallet;
+    }
+    
+    User public user;
+    
+    function setUser(string memory _name, uint256 _age, address _wallet) public {
+        user = User(_name, _age, _wallet);
+    }
+    
+    function getUser() public view returns (string memory, uint256, address) {
+        return (user.name, user.age, user.wallet);
+    }
+}
+`}</pre>
+
+				<h3>구조체를 배열로 선언하고, push()를 사용하여 데이터 추가 가능</h3>
+				<pre>{`
+contract StructArray {
+    struct User {
+        string name;
+        uint256 age;
+    }
+    
+    User[] public users;
+    
+    function addUser(string memory _name, uint256 _age) public {
+        users.push(User(_name, _age));
+    }
+}
+`}</pre>
+
+				<h3>매핑과 구조체 결합-</h3>
+				<pre>{`
+📌 사용자의 address를 키로 하여 데이터를 효율적으로 관리 가능
+
+contract StructMapping {
+    struct User {
+        string name;
+        uint256 balance;
+    }
+    
+    mapping(address => User) public users;
+    
+    function setUser(string memory _name, uint256 _balance) public {
+        users[msg.sender] = User(_name, _balance);
+    }
+    
+    function getUser(address _addr) public view returns (string memory, uint256) {
+        return (users[_addr].name, users[_addr].balance);
+    }
+}
+`}</pre>
+
+				<h3>구조체 내부 값 수정</h3>
+				<pre>{`
+📌 user.age = _newAge;를 통해 구조체 내부 값 수정 가능
+
+contract StructUpdate {
+    struct User {
+        string name;
+        uint256 age;
+    }
+    
+    User public user;
+    
+    function setUser(string memory _name, uint256 _age) public {
+        user = User(_name, _age);
+    }
+    
+    function updateAge(uint256 _newAge) public {
+        user.age = _newAge;
+    }
+}
+`}</pre>
+
+				<h3>구조체 삭제 (delete)</h3>
+				<pre>{`
+📌 delete 키워드를 사용하여 구조체 값을 초기화할 수 있음
+
+contract StructDelete {
+    struct User {
+        string name;
+        uint256 age;
+    }
+    
+    User public user;
+    
+    function setUser(string memory _name, uint256 _age) public {
+        user = User(_name, _age);
+    }
+    
+    function deleteUser() public {
+        delete user; // 모든 필드를 초기화 (name = "", age = 0)
+    }
+}
+`}</pre>
+
+				<h3>메모리 구조체 사용 (임시 데이터 저장)</h3>
+				<pre>{`
+📌 메모리에서만 사용되는 구조체는 가스 비용 절감 효과가 있음
+
+contract MemoryStruct {
+    struct User {
+        string name;
+        uint256 age;
+    }
+    
+    function getUser(string memory _name, uint256 _age) public pure returns (User memory) {
+        return User(_name, _age);
+    }
+}
+`}</pre>
+
+				<h3>저장소(Storage) 구조체 사용 (영구 데이터 저장)</h3>
+				<pre>{`
+📌 저장소(storage)에 데이터를 저장하면 영구적으로 보관됨
+
+contract StorageStruct {
+    struct User {
+        string name;
+        uint256 age;
+    }
+    
+    User public user;
+    
+    function setUser(string memory _name, uint256 _age) public {
+        user = User(_name, _age);
+    }
+}
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 15,
+		date: '25/03/2025',
+		tags: ['Reference Type', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'BYTES (Reference Type)',
+		content: (
+			<div>
+				<h3>특징</h3>
+				<pre>{`
+이진 데이터(Binary Data)를 저장하는 데 사용됩니다. 
+bytes 타입은 크게 고정 크기 바이트 배열과 가변 크기 바이트 배열로 나뉩니다.
+
+- bytes 타입은 UTF-8 문자열을 바이트 형태로 저장할 수 있음
+- 고정 크기(bytes1 ~ bytes32)와 가변 크기(bytes) 배열이 존재
+- string보다 효율적인 저장 및 조작이 가능하며, 가스 비용 절감 효과가 있음
+`}</pre>
+
+				<h3>고정 크기 바이트 배열 (bytes1 ~ bytes32)</h3>
+				<pre>{`
+bytes32 public fixedBytes = 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef;
+
+📌 특징
+	- bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
+	- 더 적은 가스를 사용하며, 연산 속도가 빠름
+	- 크기가 정해져 있어 push()나 pop() 등의 조작이 불가능
+`}</pre>
+
+				<h3>가변 크기 바이트 배열 (bytes)</h3>
+				<pre>{`
+bytes public dynamicBytes = "Hello";
+
+📌 특징
+
+	- bytes는 동적 크기의 바이트 배열
+	- string과 유사하지만, 더 적은 가스를 사용하며 개별 바이트 접근 가능
+	- push(), pop() 등을 사용하여 크기를 조정할 수 있음
+`}</pre>
+
+				<h3>바이트 배열 길이 확인 (.length)</h3>
+				<pre>{`
+contract BytesLength {
+    function getLength(bytes memory data) public pure returns (uint) {
+        return data.length;
+    }
+}
+`}</pre>
+
+				<h3>특정 바이트 값 접근</h3>
+				<pre>{`
+contract BytesAccess {
+    function getByteAt(bytes memory data, uint256 index) public pure returns (bytes1) {
+        require(index < data.length, "Index out of bounds");
+        return data[index];
+    }
+}
+`}</pre>
+
+				<h3>바이트 배열 추가 (push())</h3>
+				<pre>{`
+contract BytesPush {
+    bytes public data;
+
+    function addByte(bytes1 newByte) public {
+        data.push(newByte);
+    }
+}
+`}</pre>
+
+				<h3>바이트 배열 삭제 (pop())</h3>
+				<pre>{`
+contract BytesPop {
+    bytes public data = "Hello";
+
+    function removeLast() public {
+        data.pop();
+    }
+}
+`}</pre>
+
+				<h3>string → bytes 변환</h3>
+				<pre>{`
+📌 bytes(str)를 사용하여 문자열을 바이트 배열로 변환 가능
+
+contract StringToBytes {
+    function convertToBytes(string memory str) public pure returns (bytes memory) {
+        return bytes(str);
+    }
+}
+`}</pre>
+
+				<h3>bytes → string 변환</h3>
+				<pre>{`
+📌 string(byteData)를 사용하여 바이트 배열을 다시 문자열로 변환 가능
+
+contract BytesToString {
+    function convertToString(bytes memory byteData) public pure returns (string memory) {
+        return string(byteData);
+    }
+}
 `}</pre>
 			</div>
 		),
