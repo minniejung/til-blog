@@ -367,46 +367,72 @@ contract ErrorHandling {
     }
 }
 				`}</pre>
-
-				<h3>Value type : NUMBER</h3>
+			</div>
+		),
+	},
+	{
+		id: 6,
+		date: '24/03/2025',
+		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'NUMBER (Value type)',
+		content: (
+			<div>
+				<h3>uint & int</h3>
 				<pre>{`
 uint256 public positiveNumber = 100; // 0 이상의 정수
 uint8 public smallNumber = 255; // 8비트 정수 (0 ~ 255)
 
 int256 public negativeNumber = -50; // 음수도 포함하는 정수
 int8 public smallInt = -128; // -128 ~ 127 범위
-
-uint 범위
-	uint8: 0 ~ 255
-	uint16: 0 ~ 65,535
-	uint32: 0 ~ 4,294,967,295
-	uint64: 0 ~ 18,446,744,073,709,551,615
-	uint128: 0 ~ 3.40282366920938463463374607431768211455 × 10³⁸
-	uint256: 0 ~ (2²⁵⁶ - 1)
-
-int 범위
-	int8: -128 ~ 127
-	int16: -32,768 ~ 32,767
-	int32: -2,147,483,648 ~ 2,147,483,647
-	int64: -9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807
-	int128: -1.70141183460469231731687303715884105728 × 10³⁸ ~ 1.70141183460469231731687303715884105728 × 10³⁸
-	int256: -(2²⁵⁵) ~ (2²⁵⁵ - 1)
-
-* Solidity에서는 0으로 나누는 연산은 require을 사용하여 방지해야 함
-
-	e.g.
-	 function mod(uint256 a, uint256 b) public pure returns (uint256) {
-        require(b > 0, "Cannot divide by zero");
-        return a % b;
-    }
-
 				`}</pre>
 
+				<h3>uint 범위</h3>
+				<pre>{`
+uint8: 0 ~ 255
+uint16: 0 ~ 65,535
+uint32: 0 ~ 4,294,967,295
+uint64: 0 ~ 18,446,744,073,709,551,615
+uint128: 0 ~ 3.40282366920938463463374607431768211455 × 10³⁸
+uint256: 0 ~ (2²⁵⁶ - 1)
+				`}</pre>
+
+				<h3>int 범위</h3>
+				<pre>{`
+int8: -128 ~ 127
+int16: -32,768 ~ 32,767
+int32: -2,147,483,648 ~ 2,147,483,647
+int64: -9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807
+int128: -1.70141183460469231731687303715884105728 × 10³⁸ ~ 1.70141183460469231731687303715884105728 × 10³⁸
+int256: -(2²⁵⁵) ~ (2²⁵⁵ - 1)
+				`}</pre>
+
+				<h3>주의사항</h3>
+				<pre>{`
+* Solidity에서는 0으로 나누는 연산은 require을 사용하여 방지해야 함!
+
+e.g.
+	function mod(uint256 a, uint256 b) public pure returns (uint256) {
+	require(b > 0, "Cannot divide by zero");
+	return a % b;
+}
+				`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 7,
+		date: '24/03/2025',
+		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'BOOLEAN (Value type)',
+		content: (
+			<div>
 				<h3>Value type : BOOLEAN</h3>
 				<pre>{`
-
 bool public isActive = true;
+				`}</pre>
 
+				<h3>e.g.</h3>
+				<pre>{`
 ------------------------------------------
 
 contract Voting {
@@ -417,6 +443,11 @@ contract Voting {
     }
 }
 
+------------------------------------------
+				`}</pre>
+
+				<h3>e.g.</h3>
+				<pre>{`
 ------------------------------------------
 
 contract AccessControl {
@@ -438,8 +469,17 @@ contract AccessControl {
 
 ------------------------------------------
 				`}</pre>
-
-				<h3>Value type : ADDRESS</h3>
+			</div>
+		),
+	},
+	{
+		id: 8,
+		date: '24/03/2025',
+		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'ADDRESS (Value type)',
+		content: (
+			<div>
+				<h3>Address type</h3>
 				<pre>{`
 address public wallet = 0x1234567890abcdef1234567890abcdef12345678;
 address payable public recipient = payable(wallet);
@@ -447,13 +487,13 @@ address payable public recipient = payable(wallet);
 address는 20바이트(160비트) 크기를 가짐
 특정 계정이나 스마트 컨트랙트 주소를 저장할 때 사용됨
 address payable을 사용하면 이더를 송금할 수 있는 주소로 변환 가능
+`}</pre>
 
-------------------------------------------
-
+				<h3>이더 송금 (transfer & send & call)</h3>
+				<pre>{`
 Address 타입의 주요 기능 (Methods)
-	Solidity의 address 타입은 내장된 기능(Methods)을 제공하여 주소 관련 작업을 수행할 수 있습니다.
+	=> Solidity의 address 타입은 내장된 기능(Methods)을 제공하여 주소 관련 작업을 수행할 수 있습니다.
 
-이더 송금 (transfer & send & call)
 contract SendEther {
     function sendViaTransfer(address payable recipient) public payable {
         recipient.transfer(msg.value); // 실패 시 트랜잭션 자동 revert
@@ -470,23 +510,22 @@ contract SendEther {
     }
 }
 
+- transfer: 실패 시 자동 revert (가장 안전함)
+- send: 실패 시 false 반환 (별도 처리 필요)
+- call: 가장 유연하지만 보안 위험이 있음 (외부 컨트랙트 실행 가능)
+`}</pre>
 
-transfer: 실패 시 자동 revert (가장 안전함)
-send: 실패 시 false 반환 (별도 처리 필요)
-call: 가장 유연하지만 보안 위험이 있음 (외부 컨트랙트 실행 가능)
-
-------------------------------------------
-
-특정 주소의 이더 잔액 확인
+				<h3>특정 주소의 이더 잔액 확인</h3>
+				<pre>{`
 contract CheckBalance {
     function getBalance(address _addr) public view returns (uint256) {
         return _addr.balance;
     }
 }
+`}</pre>
 
-------------------------------------------
-
-특정 주소가 스마트 컨트랙트인지 확인
+				<h3>특정 주소가 스마트 컨트랙트인지 확인</h3>
+				<pre>{`
 contract AddressCheck {
     function isContract(address _addr) public view returns (bool) {
         uint256 codeSize;
@@ -497,25 +536,38 @@ contract AddressCheck {
     }
 }
 				`}</pre>
-
-				<h3>Value type : Bytes</h3>
+			</div>
+		),
+	},
+	{
+		id: 9,
+		date: '24/03/2025',
+		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'BYTES (Value type)',
+		content: (
+			<div>
+				<h3>Bytes (bytes1 ~ bytes32)</h3>
 				<pre>{`
 bytes32 public data = "0xabcdef123456";
 bytes32 public fixedBytes = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";
+`}</pre>
 
-고정 크기 바이트 배열 (bytes1 ~ bytes32)
-	bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
-	더 적은 가스를 사용하며, 연산 속도가 빠름
+				<h3>고정 크기 바이트 배열 (bytes1 ~ bytes32)</h3>
+				<pre>{`
+- bytes1부터 bytes32까지 1~32바이트 크기의 고정 크기 배열 제공
+- 더 적은 가스를 사용하며, 연산 속도가 빠름
+`}</pre>
 
-가변 크기 바이트 배열 (bytes)
+				<h3>가변 크기 바이트 배열 (bytes)</h3>
+				<pre>{`
 bytes public dynamicBytes = "Hello";
-	bytes는 동적 크기의 바이트 배열
-	string과 유사하지만, 메모리 최적화 측면에서 더 효율적
-	개별 바이트 접근 가능
+	- bytes는 동적 크기의 바이트 배열
+	- string과 유사하지만, 메모리 최적화 측면에서 더 효율적
+	- 개별 바이트 접근 가능
+`}</pre>
 
-------------------------------------------
-
-바이트 배열 길이 확인
+				<h3>바이트 배열 길이 확인</h3>
+				<pre>{`
 contract BytesLength {
     function getLength(bytes memory data) public pure returns (uint) {
         return data.length;
@@ -531,10 +583,10 @@ contract BytesLength {
 }
 
 => bytes("Hello")를 입력하면 5 반환
+`}</pre>
 
-------------------------------------------
-
-특정 바이트 값 접근
+				<h3>특정 바이트 값 접근</h3>
+				<pre>{`
 contract BytesAccess {
     function getByteAt(bytes memory data, uint256 index) public pure returns (bytes1) {
         require(index < data.length, "Index out of bounds");
@@ -552,10 +604,10 @@ contract BytesAccess {
 }
 
 => getByteAt(bytes("Hello"), 1) → "e" 반환
+`}</pre>
 
-------------------------------------------
-
-바이트 배열 추가
+				<h3>바이트 배열 추가</h3>
+				<pre>{`
 contract BytesAppend {
     function appendByte(bytes memory original, bytes1 newByte) public pure returns (bytes memory) {
         bytes memory newArray = new bytes(original.length + 1);
@@ -569,8 +621,17 @@ contract BytesAppend {
 
 => appendByte(bytes("Hi"), "!") 실행 시 "Hi!"가 반환됨
 				`}</pre>
-
-				<h3>Value type : Enums</h3>
+			</div>
+		),
+	},
+	{
+		id: 10,
+		date: '24/03/2025',
+		tags: ['Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'ENUMS',
+		content: (
+			<div>
+				<h3>e.g. Enums</h3>
 				<pre>{`
 contract OrderManagement {
     enum Status { Pending, Shipped, Delivered, Canceled }
@@ -584,10 +645,10 @@ contract OrderManagement {
         return orderStatus;
     }
 }
+`}</pre>
 
-------------------------------------------
-
-Enum 값의 숫자 확인
+				<h3>Enum 값의 숫자 확인</h3>
+				<pre>{`
 contract EnumValues {
     enum Status { Pending, Shipped, Delivered, Canceled }
 
@@ -597,10 +658,10 @@ contract EnumValues {
 }
 
 => 결과: getNumericValue() 호출 시 1 반환 (Pending=0, Shipped=1)
+`}</pre>
 
-------------------------------------------
-
-특정 상태만 허용하는 로직 추가
+				<h3>특정 상태만 허용하는 로직 추가</h3>
+				<pre>{`
 contract Workflow {
     enum Stage { Start, Process, Completed }
     Stage public currentStage;
@@ -619,9 +680,10 @@ contract Workflow {
 =>
 modifier onlyAtStage(Stage _stage)를 사용하여 특정 상태에서만 함수 실행 가능
 proceedToNextStage()는 현재 상태가 Start일 때만 Process로 변경 가능
+`}</pre>
 
-------------------------------------------
-Enum을 조건문과 함께 사용하기
+				<h3>Enum을 조건문과 함께 사용하기</h3>
+				<pre>{`
 contract EnumWithConditions {
     enum Light { Red, Yellow, Green }
     Light public trafficLight;
