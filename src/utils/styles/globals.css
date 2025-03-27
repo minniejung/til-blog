@@ -80,6 +80,7 @@ ol {
 	padding: 1rem;
 }
 
-.tilPageWrapper h3:not(:first-of-type) {
+/* .tilPageWrapper h3:not(:first-of-type) { */
+.tilPageWrapper h3 {
 	padding-top: 1.5rem;
 }

@@ -26,7 +26,7 @@ export const dataSolidity: TilCardType[] = [
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`truffle compile
 or
-npx hardhat compile​`}
+npx hardhat compile`}
 				</SyntaxHighlighter>
 				<pre>
 					{`	* Solidity 소스 코드(.sol) → 바이트코드(.bin)로 변환
@@ -1461,6 +1461,7 @@ contract MemoryExample {
 				<pre>{`* 배포 시점에 고정된 값
 * 수정 불가능
 * 가스 비용 절감 → 읽기 연산에만 사용되므로 가스 비용이 줄어듦
+* e.g. 100, "hello" (단순 숫자 상수 (MAX_SUPPLY, FEE_PERCENT, "VERSION" 등)
 `}</pre>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract ConstantExample {
@@ -1471,6 +1472,8 @@ contract MemoryExample {
 				<h3>불변(Immutable)</h3>
 				<pre>{`* 배포 시점에서만 설정 가능, 이후에는 변경 불가능
 * 배포 이후 값이 변경되지 않는 특성 → 보안성이 향상됨
+* e.g. msg.sender, block.timestamp, 외부입력 등 
+   (배포 시점에만 알 수 있는 값: 계약 소유자 주소, 초기화 값 등)
 `}</pre>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract ImmutableExample {
@@ -1715,7 +1718,6 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 				</SyntaxHighlighter>
 
 				<h3>storage vs memory vs calldata</h3>
-				<pre>{``}</pre>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract DataLocationExample {
     uint256[] public numbers;
@@ -1758,6 +1760,14 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 		title: 'Conditional Statement & Loop',
 		content: (
 			<div>
+				<h3>반복문 사용 시 주의사항 (가스 비용 최적화)</h3>
+				<pre>
+					{`⚠️ 가스 비용 고려: 반복문은 실행 횟수에 비례하여 가스 비용이 증가함
+⚠️ 무한 루프 방지: 무한 루프 발생 시, 트랜잭션이 실패하고 모든 가스가 소모됨
+⚠️ 최적화된 데이터 구조 사용: 반복문 대신 mapping이나 event를 활용해 가스 비용 절감 가능
+`}
+				</pre>
+
 				<h3>조건문 (Conditional Statements) - if/else</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract ConditionalExample {
@@ -1780,7 +1790,6 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 }`}
 				</SyntaxHighlighter>
 				<h3>반복문 (Loops) - for</h3>
-				<h3>상태 변경자 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract LoopExample {
     function sumUpTo(uint256 limit) public pure returns (uint256) {
@@ -1834,13 +1843,481 @@ function continueExample(uint256 limit) public pure returns (uint256) {
 }
 `}
 				</SyntaxHighlighter>
-				<h3>반복문 사용 시 주의사항 (가스 비용 최적화)</h3>
+			</div>
+		),
+	},
+	{
+		id: 19,
+		date: '26/03/2025',
+		tags: ['Event', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Event',
+		content: (
+			<div>
 				<pre>
-					{`⚠️ 가스 비용 고려: 반복문은 실행 횟수에 비례하여 가스 비용이 증가함
-⚠️ 무한 루프 방지: 무한 루프 발생 시, 트랜잭션이 실패하고 모든 가스가 소모됨
-⚠️ 최적화된 데이터 구조 사용: 반복문 대신 mapping이나 event를 활용해 가스 비용 절감 가능
+					{`✔️ 이벤트(Event) 는 스마트 컨트랙트와 외부 애플리케이션(예: DApp 또는 프론트엔드) 간의 통신을 위한 메커니즘
+✔️ 스마트 컨트랙트 내에서 발생한 특정 동작을 트랜잭션 로그(Logs) 로 저장 (영구 저장은 아니지만 검색 가능)
+✔️ 해당 로그는 이더리움 블록체인에 저장되어 외부에서 읽기 가능
+✔️ 스마트 컨트랙트와 외부 애플리케이션 간의 소통에 사용됨
+
 `}
 				</pre>
+
+				<h3>가스 비용 최적화와 이벤트</h3>
+				<pre>{`* 이벤트는 가스 비용이 낮음 (상태 변수에 데이터를 저장하는 것보다 효율적)
+* 로그로 저장되므로, 상태 저장 비용 없이 외부에서 데이터를 추적할 수 있음
+* 복잡한 데이터 저장 대신 이벤트를 활용해 가스 비용을 줄이는 것이 일반적`}</pre>
+				<h3>이벤트 선언</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract EventExample {
+    event ValueChanged(uint256 oldValue, uint256 newValue);
+}
+
+// ValueChanged 이벤트는 값이 변경될 때 트리거됨`}
+				</SyntaxHighlighter>
+
+				<h3>이벤트 발생 (emit)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract EventExample {
+    uint256 public value;
+
+    event ValueChanged(uint256 oldValue, uint256 newValue);
+
+    function updateValue(uint256 newValue) public {
+        uint256 oldValue = value;
+        value = newValue;
+        emit ValueChanged(oldValue, newValue); // 이벤트 발생
+    }
+}
+
+//이벤트 로그가 블록체인에 기록되어 외부 애플리케이션이 감지할 수 있음`}
+				</SyntaxHighlighter>
+				<h3>이벤트 필터링 (Indexed Parameters)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract IndexedEventExample {
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+
+    function transfer(address to, uint256 amount) public {
+        emit Transfer(msg.sender, to, amount);
+    }
+}
+
+// indexed 키워드를 사용하면 해당 필드를 기준으로 값 타입(value types)을 빠르게 검색/필터링 가능
+`}</SyntaxHighlighter>
+
+				<h3>외부 애플리케이션에서 필터링 예시 ⬆️</h3>
+				<pre>{`* from 주소로 필터링(topics 영역에서 조회 가능)
+* 특정 amount 이상의 트랜잭션 조회 가능(amount는 indexed가 아니라서 이벤트 로그 전체를 다 훑어야 합니다.)
+⚠️⚠️⚠️ 인덱스 제한: 최대 3개의 인덱스 필드만 설정 가능`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 다음 반복으로 건너뛰기
+
+function continueExample(uint256 limit) public pure returns (uint256) {
+    uint256 sum = 0;
+    for (uint256 i = 1; i <= limit; i++) {
+        if (i % 2 == 0) {
+            continue; // 짝수는 건너뜀
+        }
+        sum += i;
+    }
+    return sum;
+}
+`}
+				</SyntaxHighlighter>
+
+				<h3>이벤트 활용 사례</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 📌 상태 변경 로그 기록
+// 스마트 컨트랙트 상태가 변경될 때 기록합니다.
+
+event StateChanged(string oldState, string newState);
+`}</SyntaxHighlighter>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 📌 거래 기록 (Transaction Log)
+// 트랜잭션 기록과 함께 외부 애플리케이션이 변화를 감지하도록 사용됩니다.
+
+event PaymentReceived(address sender, uint256 amount);
+`}</SyntaxHighlighter>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 📌 액세스 제어 로그
+// 권한 변경이나 액세스 제어 시 발생하는 이벤트
+
+event AccessGranted(address indexed user, string role);
+`}</SyntaxHighlighter>
+
+				<h3>트랜잭션 로그에서 이벤트 확인</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// Hardhat 콘솔에서 조회하기
+
+const tx = await contract.updateValue(42);
+const receipt = await tx.wait();
+console.log(receipt.events);
+`}</SyntaxHighlighter>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 이벤트 필터링 예시 (Ethers.js)
+
+contract.on("ValueChanged", (oldValue, newValue) => {
+  console.log(\`Value changed from \${oldValue} to \${newValue}\`);
+});`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 20,
+		date: '26/03/2025',
+		tags: ['Modifiers', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: '접근 제어자(Modifiers)',
+		content: (
+			<div>
+				<pre>
+					{`✔️ 함수 실행 전에 특정 조건을 검사하거나, 공통적인 동작을 재사용 가능하게 만드는 기능
+✔️ 주로 접근 제어, 상태 확인, 재사용 가능한 코드 작성에 사용
+`}
+				</pre>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract BasicModifierExample {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the contract owner");
+        _; // 함수를 실행할 위치
+    }
+
+    function restrictedFunction() public onlyOwner {
+        // 오직 소유자만 실행 가능
+    }
+}
+
+// modifier onlyOwner() → 특정 조건(msg.sender == owner)이 충족되어야 실행
+// _ → 해당 위치에서 원래의 함수 코드가 실행됨
+`}
+				</SyntaxHighlighter>
+
+				<h3>Modifier의 장점</h3>
+				<pre>
+					{`✅ 코드 재사용성: 반복되는 조건문을 Modifier로 정의해 중복 코드 제거
+✅ 가독성 향상: 조건을 한눈에 쉽게 파악할 수 있음
+✅ 보안 강화: 접근 제어나 상태 검증 등을 명확하게 설정 가능
+✅ 가스 비용 최적화: 코드 중복 제거로 가스 비용 절감`}
+				</pre>
+
+				<h3>Modifier의 활용 사례 - 접근 제어 (Access Control)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 특정 사용자만 함수를 실행할 수 있도록 제한
+
+modifier onlyAdmin(address _admin) {
+    require(msg.sender == _admin, "Not authorized");
+    _;
+}`}
+				</SyntaxHighlighter>
+
+				<h3>Modifier의 활용 사례 - 상태 확인 (State Validation)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 특정 조건이 충족되었을 때만 함수 실행
+
+modifier inProgress(bool _status) {
+    require(_status == true, "Operation not allowed");
+    _;
+}`}</SyntaxHighlighter>
+
+				<h3>Modifier의 활용 사례 - 재진입 방지 (Reentrancy Guard)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 스마트 컨트랙트 재진입 공격 방지 (Reentrancy Attack Prevention)
+
+contract ReentrancyGuard {
+    bool private locked = false;
+
+    modifier noReentrancy() {
+        require(!locked, "No reentrancy allowed");
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    function withdraw() public noReentrancy {
+        // 재진입 방지된 함수
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>Modifier에서 인자 사용하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract ParameterizedModifier {
+    mapping(address => bool) public whitelist;
+
+    modifier onlyWhitelisted(address _user) {
+        require(whitelist[_user], "User not whitelisted");
+        _;
+    }
+
+    function setWhitelist(address _user, bool _status) public {
+        whitelist[_user] = _status;
+    }
+
+    function restrictedFunction() public onlyWhitelisted(msg.sender) {
+        // 화이트리스트에 등록된 사용자만 실행 가능
+    }
+}`}</SyntaxHighlighter>
+
+				<h3>Modifier와 다중 사용</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract MultiModifierExample {
+    address public owner;
+    bool public paused = false;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can execute");
+        _;
+    }
+
+    modifier whenNotPaused() {
+        require(!paused, "Contract is paused");
+        _;
+    }
+
+    function changeState() public onlyOwner whenNotPaused {
+        // 오직 소유자만, 계약이 중지되지 않은 경우 실행 가능
+    }
+}`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 21,
+		date: '26/03/2025',
+		tags: ['Error', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Error handling',
+		content: (
+			<div>
+				<pre>
+					{`✔️ require() → 조건 검사 및 입력값 검증
+✔️ revert() → 명시적으로 오류 발생
+✔️ assert() → 내부 논리 오류 체크 (코드의 일관성 유지)
+✔️ try/catch → 외부 호출 실패를 처리
+
+`}
+				</pre>
+
+				<h3>require() 함수</h3>
+				<pre>{`📌 require()는 주로 입력 값 검증이나 특정 조건이 만족되지 않을 경우 사용됩니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`require(condition, "Error message");
+
+// condition: 참이어야 하는 조건
+// Error message: 조건이 참이 아닐 경우 출력되는 메시지
+
+e.g.
+
+contract RequireExample {
+    uint256 public value;
+
+    function setValue(uint256 _value) public {
+        require(_value > 0, "Value must be greater than 0");
+        value = _value;
+    }
+}
+
+// _value가 0 이하일 경우, 트랜잭션을 중단하고 "Value must be greater than 0" 에러 메시지를 반환`}
+				</SyntaxHighlighter>
+
+				<h3>revert() 함수</h3>
+				<pre>{`📌 revert()는 특정 조건이 충족되지 않을 때 명시적으로 오류를 발생시킵니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`revert("Error message");
+
+e.g.
+
+contract RevertExample {
+    function withdraw(uint256 amount, uint256 balance) public pure {
+        if (amount > balance) {
+            revert("Insufficient balance");
+        }
+        // 인출 로직
+    }
+}
+
+// 출금하려는 금액이 잔액보다 많으면 오류 발생
+// 가스 낭비 방지 및 상태 변경 방지`}
+				</SyntaxHighlighter>
+
+				<h3>assert() 함수</h3>
+				<pre>{`📌 assert()는 주로 내부 오류나 불변성(Invariant) 검사를 위해 사용됩니다. 실패 시 모든 가스를 소모하므로 주의해야 합니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`assert(condition);
+
+e.g.
+
+contract AssertExample {
+    uint256 public value = 1;
+
+    function increment() public {
+        value++;
+        assert(value != 0); // 오버플로우 방지 (Solidity 0.8.x 이상에서는 자동 체크됨)
+    }
+}
+📌 설명:
+
+// 코드 로직의 버그나 계약 내 일관성 유지를 위해 사용`}
+				</SyntaxHighlighter>
+
+				<h3>try/catch 블록</h3>
+				<pre>{`📌 try/catch는 외부 호출이나 저수준 함수 호출에서 발생할 수 있는 실패를 처리합니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`try externalContract.someFunction() returns (returnValue) {
+    // 성공 시 실행할 코드
+} catch Error(string memory reason) {
+    // 실패 시 실행할 코드
+}
+
+e.g.
+
+interface ExternalContract {
+    function riskyFunction() external;
+}
+
+contract TryCatchExample {
+    ExternalContract externalContract;
+
+    constructor(address _contractAddress) {
+        externalContract = ExternalContract(_contractAddress);
+    }
+
+    function callExternalFunction() public {
+        try externalContract.riskyFunction() {
+            // 성공적으로 실행
+        } catch Error(string memory reason) {
+            // 명시적인 에러 처리
+            revert(reason);
+        } catch (bytes memory lowLevelData) {
+            // 저수준 에러 처리
+            revert("Low-level error occurred");
+        }
+    }
+}
+
+// 외부 함수 호출 시 오류 발생 가능성을 대비
+// 명시적 에러(catch Error)와 저수준 에러(catch (bytes memory))를 분리 처리`}
+				</SyntaxHighlighter>
+
+				<h3>가스 소비 최적화와 에러 처리</h3>
+				<pre>{`* require() → 입력값 검사 및 가스 절약에 가장 효율적
+* revert() → 특정 조건을 명시적으로 처리, 트랜잭션 중단 및 가스 반환
+* assert() → 코드 버그 및 불변성 유지, 실패 시 모든 가스 소모
+`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 22,
+		date: '26/03/2025',
+		tags: ['Ether Transfer', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Ether Transfer',
+		content: (
+			<div>
+				<pre>
+					{`✔️ 주로 지불(Transactions), 입출금(Deposit & Withdrawal) 기능을 구현할 때 사용
+
+* transfer() → 안전한 이더 송금 (가스 제한: 2300)
+* send() → 실패 시 반환값으로 성공 여부 확인
+* call() → 가장 유연하지만 주의가 필요한 송금 방법`}
+				</pre>
+
+				<h3>이더를 받기 위한 설정 (payable 키워드)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract ReceiveEther {
+    receive() external payable {}
+	// receive() 함수 → 순수 이더 전송 시 호출 (데이터 없이 전송)
+
+    fallback() external payable {}
+	// fallback() 함수 → 이더와 함께 데이터가 전송되거나 함수가 없을 때 호출
+}`}
+				</SyntaxHighlighter>
+
+				<h3>이더 송금 방법 - transfer() 함수</h3>
+				<pre>{`* 이더 전송 시 가장 안전한 방법
+* 가스 한도: 2300 gas → 상태 변경 로직이 없는 수신자만 사용 가능
+* 실패 시 자동으로 트랜잭션이 롤백됨`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract TransferExample {
+    function sendEther(address payable recipient) public payable {
+        recipient.transfer(msg.value);
+    }
+}
+
+// 사용 추천: 기본적인 이더 전송 시 사용`}
+				</SyntaxHighlighter>
+
+				<h3>이더 송금 방법 - send() 함수</h3>
+				<pre>{`* 가스 한도: 2300 gas
+* 반환값으로 성공 여부(true/false) 확인 가능
+* 실패 시 트랜잭션은 롤백되지 않음 → 명시적으로 처리해야 함`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract TransferExample {
+    function sendEther(address payable recipient) public payable {
+        recipient.transfer(msg.value);
+    }
+}
+
+// 사용 추천: 기본적인 이더 전송 시 사용`}
+				</SyntaxHighlighter>
+
+				<h3>이더 송금 방법 - call() 함수</h3>
+				<pre>{`* 가장 유연하고 강력한 방법
+* 가스 제한이 없으며, 원하는 만큼 가스를 전송 가능
+* 재진입 공격(Reentrancy Attack)에 취약할 수 있음 → 보안 조치 필요`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract CallExample {
+    function sendEther(address payable recipient) public payable {
+        (bool sent, ) = recipient.call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
+    }
+}
+
+// 사용 추천: 고급 이더 전송, 계약 호출 시 사용 (항상 보안 검토 필요)`}
+				</SyntaxHighlighter>
+
+				<h3>이더 송금 시 보안 고려사항</h3>
+				<pre>{`📌 재진입 공격 방지 (Reentrancy Attack Protection)`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// call() 사용 시 재진입 공격 방지를 위한 ReentrancyGuard 패턴 사용
+
+contract SecureTransfer {
+    bool private locked;
+
+    modifier noReentrancy() {
+        require(!locked, "No reentrancy allowed");
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    function withdraw(address payable recipient) public payable noReentrancy {
+        (bool sent, ) = recipient.call{value: msg.value}("");
+        require(sent, "Withdrawal failed");
+    }
+}`}
+				</SyntaxHighlighter>
+				<pre>{`📌 최소한의 가스 소비
+
+* transfer() 또는 send() 함수는 가스 소비가 제한되어 있으므로, 외부 호출에 안전
+* call() 사용 시 가스 한도 설정 필요`}</pre>
+
+				<h3>이더 잔액 확인</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract BalanceChecker {
+    function getContractBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function getAddressBalance(address _addr) public view returns (uint256) {
+        return _addr.balance;
+    }
+}
+
+// address.balance → 해당 주소의 잔액 반환 (단위: Wei)`}
+				</SyntaxHighlighter>
 			</div>
 		),
 	},
