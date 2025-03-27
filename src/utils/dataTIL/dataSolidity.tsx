@@ -2321,4 +2321,191 @@ contract SecureTransfer {
 			</div>
 		),
 	},
+	{
+		id: 23,
+		date: '27/03/2025',
+		tags: ['Global Variables', 'Global Functions', 'Variables', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Global Variables & Global Functions',
+		content: (
+			<div>
+				<h3>전역 변수(Global Variables) </h3>
+				<pre>{`* msg.sender		(type: address) - 현재 함수를 호출한 주체의 주소 (계정 또는 스마트 계약)
+* msg.value		(type: uint) - 호출 시 전송된 이더의 양 (wei 단위)
+* msg.data			(type: bytes) - 호출 시 전송된 데이터 전체
+* tx.origin		(type: address) - 트랜잭션을 시작한 외부 계정 주소 (최초 발신자의 주소 반환)
+* block.timestamp	(type: uint) - 현재 블록이 생성된 시간 (초 단위, 유닉스 타임스탬프)
+* block.number		(type: uint) - 현재 블록의 번호
+* block.prevrandao	(type: uint) - 이전 블록의 난수(random number) 값
+* block.gaslimit	(type: uint) - 현재 블록의 가스 한도 (전체 사용 가능한 가스의 양)
+* block.coinbase	(type: address) - 현재 블록을 채굴한 채굴자의 주소
+* gasleft()		(type: uint) - 현재 실행 중인 함수에 남아 있는 가스량
+`}</pre>
+
+				<h3>예제 1: 기본 전역 변수 사용하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract GlobalVariablesExample {
+    address public owner;
+    uint256 public sentValue;
+    uint256 public timestamp;
+
+    constructor() {
+        owner = msg.sender; // 계약을 배포한 주소 저장
+    }
+
+    // 이더를 입금하고 관련 데이터를 기록
+    function deposit() public payable {
+        require(msg.value > 0, "Must send some ether.");
+        sentValue = msg.value;           // 송금한 이더 양 기록
+        timestamp = block.timestamp;     // 트랜잭션 발생 시간 기록
+    }
+
+    // 호출자의 주소 반환
+    function getCaller() public view returns (address) {
+        return msg.sender;               // 호출한 주소 반환
+    }
+
+    // 최초 트랜잭션 발신자 확인
+    function getOrigin() public view returns (address) {
+        return tx.origin;                // 트랜잭션 시작 주소 반환
+    }
+}
+
+// msg.sender: 현재 함수를 호출한 주체의 주소 (주로 인증에 사용)
+// msg.value: 송금된 이더의 양 (트랜잭션의 입력 값)
+// block.timestamp: 현재 블록의 타임스탬프 (예: 시간 기반 조건 설정)
+// tx.origin: 최초의 트랜잭션 발신자 (보안 문제로 주의 필요)`}
+				</SyntaxHighlighter>
+
+				<h3>취약한 컨트랙트 tx.origin</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 취약한 컨트랙트
+contract VulnerableContract {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function withdraw() public {
+        // ❌ 취약한 접근 제어
+        require(tx.origin == owner, "Not owner");
+        
+        // 이더 송금 로직 (생략)
+    }
+}
+
+// 공격자가 에어드랍 이벤트라고 속여서 owner에게 어떤 버튼을 누르면 트랜잭션이 생성되어 무엇을 실행되게 합니다. 
+
+// 사실상 공격자가 만든 컨트랙트
+contract AttackContract {
+    address public vulnerableContract;
+
+    constructor(address _victim) {
+        vulnerableContract = _victim;
+    }
+
+    function attack() public {
+        // vulnerableContract = VulnerableContract 주소
+        (bool success, ) = victimContract.call(
+            abi.encodeWithSignature("withdraw()")
+        );
+        require(success, "Call failed");
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>예제 2: 블록 정보 확인하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BlockInfo {
+    function getBlockDetails() public view returns (
+        uint blockNum, 
+        uint prevrandao, 
+        uint gasLimit, 
+        address miner
+    ) {
+        return (
+            block.number,         // 현재 블록 번호
+            block.prevrandao,     // 이전 블록의 난수
+            block.gaslimit,       // 블록 가스 한도
+            block.coinbase        // 채굴자의 주소
+        );
+    }
+}
+
+// block.number: 현재 블록의 높이
+// block.prevrandao: 이전 블록의 난수(블록 생성 시 채굴자(Proof of Work) 또는 검증자(Proof of Stake)가 제공한 난수 값)
+	// Ethereum 2.0 (Proof of Stake) 업그레이드 이후 block.difficulty를 대체.
+// block.gaslimit: 해당 블록에서 사용할 수 있는 최대 가스량
+// block.coinbase: 해당 블록을 채굴한 채굴자의 주소`}
+				</SyntaxHighlighter>
+
+				<h3>전역 함수(Global Functions)</h3>
+				<pre>{`* gasleft()		현재 트랜잭션에서 남아 있는 가스 양 확인
+* keccak256()		입력된 데이터를 해시 처리 (SHA3)
+* blockhash(uint)	특정 블록 번호에 대한 해시 값을 반환 (256개 이내의 최근 블록)
+
+`}</pre>
+
+				<h3>예제 3: 가스 소모 추적하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract GasTracker {
+    uint256 public gasUsed;
+
+    function trackGasUsage() public {
+        uint256 initialGas = gasleft();  // 시작 시점 가스량 기록
+        uint256 result = 0;
+
+        // 가스를 소모하는 연산 (예: 반복문)
+        for (uint i = 0; i < 100; i++) {
+            result += i;
+        }
+
+        uint256 finalGas = gasleft();    // 종료 시점 가스량 기록
+        gasUsed = initialGas - finalGas; // 사용한 가스 계산
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>예제 4: 해시 값 계산하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract HashGenerator {
+    function generateHash(string memory data) public pure returns (bytes32) {
+        return keccak256(abi.encodePacked(data)); // 해시 값 생성
+    }
+}
+
+// keccak256(): 입력된 데이터를 해싱 처리 (암호학적으로 안전한 해시 함수)
+`}
+				</SyntaxHighlighter>
+
+				<h3>전역 변수와 함수의 활용 시 주의사항</h3>
+				<pre>
+					{`1. 보안 문제
+	* tx.origin은 재진입 공격(Reentrancy attack)에 취약 → 인증에 사용 ❌
+	* 대신 msg.sender를 활용하는 것이 권장됩니다.
+
+2. 타임스탬프 조작
+	* block.timestamp는 채굴자에 의해 소폭 조작될 수 있음 (약 ±15초) 
+		→ 시간 기반 게임 로직에 주의 필요
+
+3. 가스 관리
+	* 반복문이나 복잡한 로직은 가스 비용 증가에 주의
+	* gasleft() 함수를 활용해 남은 가스량을 실시간으로 추적
+`}
+				</pre>
+			</div>
+		),
+	},
 ]
