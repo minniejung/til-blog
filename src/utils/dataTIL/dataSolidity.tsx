@@ -433,6 +433,7 @@ function mod(uint256 a, uint256 b) public pure returns (uint256) {
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`bool public isActive = true;`}
 				</SyntaxHighlighter>
+
 				<h3>e.g.</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract Voting {
@@ -443,6 +444,7 @@ function mod(uint256 a, uint256 b) public pure returns (uint256) {
     }
 }`}
 				</SyntaxHighlighter>
+
 				<h3>e.g.</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract AccessControl {
@@ -1336,6 +1338,7 @@ bytes32 public fixedBytes = "0x1234567890abcdef1234567890abcdef1234567890abcdef1
 ✔️ 선언된 변수는 블록체인 상에 저장되며, public으로 선언된 변수는 자동으로 getter 함수가 생성됨
 
 `}</pre>
+
 				<h3>{`변수 선언 형식 : <데이터 타입> <가시성> <변수명> = <초기값>;`}</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`uint256 public number = 10;
@@ -1343,6 +1346,7 @@ string private name = "Solidity"; // 부호 없는 256비트 정수형 데이터
 address internal owner;
 bool public isActive = true;`}
 				</SyntaxHighlighter>
+
 				<h3>변수의 가시성(Visibility)</h3>
 				<pre>{`* public
 	- 외부 및 내부에서 접근 가능 (자동으로 getter 함수 생성됨)
@@ -1360,6 +1364,7 @@ bool public isActive = true;`}
 	- 외부에서만 접근 가능 (변수에선 사용 불가, 함수에만 사용 가능)
 	- 접근 가능 범위: 외부 컨트랙트, 외부 계정
 `}</pre>
+
 				<h3>public 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract PublicExample {
@@ -1369,6 +1374,7 @@ bool public isActive = true;`}
 // 자동으로 생성된 getter 함수 → value()를 호출하면 100 반환
 `}
 				</SyntaxHighlighter>
+
 				<h3>private 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract PrivateExample {
@@ -1381,6 +1387,7 @@ bool public isActive = true;`}
 
 // 외부에서는 직접 접근할 수 없으며, 함수를 통해서만 값을 반환 가능`}
 				</SyntaxHighlighter>
+
 				<h3>internal 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract InternalExample {
@@ -1396,6 +1403,7 @@ contract DerivedContract is InternalExample {
 // 상속받은 컨트랙트에서 내부 값을 직접 접근 가능
 `}
 				</SyntaxHighlighter>
+
 				<h3>상태 변수(State Variables) </h3>
 				<pre>{`* 저장 위치: 블록체인 저장소(Storage)에 저장
 * 지속성: 영구적으로 저장 (트랜잭션 후에도 유지)
@@ -1427,6 +1435,7 @@ contract StorageExample {
 
 // 컨트랙트 전체에서 접근 가능, 블록체인에 저장됨
 `}</SyntaxHighlighter>
+
 				<h3>로컬 변수(Local Variables)</h3>
 				<pre>{`* 저장 위치: 메모리(Memory) 또는 스택(Stack)에 저장
 * 지속성: 함수 실행 시에만 존재, 실행 후 소멸
@@ -1457,6 +1466,7 @@ contract MemoryExample {
 
 // 함수 내에서만 사용되며, 함수 종료 후 메모리에서 제거됨
 `}</SyntaxHighlighter>
+
 				<h3>상수(Constant)</h3>
 				<pre>{`* 배포 시점에 고정된 값
 * 수정 불가능
@@ -1469,6 +1479,7 @@ contract MemoryExample {
 }
 `}
 				</SyntaxHighlighter>
+
 				<h3>불변(Immutable)</h3>
 				<pre>{`* 배포 시점에서만 설정 가능, 이후에는 변경 불가능
 * 배포 이후 값이 변경되지 않는 특성 → 보안성이 향상됨
@@ -1501,6 +1512,7 @@ contract MemoryExample {
 ✔️ 가시성(Visibility) 및 상태 변경자(State Mutability)를 설정 가능
 
 `}</pre>
+
 				<h3>함수의 기본 구성 요소</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`function functionName(<parameters>) <visibility> <modifier> returns (<returnType>) {
@@ -1518,6 +1530,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 * pure: 상태 변경자 (상태 변경 없음)
 * returns (uint256): 반환 타입
 `}</pre>
+
 				<h3>함수의 가시성(Visibility)</h3>
 				<pre>{`* public
 	- 외부 및 내부에서 접근 가능 (기본적으로 외부에서 호출 가능)
@@ -1535,6 +1548,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 	- 외부에서만 접근 가능 (내부 호출 불가)
 	- 접근 가능 범위: 외부 컨트랙트, 외부 계정
 `}</pre>
+
 				<h3>가시성 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract VisibilityExample {
@@ -1555,6 +1569,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
     }
 }`}
 				</SyntaxHighlighter>
+
 				<h3>상태 변경자(State Mutability)</h3>
 				<pre>
 					{`* view: 상태 변수의 읽기만 허용 (가스 비용 없음)
@@ -1562,6 +1577,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 * payable: 이더리움을 받을 수 있는 함수 (특정한 금액을 받기 위한 함수)
 `}
 				</pre>
+
 				<h3>상태 변경자 예시</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract StateMutabilityExample {
@@ -1580,6 +1596,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
     }
 }`}
 				</SyntaxHighlighter>
+
 				<h3>반환값(Return Value)</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract ReturnExample {
     function getDouble(uint256 number) public pure returns (uint256) {
@@ -1600,6 +1617,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 
 // 내부에서 internalFunction()을 직접 호출할 수 있음
 `}</SyntaxHighlighter>
+
 				<h3>외부 호출 (External Call)</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`function callExternal() public view returns (string memory) {
@@ -1609,6 +1627,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 // 외부 함수 호출은 this.externalFunction() 형식으로 접근해야 함
 `}
 				</SyntaxHighlighter>
+
 				<h3>접근 제어자 (Modifiers) - Modifier 선언 및 사용</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract ModifierExample {
@@ -1631,6 +1650,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 // modifier는 함수를 실행하기 전에 특정 조건을 검사하는 데 유용함
 `}
 				</SyntaxHighlighter>
+
 				<h3>함수 오버로딩 (Overloading)</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract OverloadingExample {
@@ -1646,6 +1666,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 //동일한 함수 이름을 사용하지만, 매개변수에 따라 다른 함수가 호출됨
 `}
 				</SyntaxHighlighter>
+
 				<h3>storage</h3>
 				<pre>{`* 저장 위치:	블록체인의 영구 저장소 (상태 변수)
 * 지속성: 트랜잭션 이후에도 유지됨
@@ -1672,6 +1693,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 // 함수가 종료된 후에도 변경 사항이 영구적으로 블록체인에 저장됨
 `}
 				</SyntaxHighlighter>
+
 				<h3>memory</h3>
 				<pre>{`* 저장 위치:	임시 메모리 (함수 실행 중에만 유지)
 * 지속성: 함수 실행 종료 후 소멸됨
@@ -1698,6 +1720,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
 // 함수가 끝나면 복사된 데이터는 삭제됨
 `}
 				</SyntaxHighlighter>
+
 				<h3>calldata: 외부 입력 처리 (Read-Only External Input)</h3>
 				<pre>{`* 저장 위치: 함수 호출 시 외부 입력 데이터 (읽기 전용)
 * 지속성: 함수 호출이 끝나면 소멸됨
@@ -1789,6 +1812,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
     return (value >= 50) ? "Pass" : "Fail";
 }`}
 				</SyntaxHighlighter>
+
 				<h3>반복문 (Loops) - for</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract LoopExample {
@@ -1801,6 +1825,7 @@ function add(uint256 a, uint256 b) public pure returns (uint256) {
     }
 }`}
 				</SyntaxHighlighter>
+
 				<h3>반복문 (Loops) - while</h3>
 				<SyntaxHighlighter
 					language='solidity'
@@ -1866,6 +1891,7 @@ function continueExample(uint256 limit) public pure returns (uint256) {
 				<pre>{`* 이벤트는 가스 비용이 낮음 (상태 변수에 데이터를 저장하는 것보다 효율적)
 * 로그로 저장되므로, 상태 저장 비용 없이 외부에서 데이터를 추적할 수 있음
 * 복잡한 데이터 저장 대신 이벤트를 활용해 가스 비용을 줄이는 것이 일반적`}</pre>
+
 				<h3>이벤트 선언</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`contract EventExample {
@@ -1891,6 +1917,7 @@ function continueExample(uint256 limit) public pure returns (uint256) {
 
 //이벤트 로그가 블록체인에 기록되어 외부 애플리케이션이 감지할 수 있음`}
 				</SyntaxHighlighter>
+
 				<h3>이벤트 필터링 (Indexed Parameters)</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract IndexedEventExample {
     event Transfer(address indexed from, address indexed to, uint256 amount);
@@ -2341,6 +2368,14 @@ contract SecureTransfer {
 * gasleft()		(type: uint) - 현재 실행 중인 함수에 남아 있는 가스량
 `}</pre>
 
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// e.g. block.prevrandao
+function getRandom() external view returns (uint256) {
+    return uint256(keccak256(abi.encodePacked(block.prevrandao, msg.sender, block.timestamp)));
+}
+`}
+				</SyntaxHighlighter>
+
 				<h3>예제 1: 기본 전역 변수 사용하기</h3>
 				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
 					{`// SPDX-License-Identifier: MIT
@@ -2504,6 +2539,431 @@ contract HashGenerator {
 	* 반복문이나 복잡한 로직은 가스 비용 증가에 주의
 	* gasleft() 함수를 활용해 남은 가스량을 실시간으로 추적
 `}
+				</pre>
+			</div>
+		),
+	},
+	{
+		id: 24,
+		date: '27/03/2025',
+		tags: ['Inheritance', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Inheritance',
+		content: (
+			<div>
+				<pre>{`✔️ 기존의 계약(Contract)의 기능을 확장하거나 재사용하기 위한 기능
+
+* 코드 재사용 (DRY: Don't Repeat Yourself)
+* 계약의 유지 보수 용이성
+* 가독성 향상 및 코드의 명확성 증가
+`}</pre>
+
+				<h3>기본 상속 문법</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 부모 계약 (Parent Contract)
+pragma solidity ^0.8.0;
+
+contract Parent {
+    string public parentName = "Parent Contract";
+
+    function greet() public view returns (string memory) {
+        return "Hello from the Parent Contract!";
+    }
+}
+
+// 자식 계약 (Child Contract)
+contract Child is Parent {
+    function childGreet() public view returns (string memory) {
+        return "Hello from the Child Contract!";
+    }
+}
+
+// is 키워드를 사용해 부모 계약(Parent Contract)을 상속.
+// 부모 계약의 함수나 변수에 접근할 수 있음.
+// 상속된 함수와 상태 변수는 별도의 선언 없이도 사용 가능.
+`}
+				</SyntaxHighlighter>
+
+				<h3>함수 오버라이딩 (Overriding)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 부모 계약
+contract Animal {
+    function sound() public virtual pure returns (string memory) {
+        return "Generic Animal Sound";
+    }
+}
+
+// 자식 계약
+contract Dog is Animal {
+    function sound() public pure override returns (string memory) {
+        return "Bark";
+    }
+}
+
+// virtual: 부모 계약에서 오버라이딩 가능하도록 설정.
+// override: 자식 계약에서 부모 계약의 함수를 재정의할 때 사용.
+`}
+				</SyntaxHighlighter>
+
+				<h3>다중 상속 (Multiple Inheritance)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract A {
+    function getValue() public pure virtual returns (string memory) {
+        return "A";
+    }
+}
+
+contract B {
+    function getValue() public pure virtual returns (string memory) {
+        return "B";
+    }
+}
+
+contract C is A, B {
+    function getValue() public pure override(A, B) returns (string memory) {
+        return "C";
+    }
+}
+
+// 상속 우선순위는 상속 선언 순서에 따라 결정됩니다.`}
+				</SyntaxHighlighter>
+
+				<h3>접근 제어자(Visibility Specifiers)와 상속</h3>
+				<pre>{`* public: 상속받은 계약에서 접근 가능
+* internal: 상속받은 계약에서 접근 가능 (외부에서는 접근 불가)
+* private: 상속받은 계약에서도 접근 불가
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`contract Base {
+    string public publicData = "Public";
+    string internal internalData = "Internal";
+    string private privateData = "Private";
+
+    function getPrivateData() private pure returns (string memory) {
+        return "Only within Base";
+    }
+}
+
+contract Derived is Base {
+    function accessData() public view returns (string memory, string memory) {
+        // 접근 가능
+        string memory publicVal = publicData;
+        string memory internalVal = internalData;
+
+        // 접근 불가 (컴파일 에러 발생)
+        // string memory privateVal = privateData;
+
+        return (publicVal, internalVal);
+    }
+}`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 25,
+		date: '27/03/2025',
+		tags: ['Interfaces', 'Abstract Contracts', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Interfaces & Abstract Contracts',
+		content: (
+			<div>
+				<h3>Interfaces</h3>
+				<pre>{`✔️ 외부 계약(Contract) 이 따를 수 있는 표준 함수 시그니처만 정의하는 계약
+✔️ 상태 변수나 구현 로직은 포함할 수 없고, 오직 함수의 선언만 포함할 수 있음
+
+* 함수 정의만 존재하고 구현(Implementation) 은 없습니다.
+* 상태 변수는 가질 수 없습니다.
+* 모든 함수는 external로 선언되어야 합니다.
+* 다른 계약에서 상속받아 구현해야 합니다.
+`}</pre>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`interface IExample {
+    function doSomething(uint256 value) external returns (bool);
+}`}
+				</SyntaxHighlighter>
+
+				<h3>1-1. 인터페이스 정의</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IAnimal {
+    function makeSound() external view returns (string memory);
+}`}
+				</SyntaxHighlighter>
+
+				<h3>1-2. 인터페이스 구현</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./IAnimal.sol";
+
+contract Dog is IAnimal {
+    function makeSound() external pure override returns (string memory) {
+        return "Bark";
+    }
+}
+
+contract Cat is IAnimal {
+    function makeSound() external pure override returns (string memory) {
+        return "Meow";
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>1-3. 사용 방법</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./IAnimal.sol";
+
+contract AnimalSound {
+    function getSound(IAnimal animal) public view returns (string memory) {
+        return animal.makeSound();
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>추상 계약 (Abstract Contracts)</h3>
+				<pre>{`✔️ 하나 이상의 구현되지 않은 함수(미구현 함수)를 가진 계약
+✔️ 기본 로직이나 공통 기능을 정의하고, 이를 상속받은 계약에서 구현하도록 설계
+
+* 직접 배포할 수 없습니다.
+* 최소한 하나 이상의 virtual 함수가 존재해야 합니다.
+* 상속받은 계약에서 반드시 override 해야 합니다.
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`abstract contract BaseContract {
+    function doTask() public virtual returns (string memory);
+}
+`}</SyntaxHighlighter>
+
+				<h3>2-1. 추상 계약 정의</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+abstract contract Animal {
+    string public species;
+
+    constructor(string memory _species) {
+        species = _species;
+    }
+
+    // 가상 함수: 자식 계약에서 반드시 오버라이딩 필요
+    function makeSound() public view virtual returns (string memory);
+}`}
+				</SyntaxHighlighter>
+
+				<h3>2-2. 추상 계약 상속 및 구현</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./Animal.sol";
+
+contract Dog is Animal {
+    constructor() Animal("Dog") {}
+
+    function makeSound() public pure override returns (string memory) {
+        return "Bark";
+    }
+}
+
+contract Cat is Animal {
+    constructor() Animal("Cat") {}
+
+    function makeSound() public pure override returns (string memory) {
+        return "Meow";
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>인터페이스 vs 추상 계약 비교</h3>
+				<pre>{`인터페이스 (Interface)
+	* 상태 변수: ❌ 불가능
+	* 함수 구현: ❌ 불가능
+	* 함수 선언: ✅ 필수, external로 선언해야 함
+	* 상속받는 계약에서의 구현: ✅ 모든 함수 구현 필수
+	* 사용 예시: 표준화된 인터페이스 정의 (예: ERC20)
+
+추상 계약 (Abstract Contract)
+	* 상태 변수: ✅ 가능
+	* 함수 구현: ✅ 가능
+	* 함수 선언: ✅ 가능 (virtual/override 선언 가능)
+	* 상속받는 계약에서의 구현: ✅ 필요한 함수만 구현하면 됨
+	* 사용 예시: 공통 로직을 제공하는 기반 계약으로 활용
+`}</pre>
+
+				<h3>언제 Interface를 사용할까?</h3>
+				<pre>{`* 외부 컨트랙트와의 상호작용이 목적일 때 (예: IERC20, IERC721)
+* 표준 정의만 필요할 때 (기능 구현은 필요 없음)
+* 공통된 함수 시그니처만 공유하고 싶을 때
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`interface IERC20 {
+    function transfer(address to, uint amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint);
+}`}</SyntaxHighlighter>
+
+				<h3>언제 Abstract Contract를 사용할까?</h3>
+				<pre>{`* 일부 공통 로직을 미리 구현해두고 싶은 경우
+* 하위 컨트랙트에서 부분 구현만 허용하고 싶은 경우
+* 상속 구조를 기반으로 코드 재사용을 하고 싶을 때
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`abstract contract Animal {
+    function makeSound() public virtual returns (string memory);
+    
+    function sleep() public pure returns (string memory) {
+        return "Sleeping...";
+    }
+}`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 26,
+		date: '27/03/2025',
+		tags: ['Library', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Library',
+		content: (
+			<div>
+				<pre>{`✔️ 재사용 가능한 코드 집합
+✔️ 스마트 계약(Contract)과 유사하지만, 상태 변수가 없고, 배포 불가능하며, 오직 함수 집합만을 제공
+
+* 상태 변수를 가질 수 없습니다.
+* library 키워드를 사용해 정의합니다.
+* pure 또는 view 함수를 주로 포함합니다.
+* 스마트 계약에서 직접 호출되거나 using for 구문을 통해 사용할 수 있습니다.
+* 내장된 가스 최적화 기능이 적용됩니다.
+`}</pre>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`library LibraryName {
+    function functionName(parameters) public pure returns (type) {
+        // Logic here
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>정수 연산 라이브러리 예시</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 라이브러리 정의
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+library MathLibrary {
+    function add(uint256 a, uint256 b) public pure returns (uint256) {
+        return a + b;
+    }
+
+    function subtract(uint256 a, uint256 b) public pure returns (uint256) {
+        require(b <= a, "Underflow error");
+        return a - b;
+    }
+}`}
+				</SyntaxHighlighter>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 스마트 계약에서 사용하기
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./MathLibrary.sol";
+
+contract Calculator {
+    function addNumbers(uint256 a, uint256 b) public pure returns (uint256) {
+        return MathLibrary.add(a, b);
+    }
+
+    function subtractNumbers(uint256 a, uint256 b) public pure returns (uint256) {
+        return MathLibrary.subtract(a, b);
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<h3>using for 구문 활용</h3>
+				<pre>{`📌 using for 구문은 라이브러리 함수를 특정 데이터 타입에 연결시켜, 메서드 형식으로 사용할 수 있게 해줌
+
+	* 코드의 가독성이 높아짐
+	* 특정 데이터 타입에 맞는 함수를 명확하게 사용할 수 있음`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`using LibraryName for Type; // 문법`}
+				</SyntaxHighlighter>
+
+				<h3>배열 관련 라이브러리 예시</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 라이브러리 정의
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+library ArrayUtils {
+    function findMax(uint256[] memory self) public pure returns (uint256) {
+        require(self.length > 0, "Array is empty");
+        uint256 max = self[0];
+        for (uint256 i = 1; i < self.length; i++) {
+            if (self[i] > max) {
+                max = self[i];
+            }
+        }
+        return max;
+    }
+
+    function sum(uint256[] memory self) public pure returns (uint256) {
+        uint256 total = 0;
+        for (uint256 i = 0; i < self.length; i++) {
+            total += self[i];
+        }
+        return total;
+    }
+}`}</SyntaxHighlighter>
+
+				<h3>using for 구문을 활용한 계약</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./ArrayUtils.sol";
+
+contract ArrayProcessor {
+    using ArrayUtils for uint256[];
+
+    uint256[] private data;
+
+    function addElement(uint256 value) public {
+        data.push(value);
+    }
+
+    function getMax() public view returns (uint256) {
+        return data.findMax();
+    }
+
+    function getSum() public view returns (uint256) {
+        return data.sum();
+    }
+}
+
+// using ArrayUtils for uint256[];: uint256[] 타입의 배열에서 findMax()와 sum() 함수를 메서드처럼 호출할 수 있게 설정
+// data.findMax(); → 배열 내 최대값 반환
+// data.sum(); → 배열 요소의 합 반환`}
+				</SyntaxHighlighter>
+
+				<h3>라이브러리 vs. 계약(Contract)의 차이점</h3>
+				<pre>
+					{`라이브러리 (Library)
+	* 상태 변수: ❌ 가질 수 없음
+	* 배포 가능성: ❌ 직접 배포 불가
+	* 상속: ❌ 상속 불가
+	* 재사용성: ✅ 재사용성 높음 (다른 계약에서 쉽게 호출 가능)
+	* 가스 비용 최적화: ✅ 최적화됨
+
+스마트 계약 (Contract)
+	* 상태 변수: ✅ 가질 수 있음
+	* 배포 가능성: ✅ 배포 가능
+	* 상속: ✅ 상속 가능
+	* 재사용성: ✅ 제한된 범위 내에서 재사용 가능
+	* 가스 비용 최적화: ❌ 상대적으로 비용이 높음`}
 				</pre>
 			</div>
 		),
