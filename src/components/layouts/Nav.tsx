@@ -49,7 +49,10 @@ export const Nav = () => {
 					{links.map(link => (
 						<div
 							key={link}
-							onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
+							onClick={() => {
+								setIsMenuOpen(false)
+								redirect(`/${link.toLocaleLowerCase()}`)
+							}}
 							className={cn(
 								'cursor-pointer transition',
 								path.slice(1) === link.toLocaleLowerCase() && 'font-bold',

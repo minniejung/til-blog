@@ -2968,4 +2968,193 @@ contract ArrayProcessor {
 			</div>
 		),
 	},
+	{
+		id: 27,
+		date: '28/03/2025',
+		tags: ['Struct', 'Mapping', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Advanced Data Types',
+		content: (
+			<div>
+				<h3>구조체의 매핑(Mapping of Structs)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract UserProfile {
+    struct Profile {
+        string name;
+        uint256 age;
+        string email;
+    }
+
+    mapping(address => Profile) public profiles;
+
+    // 사용자 정보 등록
+    function setProfile(string memory _name, uint256 _age, string memory _email) public {
+        profiles[msg.sender] = Profile(_name, _age, _email);
+    }
+
+    // 사용자 정보 조회
+    function getProfile(address _user) public view returns (string memory, uint256, string memory) {
+        Profile memory profile = profiles[_user];
+        return (profile.name, profile.age, profile.email);
+    }
+}
+
+// 매핑(address => Profile): 사용자 주소별로 정보를 저장
+// setProfile: 사용자의 정보를 입력
+// getProfile: 사용자 정보를 조회
+`}
+				</SyntaxHighlighter>
+
+				<h3>다중 매핑 구조(Nested Mappings)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract PermissionSystem {
+    mapping(address => mapping(string => bool)) public permissions;
+
+    // 권한 부여
+    function grantPermission(address _user, string memory _role) public {
+        permissions[_user][_role] = true;
+    }
+
+    // 권한 회수
+    function revokePermission(address _user, string memory _role) public {
+        permissions[_user][_role] = false;
+    }
+
+    // 권한 확인
+    function hasPermission(address _user, string memory _role) public view returns (bool) {
+        return permissions[_user][_role];
+    }
+}
+
+// 첫 번째 키: 사용자 주소
+// 두 번째 키: 역할(Role)
+// 값: 권한 여부 (true/false)
+`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 28,
+		date: '28/03/2025',
+		tags: ['Fallback', 'Receive', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Fallback & Receive Functions',
+		content: (
+			<div>
+				<h3>(function) Receive</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ReceiveExample {
+    event Received(address sender, uint amount);
+
+    // 이더 수신 시 호출
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+}
+
+// 계약이 명시적으로 이더를 받을 때 호출
+// external과 payable로 선언해야 함`}
+				</SyntaxHighlighter>
+
+				<h3>(function) Fallback</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract FallbackExample {
+    event FallbackCalled(address sender, uint amount, bytes data);
+
+    // 정의되지 않은 호출 발생 시 자동 실행
+    fallback() external payable {
+        emit FallbackCalled(msg.sender, msg.value, msg.data);
+    }
+}
+
+// external로 선언되어야 함
+// 이더 전송이 포함되었다면 payable도 필요
+`}
+				</SyntaxHighlighter>
+
+				<h3>Receive vs Fallback 차이점</h3>
+				<pre>{`Receive
+ * 호출 조건: 이더만 전송될 때 (데이터 없이)
+ * 선언 방법: receive() external payable
+ * 주 용도: 순수 이더 수신 처리
+
+Fallback
+ * 호출 조건: 명시된 함수가 없거나 잘못된 함수 호출 시
+ * 선언 방법: fallback() external [payable]
+ * 주 용도: 데이터 포함 호출 처리, 예외 처리`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 29,
+		date: '28/03/2025',
+		tags: ['try/catch', 'Error', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Advanced Error Handling',
+		content: (
+			<div>
+				<h3>try/catch 문법</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ErrorHandlingExample {
+    event ErrorCaught(string reason);
+
+    function divide(uint256 a, uint256 b) public pure returns (uint256) {
+        require(b != 0, "Cannot divide by zero");
+        return a / b;
+    }
+
+    function safeDivide(uint256 a, uint256 b) public {
+        try this.divide(a, b) returns (uint256 result) {
+            // 성공 시 처리
+        } catch Error(string memory reason) {
+            emit ErrorCaught(reason);
+        }
+    }
+}
+
+// try: 성공적으로 실행될 경우 결과 반환
+// catch: 에러 발생 시 처리`}
+				</SyntaxHighlighter>
+
+				<h3>사용자 정의 에러(Custom Errors)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract CustomErrorExample {
+    error NotOwner(address caller);
+
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // 소유자만 실행 가능한 함수
+    function restrictedFunction() public {
+        if (msg.sender != owner) {
+            revert NotOwner(msg.sender);
+        }
+    }
+}
+
+// error: 에러 정의
+// revert: 에러 발생 시 실행 중단 및 에러 반환`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]
