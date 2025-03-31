@@ -3157,4 +3157,84 @@ contract CustomErrorExample {
 			</div>
 		),
 	},
+	{
+		id: 30,
+		date: '31/03/2025',
+		tags: ['Setter', 'Getter', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Getter & Setter',
+		content: (
+			<div>
+				<pre>
+					{`✔️ Getter 함수: 상태 변수를 조회하는 함수 (자동 생성 가능)
+✔️ Setter 함수: 상태 변수를 변경하는 함수 (수동으로 구현해야 함)`}
+				</pre>
+
+				<h3>Getter VS Setter</h3>
+				<pre>{`✅ Getter
+	자동 생성 여부: 상태 변수를 public으로 선언하면 자동 생성됨
+	기능: 상태 변수 값을 조회
+	함수 유형: view (state 변경 없음)
+	예제 코드: function myNumber() public view returns (uint256)
+	가스 비용: 무료 (트랜잭션 없음, view 함수)
+
+✅ Setter
+	자동 생성 여부: 직접 구현해야 함
+	기능: 상태 변수 값을 변경
+	함수 유형: public 또는 external (값 변경 가능)
+	예제 코드: function setMyNumber(uint256 _newNumber) public
+	가스 비용: 비용 발생 (트랜잭션 실행 필요)`}</pre>
+
+				<h3>Getter (조회 함수)</h3>
+				<pre>{`📌 public으로 선언된 상태 변수에 대해 자동으로 getter 함수가 생성됩니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Example {
+    uint256 public myNumber = 100; // public 변수 (자동 getter 생성)
+}`}
+				</SyntaxHighlighter>
+				<pre>{`📌 자동 생성되는 Getter 함수`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`function myNumber() public view returns (uint256) {
+    return myNumber;
+}`}
+				</SyntaxHighlighter>
+
+				<pre>{`📌 사용 방법`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// Hardhat(ethers.js)
+const number = await contract.myNumber();
+console.log(number.toString()); // "100"
+
+// myNumber()는 Solidity에서 자동으로 생성된 함수이며, 값을 조회할 수 있습니다.`}
+				</SyntaxHighlighter>
+
+				<h3>Setter (설정 함수)</h3>
+				<pre>{`📌 상태 변수를 변경할 때 setter 함수를 직접 구현해야 합니다.
+📌 Setter 함수는 public이나 external로 선언되며, 상태 변수 값을 변경합니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Example {
+    uint256 public myNumber = 100;
+
+    // Setter 함수 (값 변경 가능)
+    function setMyNumber(uint256 _newNumber) public {
+        myNumber = _newNumber;
+    }
+}`}
+				</SyntaxHighlighter>
+
+				<pre>{`📌 사용 방법`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// Hardhat(ethers.js)
+await contract.setMyNumber(500); // 값 변경
+const number = await contract.myNumber();
+console.log(number.toString()); // "500"`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]
