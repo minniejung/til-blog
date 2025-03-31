@@ -3237,4 +3237,100 @@ console.log(number.toString()); // "500"`}
 			</div>
 		),
 	},
+	{
+		id: 31,
+		date: '31/03/2025',
+		tags: ['Chai', 'Test', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Test ⚠️',
+		content: (
+			<div>
+				<pre>
+					{`✔️ 한 번 배포되면 수정이 불가능
+✔️ 배포 전에 철저하게 테스트하는 것이 필수적
+✔️ 새로운 수정 컨트랙트를 배포하게 되면, 비용 증가 및 데이터 손실을 초래
+✔️ 테스트를 통해 불필요한 연산을 줄이고 최적화된 코드를 작성 (트랜잭션/가스 비용 절감)
+✔️ 재진입 공격(Reentrancy), 오버플로우(Overflow), 접근 제어 오류 등의 보안 취약점을 사전에 발견`}
+				</pre>
+
+				<h3>e.g.</h3>
+				<pre>{`Contract code`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Example {
+    uint256 private value;
+    address private owner;
+
+    // 이벤트 선언
+    event ValueChanged(uint256 newValue);
+
+    // 컨트랙트 배포 시 실행 (초기값 설정)
+    constructor() {
+        value = 100; // 초기값 100
+        owner = msg.sender; // 배포자(소유자) 설정
+    }
+
+    // 현재 값 조회 (Getter)
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+
+    // 값 변경 (Setter) - 소유자만 실행 가능
+    function setValue(uint256 _newValue) public {
+        require(msg.sender == owner, "Only owner can set value");
+        value = _newValue;
+        emit ValueChanged(_newValue); // 이벤트 발생
+    }
+
+    // 소유자 주소 반환
+    function getOwner() public view returns (address) {
+        return owner;
+    }
+}`}
+				</SyntaxHighlighter>
+				<pre>{`Test code`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// test/Example.test.ts
+
+import { expect } from 'chai';
+import { ethers } from 'hardhat';
+
+describe('Example Contract', function () {
+  let contract: any;
+  let owner: any;
+  let addr1: any;
+
+  beforeEach(async function () {
+    [owner, addr1] = await ethers.getSigners();
+    const Example = await ethers.getContractFactory('Example');
+    contract = await Example.deploy();
+    await contract.waitForDeployment();
+  });
+
+  it('초기값이 100이어야 합니다.', async function () {
+    expect(await contract.getValue()).to.equal(100);
+  });
+
+  it('값을 변경할 수 있어야 합니다.', async function () {
+    await contract.setValue(500);
+    expect(await contract.getValue()).to.equal(500);
+  });
+
+  it('소유자만 값을 변경할 수 있어야 합니다.', async function () {
+    await expect(contract.connect(addr1).setValue(300)).to.be.revertedWith(
+      'Only owner can set value'
+    );
+  });
+
+  it('값 변경 시 이벤트가 발생해야 합니다.', async function () {
+    await expect(contract.setValue(200))
+      .to.emit(contract, 'ValueChanged')
+      .withArgs(200);
+  });
+});`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]
