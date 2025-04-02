@@ -122,7 +122,7 @@ truffle init`}
   },
 
   goerli: {
-    provider: () => new HDWalletProvider(MNEMONIC or PrivateKey, "https://goerli.infura.io/v3/$ {PROJECT_ID}"),
+    provider: () => new HDWalletProvider(MNEMONIC or PrivateKey, \`https://goerli.infura.io/v3/\${PROJECT_ID}\`),
     network_id: 5,       // Goerli 네트워크 ID
     confirmations: 2,    // 배포 시 몇 개의 블록을 기다릴지 설정
     timeoutBlocks: 200,  // 몇 블록 이후 타임아웃될지 설정
@@ -3328,6 +3328,165 @@ describe('Example Contract', function () {
       .to.emit(contract, 'ValueChanged')
       .withArgs(200);
   });
+});`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 32,
+		date: '02/04/2025',
+		tags: ['Testing', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Test가 중요한 이유',
+		content: (
+			<div>
+				<h3>1. 로컬 테스트 (Local Testing)</h3>
+				<pre>
+					{`✔️ 가장 빠르고 비용이 들지 않는 방법
+
+	로컬 테스트의 주요 목적
+	  ✅ 기본적인 논리 검증
+	  ✅ 이벤트 발생 여부 확인
+	  ✅ 오류 및 예외 처리 검증
+	  ✅ 가스 소비량 테스트
+
+	사용 도구
+	  * Hardhat: 로컬 이더리움 네트워크를 제공하여 스마트 컨트랙트를 빠르게 배포하고 테스트할 수 있음.
+	  * Ganache: 이더리움 테스트 환경을 로컬에서 실행할 수 있도록 지원하는 도구.
+	  * Foundry: 고성능 스마트 컨트랙트 개발 및 테스트 도구.
+	  * Ethers.js / Web3.js: 블록체인과 상호작용하여 테스트 수행.`}
+				</pre>
+
+				<h3>e.g.</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`it("should update value and emit event", async function () {
+  const tx = await contract.updateValue(42);
+  await expect(tx).to.emit(contract, "ValueChanged").withArgs(0, 42);
+  expect(await contract.value()).to.equal(42);
+});
+
+// 로컬 테스트의 한계
+// ❌ 실제 블록체인 네트워크와 다름
+// ❌ 실제 네트워크 지연(latency) 확인 불가능
+// ❌ 실제 가스비 측정 불가능`}
+				</SyntaxHighlighter>
+
+				<h3>2. 테스트넷 배포 및 검증 (Testnet Deployment)</h3>
+				<pre>{`✔️ 메인넷과 동일한 환경을 제공하지만, 가치를 가지지 않는 테스트용 토큰을 사용
+				
+	테스트넷에서 테스트하는 이유
+	  ✅ 실제 블록체인 환경에서의 동작 확인
+	  ✅ 다른 스마트 컨트랙트 및 DApp과의 상호작용 테스트
+	  ✅ 네트워크 지연 시간(Latency) 및 가스 소비량 검토
+	  ✅ 배포 과정에서 발생할 수 있는 예상치 못한 문제 해결
+
+	테스트넷 테스트의 한계
+	  ❌ 여전히 가상 환경 (테스트 토큰 사용)
+	  ❌ 가스비는 실제와 다소 차이가 있을 수 있음
+	  ❌ 일부 네트워크 문제는 메인넷과 다를 수 있음`}</pre>
+
+				<h3>3. 메인넷 배포 및 최종 검증 (Mainnet Deployment & Verification)</h3>
+				<pre>{`✔️ 실제 비용이 발생, 배포 후에는 변경 불가
+
+	메인넷 테스트의 중요성
+	  ✅ 스마트 컨트랙트가 완전히 검증된 상태인지 확인
+	  ✅ 실제 사용자와의 상호작용 테스트
+	  ✅ 보안 및 안정성 검토
+	  ✅ 실사용 환경에서의 가스 최적화 확인
+
+	배포 후 확인해야 할 사항
+	  ⚠️ 트랜잭션이 정상적으로 수행되는가?
+	  ⚠️ 컨트랙트 기능이 예상대로 동작하는가?
+	  ⚠️ 가스비 최적화가 잘 적용되었는가?
+	  ⚠️ 보안 취약점은 없는가?
+
+	메인넷 배포 후 보안 점검
+	  🕵🏽‍♀️ 컨트랙트 코드가 공개된 상태에서 문제가 없는지 검토
+	  🕵🏽‍♀️ 트랜잭션을 통한 공격 가능성이 있는지 확인
+	  🕵🏽‍♀️ 소유자 및 권한 관리 설정이 적절한지 점검`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 33,
+		date: '02/04/2025',
+		tags: ['web3.js', 'ethers.js', 'Testing libraries', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Testing libraries',
+		content: (
+			<div>
+				<h3>Hardhat with ethers.js</h3>
+				<pre>
+					{`✔️ Hardhat은 ethers.js를 기본적으로 지원하며, 트랜잭션 및 스마트 컨트랙트 테스트에 최적화되어 있음.`}
+				</pre>
+
+				<h3>e.g.</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`import { expect } from "chai";
+import { ethers } from "hardhat";
+
+describe("MyContract", function () {
+    let contract: any;
+    let owner: any;
+    let otherAccount: any;
+
+    beforeEach(async function () {
+        [owner, otherAccount] = await ethers.getSigners();
+        const Contract = await ethers.getContractFactory("MyContract");
+        contract = await Contract.deploy();
+        await contract.waitForDeployment();
+    });
+
+    it("should send Ether and update balance", async function () {
+        // 컨트랙트 주소
+        const receiver = await contract.getAddress();
+
+        // 송금 전 컨트랙트 잔액 확인
+        const initialBalance = await ethers.provider.getBalance(receiver);
+
+        // 송금할 금액 (1 ETH)
+        const amount = ethers.parseEther("1.0");
+
+        // 계정에서 스마트 컨트랙트로 1 ETH 전송
+        await owner.sendTransaction({
+            to: receiver,
+            value: amount,
+        });
+
+        // 컨트랙트 잔액 확인 (1 ETH 증가했는지 확인)
+        const finalBalance = await ethers.provider.getBalance(receiver);
+        console.log(\`Contract Balance: \${ethers.formatEther(finalBalance)} ETH\`);
+
+        // 잔액이 정확히 증가했는지 검증
+        expect(finalBalance).to.equal(initialBalance + amount);
+    });
+});`}
+				</SyntaxHighlighter>
+
+				<h3>Truffle with web3.js</h3>
+				<pre>{`✔️ Truffle은 web3.js를 기본적으로 사용하며, Ganache 및 Truffle Suite와 함께 작동하도록 설계됨`}</pre>
+
+				<h3>e.g.</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`const MyContract = artifacts.require("MyContract");
+
+contract("MyContract", (accounts) => {
+    it("should send Ether and update balance", async () => {
+        const contract = await MyContract.deployed();
+
+        // 송금할 계정과 금액 설정
+        const sender = accounts[0];
+        const receiver = contract.address;
+        const amount = web3.utils.toWei("1", "ether");
+
+        // 계정에서 스마트 컨트랙트로 1 ETH 전송
+        await web3.eth.sendTransaction({ from: sender, to: receiver, value: amount });
+
+        // 컨트랙트의 잔액 확인
+        const balance = await web3.eth.getBalance(contract.address);
+        console.log(\`Contract Balance: \${web3.utils.fromWei(balance, "ether")} ETH\`);
+
+        assert.equal(balance, amount, "Balance should be updated after receiving Ether");
+    });
 });`}
 				</SyntaxHighlighter>
 			</div>

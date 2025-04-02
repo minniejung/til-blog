@@ -240,13 +240,13 @@ export class UserController {
 // PUT: 전체 업데이트
   @Put(':id')
   updateUser(@Param('id') id: string, @Body() updateUserDto: any) {
-    return "유저 $ {id}의 정보를 전체 업데이트: $ {JSON.stringify(updateUserDto)}";
+    return \`유저 \${id}의 정보를 전체 업데이트: \${JSON.stringify(updateUserDto)}\`;
   }
 
 // PATCH: 부분 업데이트
   @Patch(':id')
   partialUpdateUser(@Param('id') id: string, @Body() updateUserDto: any) {
-    return "유저 $ {id}의 일부 정보를 업데이트: $ {JSON.stringify(updateUserDto)}";
+    return \`유저 \${id}의 일부 정보를 업데이트: \${JSON.stringify(updateUserDto)}\`;
   }
 }
 `}
@@ -301,7 +301,7 @@ import { CreateUserDto } from './user.dto';
 export class UserController {
   @Post()
   createUser(@Body() createUserDto: CreateUserDto) {
-    return "유저 생성됨: $ {JSON.stringify(createUserDto)}";
+    return \`유저 생성됨: \${JSON.stringify(createUserDto)}\`;
   }
 } 
 `}

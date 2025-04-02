@@ -261,7 +261,7 @@ console.log(a); // 10}
 
 function outer(outerValue) {
 return function inner(innerValue) {
-console.log("Outer: $ {outerValue}, Inner: $ {innerValue}");};}
+console.log(\`Outer: \${outerValue}, Inner: \${innerValue}\`);};}
 const closureExample = outer("Hello");
 closureExample("World")
 `}
