@@ -3492,4 +3492,255 @@ contract("MyContract", (accounts) => {
 			</div>
 		),
 	},
+	{
+		id: 34,
+		date: '07/04/2025',
+		tags: ['Transaction Call', 'Contract call', 'ABI', 'Smart Contract', 'Blockchain'],
+		title: 'Transaction Call vs Call',
+		content: (
+			<div>
+				<h3>Contract call</h3>
+				<pre>
+					{`✔️ Solidity 스마트 컨트랙트 내부에서 또는 외부에서 특정 함수나 데이터를 요청하는 과정
+✔️ 상태를 변경할 수도 있고, 데이터를 조회할 수도 있음`}
+				</pre>
+
+				<h3>트랜잭션 호출 (Transaction Call)</h3>
+				<pre>{`* 컨트랙트 상태를 변경하는 함수 호출
+* 가스 비용(Gas Fee) 발생
+* 트랜잭션이 블록체인에 기록됨
+				`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 📌 트랜잭션 호출 예제 (Solidity)
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract TransactionExample {
+    uint256 public value;
+
+    // 트랜잭션 호출 (상태 변경)
+    function setValue(uint256 _value) public {
+        value = _value;
+    }
+}
+
+// 📌 트랜잭션 호출 예제 (JavaScript)
+const contract = new ethers.Contract(contractAddress, abi, signer);
+await contract.setValue(42); // 상태 변경 -> 가스 필요
+
+// signer가 가스비 소모
+`}
+				</SyntaxHighlighter>
+
+				<h3>조회 호출 (Call)</h3>
+				<pre>{`* 컨트랙트 상태를 조회하는 함수 호출
+* 가스 비용 없음
+* 블록체인에 기록되지 않음`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 📌 조회 호출 예제 (Solidity)
+
+contract CallExample {
+    uint256 public value = 100;
+
+    // 조회 호출 (가스 없음)
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+}
+
+// 📌 조회 호출 예제 (JavaScript)
+const value = await contract.getValue(); // 가스 없이 데이터 조회
+console.log(value.toString()); // "100"`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 35,
+		date: '07/04/2025',
+		tags: ['Application Binary Interface', 'ABI', 'Smart Contract', 'Blockchain'],
+		title: 'Application Binary Interface',
+		content: (
+			<div>
+				<h3>API와의 차이점</h3>
+				<pre>
+					{`* 일반적인 API는 JSON 요청을 보내면 서버가 JSON 응답을 반환하지만,
+* 스마트 컨트랙트는 JSON이 아니라 바이트코드(0x...)로만 통신
+* 이 때문에 ABI Encoding 과 ABI Decoding이 필요`}
+				</pre>
+
+				<h3>ABI 인코딩 (Encoding)</h3>
+				<pre>{`* 함수 호출 시 ABI 인코딩을 통해 데이터를 바이트코드로 변환하여 EVM에 전달
+* 함수 이름, 매개변수 타입, 인자값 등을 포함하여 EVM이 실행할 정확한 정보를 제공`}</pre>
+
+				<h3>ABI 디코딩 (Decoding)</h3>
+				<pre>{`* 컨트랙트의 응답 값(바이트코드)을 사람이 읽을 수 있는 형태로 변환
+* 예를 들어, getBalance() 함수가 0x00000000000000000000000000000000000000000000000000000000000003e8을 반환하면, ABI 디코딩을 통해 "1000"으로 변환`}</pre>
+
+				<h3>기존 웹 개발에서의 데이터 통신 (API vs. 블록체인)</h3>
+				<pre>{`* 기존 웹 개발에서는 API를 통해 앱과 서버가 데이터를 주고받음
+* 서버는 데이터를 중앙에서 관리하며, 요청에 따라 필요한 정보를 반환하는 중앙 집중식 정보 소스 역할
+
+VS
+
+* 하지만 블록체인에서는 데이터가 중앙 집중화되어 있지 않으며, 노드(Node)들이 서버 역할
+* 스마트 컨트랙트는 블록체인 네트워크에서 실행되며, 외부 앱이 스마트 컨트랙트와 직접 통신할 방법이 필요
+	=> 이때 ABI(Application Binary Interface)가 사용
+`}</pre>
+
+				<h3>ABI가 필요한 이유</h3>
+				<pre>{`* 스마트 컨트랙트는 Solidity 같은 고급 언어로 작성되지만, 
+* 블록체인에 배포되면 EVM이 이해할 수 있는 바이트코드(0x...)로 변환됨
+
+* 이 바이트코드는 인간이 이해하기 어렵기 때문에 스마트 컨트랙트와 상호 작용할 때 해석(Decoding)이 필요
+* 이 때 ABI는 바이트코드를 사람이 이해할 수 있는 데이터 형태로 변환하는 역할
+* 또한 JS와 같은 프로그래밍 언어로 작성된 앱이 스마트 컨트랙트와 상호작용할 수 있도록 도와줌`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 36,
+		date: '07/04/2025',
+		tags: ['Application Binary Interface', 'ABI', 'Smart Contract', 'Blockchain'],
+		title: 'e.g. Hardhat을 사용한 스마트 컨트랙트 배포 & ABI 생성 과정',
+		content: (
+			<div>
+				<pre>{`✔️ 스마트 컨트랙트를 배포하면 ABI가 자동 생성되며 애플리케이션과 상호작용할 수 있습니다`}</pre>
+
+				<h3>Hardhat을 이용한 배포 & ABI 사용 과정</h3>
+				<pre>{`* Solidity 스마트 컨트랙트 작성
+* Hardhat을 사용해 컴파일
+* Hardhat을 사용해 배포 (ABI가 생성됨)
+* JavaScript (Ethers.js) 또는 Web3.js로 ABI 활용하여 컨트랙트 호출`}</pre>
+
+				<h3>Solidity 컨트랙트 작성 e.g.</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// e.g. contracts/MyContract.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    uint256 public value;
+
+    event ValueChanged(uint256 newValue);
+
+    function setValue(uint256 _value) public {
+        value = _value;
+        emit ValueChanged(_value);
+    }
+
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+}`}</SyntaxHighlighter>
+
+				<h3>Hardhat으로 컴파일 & 배포 (ABI 생성)</h3>
+				<pre>{`* Hardhat 프로젝트를 생성 후, 배포 스크립트를 작성하여 배포
+* 배포 후 artifacts/ 폴더에 ABI(JSON 파일)가 자동으로 생성 됨`}</pre>
+				<pre>{`🔹 1) Hardhat 프로젝트 초기화`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`mkdir hardhat_project
+cd hardhat_project
+npx hardhat init`}</SyntaxHighlighter>
+
+				<pre>{`🔹 2) 컴파일 (ABI 생성)`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`npx hardhat compile
+
+// artifacts/contracts/MyContract.sol/MyContract.json 파일이 생성됨
+// 이 파일에는 ABI, 바이트코드, 컨트랙트 정보가 포함됨`}</SyntaxHighlighter>
+
+				<h3>Hardhat을 사용한 컨트랙트 배포 (배포 후 ABI 확인)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 📌 배포 스크립트 작성 (scripts/deploy.js)
+
+const hre = require("hardhat");
+
+async function main() {
+  const MyContract = await hre.ethers.getContractFactory("MyContract");
+  const contract = await MyContract.deploy();
+
+  await contract.waitForDeployment();
+
+  console.log(\`📌 스마트 컨트랙트 배포 완료! 주소: \${contract.target}\`);
+
+  // ABI 저장 (artifacts 폴더에서 가져오기)
+  const contractArtifact = await hre.artifacts.readArtifact("MyContract");
+  console.log("📌 ABI:", JSON.stringify(contractArtifact.abi, null, 2));
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+})`}</SyntaxHighlighter>
+				<pre>{`🔹 3) 배포 실행`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`npx hardhat run scripts/deploy.js --network hardhat`}</SyntaxHighlighter>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 배포 후 터미널 출력 예시
+
+📌 스마트 컨트랙트 배포 완료! 주소: 0x1234567890abcdef1234567890abcdef12345678
+📌 ABI: [
+  {
+    "inputs": [{"internalType": "uint256","name": "_value","type": "uint256"}],
+    "name": "setValue",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getValue",
+    "outputs": [{"internalType": "uint256","name": "","type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
+// 배포 후, artifacts/ 폴더 내에서 자동 생성된 ABI 파일을 확인할 수 있습니다.`}</SyntaxHighlighter>
+
+				<h3>Ethers.js로 ABI를 활용하여 컨트랙트 호출</h3>
+				<pre>{`🔹 1) Ethers.js 설치`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`npm install ethers dotenv`}</SyntaxHighlighter>
+				<pre>{`🔹 2) JavaScript로 컨트랙트 함수 호출`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`require("dotenv").config();
+const { ethers } = require("ethers");
+
+// 📌 배포된 컨트랙트 주소 (배포 후 콘솔에서 확인 가능)
+const contractAddress = "0x1234567890abcdef1234567890abcdef12345678";
+
+// 📌 ABI 불러오기
+const contractArtifact = require("../artifacts/contracts/MyContract.sol/MyContract.json");
+const abi = contractArtifact.abi;
+
+// 📌 이더리움 네트워크 프로바이더 설정
+const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
+
+// 📌 지갑 연결 (Hardhat 테스트 계정 사용)
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+// 📌 스마트 컨트랙트 인스턴스 생성
+const contract = new ethers.Contract(contractAddress, abi, wallet);
+
+// 📌 컨트랙트 함수 호출 (쓰기 트랜잭션)
+async function setContractValue() {
+  const tx = await contract.setValue(42);
+  await tx.wait();
+  console.log("📌 setValue 트랜잭션 완료!");
+}
+
+// 📌 컨트랙트 값 조회 (읽기 호출)
+async function getContractValue() {
+  const value = await contract.getValue();
+  console.log("📌 현재 저장된 값:", value.toString());
+}
+
+// 실행
+setContractValue();
+getContractValue();
+
+// 실행 결과
+
+📌 setValue 트랜잭션 완료!
+📌 현재 저장된 값: 42`}</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]
