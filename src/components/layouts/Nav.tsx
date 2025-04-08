@@ -73,6 +73,7 @@ const links = [
 	'TIL-Front',
 	'TIL-Back',
 	'TIL-Solidity',
+	'TIL-ERC20',
 	'Scoby',
 	'Chart',
 	'Explorer',

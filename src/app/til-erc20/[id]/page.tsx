@@ -4,14 +4,14 @@ import { useParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
-import { dataSolidity } from '@/utils/dataTIL/dataSolidity'
+import { dataERC20 } from '@/utils/dataTIL/dataERC20'
 
-const TilSoliditySinglePage = () => {
+const TilERC20SinglePage = () => {
 	const router = useRouter()
 	const param = useParams()
 
 	const foundData = useMemo(() => {
-		return dataSolidity.find(item => item.id === Number(param.id)) ?? undefined
+		return dataERC20.find(item => item.id === Number(param.id)) ?? undefined
 	}, [param])
 
 	return (
@@ -31,4 +31,4 @@ const TilSoliditySinglePage = () => {
 	)
 }
 
-export default TilSoliditySinglePage
+export default TilERC20SinglePage
