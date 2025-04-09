@@ -17,24 +17,53 @@ export const Nav = () => {
 	return (
 		<>
 			<nav className='hidden gap-8 md:flex'>
-				{links.map(link => (
-					<div
-						key={link}
-						onMouseEnter={() => link === 'Wallet' && setIsHovered(true)}
-						onMouseLeave={() => link === 'Wallet' && setIsHovered(false)}
-						onClick={() => redirect(`/${link.toLocaleLowerCase()}`)}
-						className={cn(
-							'cursor-pointer',
-							path.slice(1) === link.toLocaleLowerCase() && 'font-bold',
-							link === 'Wallet' ? 'text-purple-500' : 'text-[#777] hover:text-black',
-						)}>
-						{link === 'Wallet' ? (
-							<span className='text-2xl'>{isHovered ? <IoWallet /> : <IoWalletOutline />}</span>
-						) : (
-							link
-						)}
-					</div>
-				))}
+				{links.map((link, i) => {
+					if (link.startsWith('TIL-')) {
+						if (i === links.findIndex(l => l.startsWith('TIL-'))) {
+							return (
+								<div key='TIL' className='group relative cursor-pointer text-[#777] hover:text-black'>
+									<span className='font-semibold'>* T I L *</span>
+									<div className='absolute -right-40 top-6 hidden min-w-max flex-row gap-4 rounded-lg border bg-white p-4 shadow-md group-hover:flex'>
+										{links
+											.filter(l => l.startsWith('TIL-'))
+											.map(til => (
+												<div
+													key={til}
+													onClick={() => redirect(`/${til.toLowerCase()}`)}
+													className={cn(
+														'hover:cursor-pointer hover:underline',
+														path.slice(1) === til.toLowerCase() && 'font-bold',
+													)}>
+													{til}
+												</div>
+											))}
+									</div>
+								</div>
+							)
+						} else {
+							return null
+						}
+					}
+
+					return (
+						<div
+							key={link}
+							onMouseEnter={() => link === 'Wallet' && setIsHovered(true)}
+							onMouseLeave={() => link === 'Wallet' && setIsHovered(false)}
+							onClick={() => redirect(`/${link.toLowerCase()}`)}
+							className={cn(
+								'relative cursor-pointer',
+								path.slice(1) === link.toLowerCase() && 'font-bold',
+								link === 'Wallet' ? 'text-purple-500' : 'text-[#777] hover:text-black',
+							)}>
+							{link === 'Wallet' ? (
+								<span className='text-2xl'>{isHovered ? <IoWallet /> : <IoWalletOutline />}</span>
+							) : (
+								link
+							)}
+						</div>
+					)
+				})}
 			</nav>
 
 			<HiMenu
@@ -74,6 +103,7 @@ const links = [
 	'TIL-Back',
 	'TIL-Solidity',
 	'TIL-ERC20',
+	'TIL-Lab',
 	'Scoby',
 	'Chart',
 	'Explorer',
