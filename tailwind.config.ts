@@ -14,7 +14,7 @@ export default {
 			lg: '1280px',
 			md: '1024px',
 			sm: '768px',
-			xs: '525px',
+			xs: '640px',
 		},
 		extend: {
 			fontFamily: {

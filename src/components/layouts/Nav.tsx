@@ -16,7 +16,7 @@ export const Nav = () => {
 
 	return (
 		<>
-			<nav className='hidden gap-8 md:flex'>
+			<nav className='hidden gap-8 xs:flex'>
 				{links.map((link, i) => {
 					if (link.startsWith('TIL-')) {
 						if (i === links.findIndex(l => l.startsWith('TIL-'))) {
@@ -70,7 +70,7 @@ export const Nav = () => {
 				onClick={() => {
 					setIsMenuOpen(!isMenuOpen)
 				}}
-				className='relative flex cursor-pointer text-3xl text-[#777] md:hidden'
+				className='relative flex cursor-pointer text-3xl text-[#777] xs:hidden'
 			/>
 
 			{isMenuOpen && (
