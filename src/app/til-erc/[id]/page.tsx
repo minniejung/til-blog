@@ -5,23 +5,23 @@ import { useMemo } from 'react'
 
 import ButtonChangeContent from '@/components/buttons/ButtonChangeContent'
 import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
-import { dataERC20 } from '@/utils/dataTIL/dataERC20'
+import { dataERC } from '@/utils/dataTIL/dataERC'
 
-const TilERC20SinglePage = () => {
+const TilERCSinglePage = () => {
 	const router = useRouter()
 	const param = useParams()
 	const pathname = usePathname()
 	const base = pathname.split('/')[1]
 
 	const foundData = useMemo(() => {
-		return dataERC20.find(item => item.id === Number(param.id)) ?? undefined
+		return dataERC.find(item => item.id === Number(param.id)) ?? undefined
 	}, [param])
 
 	return (
 		<div className='pt-2'>
 			<div className='mb-8 flex w-full flex-row items-center justify-between'>
 				<ButtonGoBack onClick={() => router.push(`/${base}`)}>Prev Page</ButtonGoBack>
-				<ButtonChangeContent data={dataERC20} />
+				<ButtonChangeContent data={dataERC} />
 			</div>
 
 			{foundData ? (
@@ -37,4 +37,4 @@ const TilERC20SinglePage = () => {
 	)
 }
 
-export default TilERC20SinglePage
+export default TilERCSinglePage
