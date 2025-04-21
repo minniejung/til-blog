@@ -5,7 +5,7 @@ export type Timage = {
 
 export type Tmetadata = {
 	name: string
-	discription: string
+	description: string
 	image: string
 }
 
@@ -22,6 +22,6 @@ export type Tnft = {
 	network: string
 	name: string
 	image: string
-	discription: string
+	description: string
 	symbol: void | [] | (unknown[] & [])
 }

@@ -24,7 +24,7 @@ export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 	const [img, setImg] = useState<Timage>({ url: '', preview: '' })
 	const [metadata, setMetadata] = useState<Tmetadata>({
 		name: '',
-		discription: '',
+		description: '',
 		image: '',
 	})
 	const [loading, setLoading] = useState<boolean>(false)
@@ -55,7 +55,7 @@ export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 			setLoading(false)
 			setMetadata({
 				name: '',
-				discription: '',
+				description: '',
 				image: '',
 			})
 		}

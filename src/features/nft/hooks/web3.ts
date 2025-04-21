@@ -64,7 +64,7 @@ export const getNfts = async (address: string) => {
 						network: 'Kaia testnet',
 						name: metadata.name,
 						image: metadata.image,
-						discription: metadata.discription,
+						description: metadata.description,
 						symbol: await contract.methods.symbol().call(),
 					}
 

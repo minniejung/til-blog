@@ -19,9 +19,9 @@ const NFTCard = ({ nft }: { nft: Tnft }) => {
 			</div>
 			<div className='max-w-[200px] space-y-1 pl-2'>
 				<div className='font-bold capitalize'>{nft.name}</div>
-				<div className='text-xs text-gray-500'>
-					{nft.discription
-						? nft.discription
+				<div className='whitespace-wrap text-xs text-gray-500'>
+					{nft.description
+						? nft.description
 						: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi rem corrupti perferendis atque, consequatur soluta totam vero!'}
 				</div>
 				<div className='flex flex-col gap-1 pt-2 text-xs'>
