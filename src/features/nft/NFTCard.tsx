@@ -4,15 +4,19 @@ import { FaSpinner } from 'react-icons/fa'
 
 import { Tnft } from '@/utils/nft.types'
 
-const NFTCard = ({ nft }: { nft: Tnft }) => {
+const NFTCard = ({ nft, loading }: { nft: Tnft; loading: boolean }) => {
 	return (
 		<div className='flex h-[400px] w-fit flex-col gap-4 rounded-lg border p-2'>
-			<div className='relative h-[200px] w-[200px] overflow-hidden rounded-lg bg-gray-100'>
-				{nft.image ? (
-					<Image src={nft.image} alt={nft.name} width={200} height={200} className='h-full w-full object-cover' />
-				) : (
-					<FaSpinner className='animate-spin text-xl text-gray-500' />
-				)}
+			<div className='relative flex h-[200px] w-[200px] items-center justify-center overflow-hidden rounded-lg bg-gray-100'>
+				<div className='relative flex h-[200px] w-[200px] items-center justify-center overflow-hidden rounded-lg bg-gray-100'>
+					{loading ? (
+						<FaSpinner className='animate-spin text-2xl text-gray-400' />
+					) : nft.image ? (
+						<Image src={nft.image} alt={nft.name} width={200} height={200} className='h-full w-full object-cover' />
+					) : (
+						<span className='text-xs text-gray-400'>No Image</span>
+					)}
+				</div>
 				<div className='z-1 absolute bottom-2 right-2 rounded-lg border bg-white px-2 py-1 text-xs'>
 					# {nft.tokenId}
 				</div>

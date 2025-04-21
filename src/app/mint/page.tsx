@@ -46,7 +46,7 @@ const MintPage = () => {
 								) : (
 									<div className='flex w-fit flex-wrap justify-center gap-4'>
 										{nfts.map((nft, index) => (
-											<NFTCard key={index} nft={nft} />
+											<NFTCard key={index} nft={nft} loading={loading} />
 										))}
 									</div>
 								)}
