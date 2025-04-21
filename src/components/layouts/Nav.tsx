@@ -106,6 +106,7 @@ const links = [
 	'TIL-Lab',
 	'Scoby',
 	'Chart',
+	'Mint',
 	'Explorer',
 	'Wallet',
 ]
