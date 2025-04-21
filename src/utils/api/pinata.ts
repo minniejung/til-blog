@@ -33,7 +33,7 @@ export const uploadMetaData = async (metadata: Tmetadata) => {
 
 		const tokenUri = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`
 		return tokenUri
-	} catch (error: any) {
+	} catch (error) {
 		console.error(error)
 	}
 }

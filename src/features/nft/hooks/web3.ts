@@ -71,6 +71,7 @@ export const getNfts = async (address: string) => {
 					nfts.push(nft)
 				}
 			} catch (error) {
+				console.error(error)
 				continue
 			}
 		}
