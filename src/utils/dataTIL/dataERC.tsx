@@ -495,4 +495,240 @@ contract MyNFT is ERC721, ERC721Enumerable, Ownable, ERC721URIStorage {
 			</div>
 		),
 	},
+	{
+		id: 7,
+		date: '14/04/2025',
+		tags: ['Metadata', 'NFT', 'NFT Storage', 'Blockchain'],
+		title: 'NFT metadata',
+		content: (
+			<div>
+				<pre>{`✔️ NFT의 메타데이터는 해당 NFT가 가진 정보를 포함하는 JSON 형식의 데이터`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 예제: NFT 메타데이터(JSON 형식)
+
+{
+  "name": "CryptoPunk #5822",
+  "description": "이 NFT는 희귀한 CryptoPunk 중 하나입니다.",
+  "image": "https://ipfs.io/ipfs/QmExampleImageHash",
+  "attributes": [
+    { "trait_type": "Type", "value": "Alien" },
+    { "trait_type": "Accessory", "value": "Bandana" }
+  ]
+}
+
+// name - NFT의 이름
+// description - NFT의 설명
+// image - NFT를 나타내는 이미지의 URL
+// attributes - NFT의 특징을 나타내는 속성 값들
+`}
+				</SyntaxHighlighter>
+
+				<h3>NFT 메타데이터가 중요한 이유</h3>
+				<pre>{`* NFT는 단순한 토큰 ID와 소유자 정보만 저장
+* 하지만 NFT의 가치와 의미는 메타데이터에 의해 결정됩니다.
+
+	- 소유권 증명: NFT가 특정 디지털 자산(이미지, 동영상 등)을 나타냄을 보장
+	- 희소성 & 속성 제공: 메타데이터의 속성을 기반으로 희소성을 판단
+	- 디지털 자산 연결: NFT가 특정 이미지나 아이템과 연결될 수 있도록 함
+	- 만약 메타데이터가 없다면, NFT는 단순한 숫자(TOKEN ID)에 불과하며 의미를 가지지 못합니다.`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 8,
+		date: '14/04/2025',
+		tags: ['Onchain', 'Offchain ', 'Metadata', 'NFT', 'NFT Storage', 'Blockchain'],
+		title: 'NFT metadata 저장방식',
+		content: (
+			<div>
+				<h3>온체인(On-Chain) 저장 방식</h3>
+				<pre>{`✔️ NFT의 메타데이터를 블록체인 자체에 저장하는 방식
+✔️ 블록체인에 직접 기록되므로 변경이 불가능(immutable)하며 영구적으로 유지
+✔️ 단점: 저장 비용(가스비)이 높고, 긴 데이터를 저장하기 어려움`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 예제) 온체인 NFT 저장 컨트랙트의 tokenURI 기능
+
+function tokenURI(uint256 tokenId) public view override returns (string memory) {
+    return string(abi.encodePacked("data:application/json;base64,", base64EncodedMetadata));
+}
+
+// ✅ 변조 불가능, 영구 저장
+// ❌ 블록체인에 직접 저장하므로 가스 비용 증가`}
+				</SyntaxHighlighter>
+
+				<h3>오프체인(Off-Chain) 저장 방식</h3>
+				<pre>{`✔️ NFT의 메타데이터를 IPFS, Arweave 같은 외부 저장소에 저장하고, 그 URL만 블록체인에 기록
+✔️ 블록체인에는 메타데이터의 링크(URL)만 저장
+✔️ 대부분의 NFT 프로젝트가 비용 절감과 확장성을 이유로 오프체인 방식을 사용
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`// 예제) MyNFT에서 사용되었던 mint 기능
+
+function mint(
+        address recipient,
+        string memory _tokenURI
+    ) public onlyOwner returns (uint256) {
+        unchecked {
+            ++_tokenIds;
+        }
+
+        _safeMint(recipient, _tokenIds);
+        _setTokenURI(_tokenIds, _tokenURI);
+
+        return _tokenIds;
+    }
+특징
+
+// ✅ 비용 절감, 더 많은 데이터를 저장 가능
+// ❌ 링크가 사라지면(NFT 메타데이터가 손실되면) NFT의 가치를 잃을 위험
+`}
+				</SyntaxHighlighter>
+
+				<h3>왜 NFT 메타데이터를 온체인에 저장하지 않을까?</h3>
+				<pre>{`NFT(ERC-721, ERC-1155)에서는 토큰 자체는 온체인에 저장되지만, 
+메타데이터(예: 이미지, 설명 등)는 보통 오프체인에 저장됩니다.
+그 이유는 여러 가지가 있으며, 가장 중요한 이유는 비용, 유연성, 효율성 때문입니다.`}</pre>
+
+				<h3>메타데이터 온체인 저장이 꺼려지는 4가지 이유</h3>
+				<h3>1. 가스비가 너무 비쌈</h3>
+				<pre>{`온체인 저장 = 이미지, 설명 등 모든 데이터를 블록체인에 직접 올림 → 가스비 폭탄
+✅ 대안: IPFS 등 URI만 온체인에 저장해서 비용 절감`}</pre>
+				<h3>2. 대용량 데이터 저장이 어려움</h3>
+				<pre>{`블록체인은 트랜잭션 크기 제한이 있어 고화질 이미지·영상 저장에 부적합
+→ 노드의 저장 부담 커지고 네트워크 느려질 수 있음`}</pre>
+				<h3>3. 수정 불가(Immutable)</h3>
+				<pre>{`블록체인에 올린 데이터는 수정 불가
+→ 잘못된 정보 수정이나 프로젝트 업데이트가 어려움
+✅ 오프체인 저장이면 교체·추가 가능`}</pre>
+				<h3>4. 이미 잘 구축된 오프체인 저장소 존재</h3>
+				<pre>{`IPFS, Arweave, AWS, GCP 등 다양한 저장소 활용 가능
+→ 온체인엔 링크만 저장해 효율적이고 유연하게 관리 가능`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 9,
+		date: '14/04/2025',
+		tags: ['Offchain ', 'Metadata', 'NFT', 'NFT Storage', 'Blockchain'],
+		title: 'Offchain solution',
+		content: (
+			<div>
+				<h3>탈중앙화 스토리지란?</h3>
+				<pre>{`블록체인처럼 분산 저장 구조를 가진 시스템으로, 특정 서버에 의존하지 않음.
+데이터를 작은 조각으로 나눠 여러 노드에 분산 저장함.`}</pre>
+				<h3>1. IPFS (InterPlanetary File System)</h3>
+				<pre>{`가장 널리 쓰이는 분산 파일 시스템.
+콘텐츠 주소(CID)로 데이터 검색.
+저장된 데이터는 변경 불가(Immutable).`}</pre>
+				<h3>2. Pinata</h3>
+				<pre>{`IPFS 기반의 NFT 데이터 관리 플랫폼.
+메타데이터 업로드 및 Pinning 기능 제공.
+API로 메타데이터를 손쉽게 관리 가능.`}</pre>
+				<h3>3. Arweave</h3>
+				<pre>{`블록체인 기반의 영구 저장소.
+한 번 저장된 데이터는 영구 보존됨.
+Solana, Ethereum NFT 프로젝트에서 활용됨.`}</pre>
+				<h3>4. Filecoin</h3>
+				<pre>{`IPFS와 연동된 탈중앙 스토리지.
+일정 비용을 지불하면 데이터 보존 보장.
+NFT.Storage, OpenSea 등에서 사용됨.`}</pre>
+				<h3>중앙화 스토리지란?</h3>
+				<pre>{`속도와 비용 최적화를 위해 NFT 프로젝트에서 사용되는 클라우드 기반 스토리지.`}</pre>
+				<h3>1. AWS S3</h3>
+				<pre>{`아마존의 클라우드 스토리지.
+강력한 보안, 높은 확장성.
+NFT 이미지와 메타데이터 저장에 자주 사용됨.`}</pre>
+				<h3>2. Google Cloud Storage</h3>
+				<pre>{`NFT 이미지와 메타데이터 저장 가능.
+IPFS보다 빠른 접근성 제공.
+다만 중앙화된 구조.`}</pre>
+				<h3>3. Firebase Storage</h3>
+				<pre>{`웹/모바일 앱과 쉽게 연동 가능.
+NFT 이미지 및 JSON 메타데이터 저장에 적합.`}</pre>
+				<h3>현 NFT 프로젝트 오프체인 저장 방식 예시</h3>
+				<pre>{`• 온체인 저장 (예: Autoglyphs)
+  - 장점: 데이터가 영구적으로 저장되고 변경이 불가능함
+  - 단점: 저장 비용이 매우 높고, 저장할 수 있는 용량이 제한적임
+
+• IPFS (예: CryptoPunks, Bored Ape Yacht Club)
+  - 장점: 탈중앙화 저장이 가능하고, 한 번 저장된 데이터는 변경할 수 없음
+  - 단점: Pinning을 하지 않으면 가비지 컬렉션으로 인해 데이터가 사라질 수 있음
+
+• Pinata (예: OpenSea, Rarible)
+  - 장점: IPFS 기반이지만 사용이 더 간편하고 관리 도구 제공
+  - 단점: Pinata 자체는 중앙화된 서비스임
+
+• Arweave (예: Solana 기반 NFT 프로젝트)
+  - 장점: 영구 저장이 가능하여 데이터가 영원히 유지됨
+  - 단점: 초기 저장 비용이 발생함
+
+• AWS S3 (예: NBA Top Shot)
+  - 장점: 매우 빠르고 확장성이 뛰어남
+  - 단점: 중앙화된 서버에 저장되므로 신뢰 이슈가 존재함`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 10,
+		date: '14/04/2025',
+		tags: ['Metadata', 'NFT', 'NFT Storage', 'Blockchain'],
+		title: 'NFT 생성과정',
+		content: (
+			<div>
+				<pre>{`1. 먼저, 이미지 NFT를 만든다고 했을때, 이미지 파일이 있어야 합니다.
+2. 해당 이미지를 Storage에 저장 후 이미지가 저장되어있는 주소값을 얻습니다.
+3. NFT Metadata를 구성하면서 해당 이미지의 주소값을 "image"라는 속성에 포함합니다. 이 후, 구성된 Metadata를 Storage에 다시 저장후 주소값을 얻습니다.
+4. NFT 컨트랙트를 통해 NFT를 민팅할 때, 해당 주소값을 tokenUri로 사용하여 NFT를 민팅합니다.`}</pre>
+
+				<h3>Pinata 환경설정(.env)</h3>
+				<pre>{`.env 파일의 PINATA_JWT 값을 넣기
+Pinata API Key를 발급 받을 때의 JWT 토큰을 사용.`}</pre>
+				<h3>이미지 끌어다놓기</h3>
+				<pre>{`pinata/input 폴더에 NFT로 만들고 싶은 이미지를 넣기`}</pre>
+				<h3>Metadata 완성하기</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>
+					{`const metadata = {
+    name: '', // Todo: 원하는 이름을 넣습니다.
+    description: '', // Todo: 원하는 이름을 넣습니다.
+    image: imageUrl,
+    attributes: [
+      // attributes는 어떤 속성(trait_type)에 값(value)을 넣을 것인지 자신의 프로젝트에 따라서 재량것 지정합니다.
+      { trait_type: 'Rarity', value: 'Legendary' },
+      { trait_type: 'Power', value: 100 },
+    ],
+  };`}
+				</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 11,
+		date: '15/04/2025',
+		tags: ['Web-based Minting', 'NFT', 'NFT Storage', 'Blockchain'],
+		title: 'NFT Platforms',
+		content: (
+			<div>
+				<pre>{`1. NFT는 웹 기반 민팅 시스템으로 사용자가 직접 발행 가능.
+2. 스마트 컨트랙트를 배포하고, 사용자는 웹에서 지갑 연결 후 민팅.
+3. ETH, MATIC 등 토큰으로 결제하고 NFT 생성.`}</pre>
+
+				<h3>웹 민팅 플랫폼 예시</h3>
+				<pre>{`• OpenSea
+  - 이더리움, 폴리곤 등 지원
+  - 컨트랙트 없이도 민팅 가능
+
+• Magic Eden
+  - 솔라나, 비트코인 오디널 지원
+  - 자체 민팅 페이지 생성 가능
+
+• Manifold
+  - No-Code 기반
+  - 직접 스마트 컨트랙트 배포 및 민팅 설정
+
+• Zora
+  - 오픈소스 NFT 플랫폼
+  - 커스텀 민팅 시스템 구축 가능`}</pre>
+			</div>
+		),
+	},
 ]
