@@ -5,7 +5,7 @@ import { FaUpload } from 'react-icons/fa'
 
 import Button from '@/components/buttons/Button'
 import { uploadFileToIPFS } from '@/utils/api/pinata'
-import { Timage } from '@/utils/nft.types'
+import { Timage } from '@/utils/types/nft.types'
 
 type UploadProps = {
 	handleImageUpload: (img: Timage) => void

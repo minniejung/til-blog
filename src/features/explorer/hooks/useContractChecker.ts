@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Web3 from 'web3'
 
 import { ERC20_ABI } from '@/utils/abi/ERC20_ABI'
-import { ContractDataType } from '@/utils/types'
+import { ContractDataType } from '@/utils/types/types'
 
 const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { Tmetadata } from '@/utils/nft.types'
+import { Tmetadata } from '@/utils/types/nft.types'
 
 const jwt = process.env.NEXT_PUBLIC_PINATA_JWT
 

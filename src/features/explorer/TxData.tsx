@@ -6,7 +6,7 @@ import Web3 from 'web3'
 import { ErrorMessage } from '@/components/ErrorMessage'
 import { LoadingMessage } from '@/components/LoadingMessage'
 import { cn } from '@/utils/helpers/cn'
-import { TxDataType } from '@/utils/types'
+import { TxDataType } from '@/utils/types/types'
 
 import useTxData from './hooks/useTxData'
 

@@ -8,7 +8,7 @@ import { FaSpinner } from 'react-icons/fa'
 import Button from '@/components/buttons/Button'
 import { web3WalletAtom } from '@/stores/atoms'
 import { uploadMetaData } from '@/utils/api/pinata'
-import { Timage, Tmetadata } from '@/utils/nft.types'
+import { Timage, Tmetadata } from '@/utils/types/nft.types'
 
 import { ButtonUpload } from './ButtonUpload'
 import { mint } from './hooks/web3'

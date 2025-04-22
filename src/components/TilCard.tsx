@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 
 import { getRandomCats } from '@/utils/api/getRandomCat'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 import Tag from './Tag'
 

@@ -1,4 +1,4 @@
-import { NetworkType } from './types'
+import { NetworkType } from './types/types'
 
 export const defaultNetwork = {
 	id: 1001,

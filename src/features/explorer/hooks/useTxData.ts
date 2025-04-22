@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import Web3 from 'web3'
 
-import { TxDataType, TxReceiptDataType } from '@/utils/types'
+import { TxDataType, TxReceiptDataType } from '@/utils/types/types'
 
 const web3 = new Web3(process.env.NEXT_PUBLIC_WEB3_RPC)
 

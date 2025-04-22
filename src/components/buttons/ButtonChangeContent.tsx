@@ -4,7 +4,7 @@ import React from 'react'
 import { FcNext } from 'react-icons/fc'
 
 import { cn } from '@/utils/helpers/cn'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 type Props = {
 	data: TilCardType[]

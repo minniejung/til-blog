@@ -2,7 +2,8 @@ import axios from 'axios'
 import Web3 from 'web3'
 
 import MyNFT from '@/utils/abi/MyNFT.json'
-import { Taccount } from '@/utils/nft.types'
+import { Taccount } from '@/utils/types/nft.types'
+import { MetaMaskAccount } from '@/utils/types/wallet.types'
 
 const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 

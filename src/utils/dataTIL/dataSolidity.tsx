@@ -1,7 +1,7 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { TilCardType } from '../types'
+import { TilCardType } from '../types/types'
 
 {
 	/* <SyntaxHighlighter language='solidity' style={vscDarkPlus}>
@@ -2267,8 +2267,7 @@ contract TryCatchExample {
 					{`contract TransferExample {
     function sendEther(address payable recipient) public payable {
         recipient.transfer(msg.value);
-    }
-}
+    }}
 
 // 사용 추천: 기본적인 이더 전송 시 사용`}
 				</SyntaxHighlighter>

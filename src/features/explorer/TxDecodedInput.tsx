@@ -8,7 +8,7 @@ import { LoadingMessage } from '@/components/LoadingMessage'
 import { ERC20_ABI } from '@/utils/abi/ERC20_ABI'
 import { cn } from '@/utils/helpers/cn'
 import { decodeInputData } from '@/utils/helpers/decodeInputData'
-import { DecodedInputDataType } from '@/utils/types'
+import { DecodedInputDataType } from '@/utils/types/types'
 
 import useTxData from './hooks/useTxData'
 

@@ -1,7 +1,7 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { TilCardType } from '../types'
+import { TilCardType } from '../types/types'
 
 export const dataFront: TilCardType[] = [
 	{

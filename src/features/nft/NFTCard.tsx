@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import { FaSpinner } from 'react-icons/fa'
 
-import { Tnft } from '@/utils/nft.types'
+import { Tnft } from '@/utils/types/nft.types'
 
 const NFTCard = ({ nft, loading }: { nft: Tnft; loading: boolean }) => {
 	return (

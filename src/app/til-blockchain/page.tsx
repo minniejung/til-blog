@@ -1,6 +1,6 @@
 import TilCard from '@/components/TilCard'
 import { dataBlockchain } from '@/utils/dataTIL/dataBlockchain'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 const TilBlockchainPage = () => {
 	return (

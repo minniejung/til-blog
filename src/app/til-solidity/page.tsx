@@ -1,6 +1,6 @@
 import TilCard from '@/components/TilCard'
 import { dataSolidity } from '@/utils/dataTIL/dataSolidity'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 const TilSolidityPage = () => {
 	return (

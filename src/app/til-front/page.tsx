@@ -1,6 +1,6 @@
 import TilCard from '@/components/TilCard'
 import { dataFront } from '@/utils/dataTIL/dataFront'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 const TilFrontPage = () => {
 	return (

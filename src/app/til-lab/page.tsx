@@ -1,6 +1,6 @@
 import TilCard from '@/components/TilCard'
 import { dataLab } from '@/utils/dataTIL/dataLab'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 const TilLabPage = () => {
 	return (

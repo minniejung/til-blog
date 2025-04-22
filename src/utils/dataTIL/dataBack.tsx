@@ -1,7 +1,7 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { TilCardType } from '../types'
+import { TilCardType } from '../types/types'
 
 export const dataBack: TilCardType[] = [
 	{
@@ -154,7 +154,7 @@ export class MoviesService {
 		),
 	},
 	{
-		id: 4,	
+		id: 4,
 		date: '14/02/2025',
 		tags: ['NestJS', 'Backend'],
 		title: 'Structure - Class',

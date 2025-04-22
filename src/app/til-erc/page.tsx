@@ -1,6 +1,6 @@
 import TilCard from '@/components/TilCard'
 import { dataERC } from '@/utils/dataTIL/dataERC'
-import { TilCardType } from '@/utils/types'
+import { TilCardType } from '@/utils/types/types'
 
 const TilERC20Page = () => {
 	return (

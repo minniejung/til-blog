@@ -8,7 +8,7 @@ import Web3 from 'web3'
 
 import { networkAtom } from '@/stores/atoms'
 import { networks } from '@/utils/consts'
-import { NetworkType } from '@/utils/types'
+import { NetworkType } from '@/utils/types/types'
 
 type NetworkModalProps = {
 	web3: Web3
