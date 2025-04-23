@@ -774,7 +774,7 @@ Pinata API Key를 발급 받을 때의 JWT 토큰을 사용.`}</pre>
 						vscDarkPlus
 					}>{`function transferFrom(address sender, address recipient, uint256 amount) public returns (bool)
 
-// ransferFrom은 미리 approve를 받은 토큰을 spender가 송신자를 대신해 전송할 때 사용됩니다.`}</SyntaxHighlighter>
+// transferFrom은 미리 approve를 받은 토큰을 spender가 송신자를 대신해 전송할 때 사용됩니다.`}</SyntaxHighlighter>
 
 				<h3>transferFrom의 주요 조건</h3>
 				<pre>{`1. 소유자(Owner)가 먼저 approve를 실행해야 함. >> 이 때 사용자에게서 가스비가 소모됨.
@@ -974,11 +974,11 @@ const signature = await signer.signTypedData(domain, types, message);
 			<div>
 				<pre>{`✔️ EIP-2612는 ERC-20 토큰에서 approve를 가스 없이 서명(signature)만으로 수행할 수 있도록 확장하는 표준
 ✔️ 기존 approve는 직접적인 트랜잭션이 필요하여 사용자가 가스를 지불해야 하는 문제가 있었음
-✔️  EIP-2612를 적용하면, MetaTransaction 방식으로 approve를 처리하여 사용자의 가스비 부담을 줄일 수 있음
+✔️ EIP-2612를 적용하면, MetaTransaction 방식으로 approve를 처리하여 사용자의 가스비 부담을 줄일 수 있음
 
 * (사용자) 기존 approve는 가스비 필요 => permit 은 가스비 불필요
 * Permit을 사용하면 서명만으로 허가 가능
-* e.g. sDEX, DeFi, NFT 등 사용자 경험(UX) 개선`}</pre>
+* e.g. DEX, DeFi, NFT 등 사용자 경험(UX) 개선`}</pre>
 
 				<h3>기존 ERC-20 approve의 문제점</h3>
 				<pre>{`1. 사용자가 approve(spender, amount)를 실행 → 트랜잭션을 생성해야 함(setter 함수)으로 가스비 필요
@@ -1057,6 +1057,298 @@ DOMAIN_SEPARATOR = keccak256(
         address(this)
     )
 );`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 15,
+		date: '23/04/2025',
+		tags: ['msg.sender', 'ERC-20', 'Gasless', 'Blockchain'],
+		title: 'msg.sender (ERC-20)',
+		content: (
+			<div>
+				<h3>msg.sender란?</h3>
+				<pre>{`✔️ msg.sender는 이더리움 스마트 컨트랙트에서 현재 실행 중인 함수의 호출자를 나타내는 특별한 전역 변수
+✔️ 트랜잭션이 발생하면 트랜잭션을 발생시킨 주소(EOA 또는 컨트랙트 주소)가 msg.sender`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SenderExample {
+    function whoIsSender() public view returns (address) {
+        return msg.sender;
+    }
+}
+
+// 만약 Alice(EOA: 0xABC)가 whoIsSender()를 호출하면, 반환값은 0xABC가 됩니다.`}</SyntaxHighlighter>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 컨트랙트가 컨트랙트를 호출하는 경우
+contract A {
+    function callB(address _b) public view returns (address) {
+        return B(_b).whoIsSender();
+    }
+}
+
+contract B {
+    function whoIsSender() public view returns (address) {
+        return msg.sender;
+    }
+}
+
+// 만약 A 컨트랙트가 B 컨트랙트를 호출하면, msg.sender는 A 컨트랙트의 주소가 됩니다.
+
+// 1. Alice(EOA: 0xABC)가 A 컨트랙트의 callB() 함수를 실행하면
+// 2. A 컨트랙트가 B 컨트랙트의 whoIsSender()를 호출
+// 3. B 컨트랙트의 msg.sender는 A 컨트랙트의 주소가 됨.
+// 4. 즉, B 컨트랙트 입장에서는 A 컨트랙트가 호출한 것이므로 msg.sender는 A 컨트랙트가 됨.`}</SyntaxHighlighter>
+
+				<h3>msg.sender가 ERC-20에서 동작하는 방식</h3>
+				<h3>1. transfer: 토큰 전송 (msg.sender = 토큰을 보내는 사람)</h3>
+				<pre>{`✅ 기능: msg.sender가 자신의 토큰을 다른 주소로 전송할 때 사용됩니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function transfer(address recipient, uint256 amount) public returns (bool) {
+    require(recipient != address(0), "Invalid recipient");
+    require(_balances[msg.sender] >= amount, "Insufficient balance");
+
+    _balances[msg.sender] -= amount;
+    _balances[recipient] += amount;
+    emit Transfer(msg.sender, recipient, amount);
+    return true;
+}
+
+// ✅ msg.sender 역할
+//	* 송금자(토큰 보유자)의 주소를 나타냄.
+//	* _balances[msg.sender]를 확인하여 잔액이 충분한지 검증.
+//	* 토큰을 msg.sender → recipient로 전송.`}</SyntaxHighlighter>
+
+				<h3>2. approve: 토큰 사용 권한 위임 (msg.sender = 토큰 소유자)</h3>
+				<pre>{`✅ 기능: msg.sender가 특정 spender 주소에게 자신의 토큰을 사용할 수 있도록 허락.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function approve(address spender, uint256 amount) public returns (bool) {
+    require(spender != address(0), "Invalid spender");
+
+    _allowances[msg.sender][spender] = amount;
+    emit Approval(msg.sender, spender, amount);
+    return true;
+}
+
+// ✅ msg.sender 역할
+//	* msg.sender(토큰 소유자)가 spender(제3자, 보통 스마트 컨트랙트)에게 일정량의 토큰 사용을 허가.
+//	*_allowances[msg.sender][spender]에 허용된 금액 저장.
+`}</SyntaxHighlighter>
+
+				<h3>3. transferFrom: 위임된 토큰 전송 (msg.sender = 승인받은 사용자)</h3>
+				<pre>{`✅ 기능: msg.sender가 approve를 통해 허가받은 토큰을 대신 전송.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={
+						vscDarkPlus
+					}>{`function transferFrom(address sender, address recipient, uint256 amount) public returns (bool) {
+    require(sender != address(0), "Invalid sender");
+    require(recipient != address(0), "Invalid recipient");
+    require(_balances[sender] >= amount, "Insufficient balance");
+    require(_allowances[sender][msg.sender] >= amount, "Allowance exceeded");
+
+    _balances[sender] -= amount;
+    _balances[recipient] += amount;
+    _allowances[sender][msg.sender] -= amount;
+
+    emit Transfer(sender, recipient, amount);
+    return true;
+}
+
+// ✅ msg.sender 역할
+//	* msg.sender는 spender 역할 (토큰 소유자로부터 위임받은 계정).
+//	*_allowances[sender][msg.sender]를 확인하여 권한 내에서 실행하는지 검증.
+//	* msg.sender는 sender의 토큰을 대신 recipient에게 전송 가능.
+`}</SyntaxHighlighter>
+
+				<h3>4. _mint: 새로운 토큰 발행 (msg.sender = 발행자)</h3>
+				<pre>{`✅ 기능: 컨트랙트 배포자(관리자)가 새로운 토큰을 생성.
+`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function _mint(address account, uint256 amount) internal {
+    require(account != address(0), "Invalid account");
+
+    _totalSupply += amount;
+    _balances[account] += amount;
+    emit Transfer(address(0), account, amount);
+}
+
+// ✅ msg.sender 역할
+//	* _mint는 보통 onlyOwner 제한이 있으며, 토큰 발행 권한이 있는 관리자만 호출 가능.
+//	* msg.sender가 새로운 토큰을 생성하고 특정 주소에 할당.`}</SyntaxHighlighter>
+
+				<h3>5. msg.sender가 자신의 토큰을 소각(삭제).</h3>
+				<pre>{`✅ 기능: msg.sender가 자신의 토큰을 소각(삭제).`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function _burn(address account, uint256 amount) internal {
+    require(account != address(0), "Invalid account");
+    require(_balances[account] >= amount, "Insufficient balance");
+
+    _balances[account] -= amount;
+    _totalSupply -= amount;
+    emit Transfer(account, address(0), amount);
+}
+
+// ✅ msg.sender 역할
+//	* msg.sender가 자신의 토큰을 소각할 때 호출.
+//	* _balances[msg.sender]에서 소각할 수량만큼 차감.
+`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 16,
+		date: '23/04/2025',
+		tags: ['Meta Transaction', 'ERC-2771', 'Gasless', 'Blockchain'],
+		title: 'Secure Protocol for Native Meta Transactions',
+		content: (
+			<div>
+				<h3>Meta Transaction?</h3>
+				<pre>{`✔️ ETH가 없는 사용자도 트랜잭션을 실행할 수 있도록 하기 위해 메타 트랜잭션이 등장
+✔️ Meta Transaction은 사용자가 가스비(ETH)를 직접 지불하지 않고 스마트 컨트랙트와 상호작용할 수 있도록 하는 트랜잭션 방식
+
+⭐️ 사용자는 트랜잭션에 서명만 하고,
+⭐️ 제3자(릴레이어, Relayer)가 해당 트랜잭션을 블록체인에 제출하며 가스비를 대신 지불`}</pre>
+
+				<h3>용어</h3>
+				<pre>{`✅ 사용자 (Transaction Signer)	: 트랜잭션을 서명하는 주체
+✅ Relayer (가스 대납자)	: 사용자의 서명된 트랜잭션을 블록체인에 제출하는 주체
+✅ Forwarder (포워더)	: 트랜잭션을 중계하고 검증하는 컨트랙트
+✅ Recipient (최종 컨트랙트)	: 트랜잭션을 실행하는 컨트랙트`}</pre>
+
+				<h3>메타 트랜잭션 실행 과정</h3>
+				<pre>{`* 사용자가 직접 트랜잭션을 실행하는 것이 아니라, 제3자(Relayer)가 가스비를 대신 지불하는 방식
+* 사용자는 서명만 하면 되고, Relayer가 블록체인에 제출하여 트랜잭션을 실행
+* 이 과정에서 Forwarder(포워더) 컨트랙트가 서명을 검증하고, 올바른 트랜잭션인지 확인
+* 이 후 Recipient(최종 컨트랙트)는 사용자가 실행하고자 했던 기능을 실행
+* msg.sender를 실제 사용자로 인식하여 트랜잭션 실행(Relayer X, 사용자 O)
+`}</pre>
+
+				<h3>사용자의 실제 주소 추출하기</h3>
+				<pre>{`메타 트랜잭션이 담긴 트랜잭션에서는 msg.sender가 Forwarder 주소로 설정되기 때문에, 실제 사용자의 주소를 별도로 추출해야 합니다.`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`/**
+* @dev Indicates whether any particular address is the trusted forwarder.
+*/
+
+function isTrustedForwarder(address forwarder) public view virtual returns (bool) {
+	return forwarder == trustedForwarder();
+}
+
+/**
+ * @dev Override for \`msg.sender\`. Defaults to the original \`msg.sender\` whenever
+ * a call is not performed by the trusted forwarder or the calldata length is less than
+ * 20 bytes (an address length).
+ */
+
+function _msgSender() internal view virtual override returns (address) {
+	uint256 calldataLength = msg.data.length;
+	uint256 contextSuffixLength = _contextSuffixLength();
+	if (isTrustedForwarder(msg.sender) && calldataLength >= contextSuffixLength) {
+		return address(bytes20(msg.data[calldataLength - contextSuffixLength:]));
+	} else {
+		return super._msgSender();
+	}
+}
+	
+// Forwarder를 신뢰할 수 있는지 확인 (isTrustedForwarder 함수 호출)
+// msg.data의 마지막 20바이트에서 실제 사용자 주소를 추출
+// 만약 Forwarder가 아닐 경우 기존 msg.sender 그대로 반환
+`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 17,
+		date: '23/04/2025',
+		tags: ['Meta Transaction', 'EIP-2771', 'ERC-2771', 'Gasless', 'Blockchain'],
+		title: 'EIP-2771 주요 함수',
+		content: (
+			<div>
+				<h3>1. isTrustedForwarder(address forwarder) → bool</h3>
+				<pre>{`✅ 특정 Forwarder(중계자)가 신뢰할 수 있는지 확인하는 함수입니다.
+✅ Recipient(최종 실행 컨트랙트)는 Forwarder가 신뢰할 수 있는지를 검증해야 합니다.
+✅ 메타 트랜잭션을 처리할 때 필수적인 보안 기능을 제공합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function isTrustedForwarder(address forwarder) external view returns (bool);
+
+// 신뢰할 수 없는 Forwarder가 msg.sender를 조작하는 것을 방지합니다.
+// 메타 트랜잭션을 수락할지를 결정하는 필터 역할을 합니다.`}</SyntaxHighlighter>
+
+				<h3>2. _msgSender() → address</h3>
+				<pre>{`✅ 일반 트랜잭션에서는 msg.sender가 그대로 반환되지만,
+✅ Forwarder를 통한 메타 트랜잭션일 경우 실제 사용자 주소를 반환합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function _msgSender() internal view returns (address) {
+    if (msg.data.length >= 20 && isTrustedForwarder(msg.sender)) {
+        address signer;
+        assembly {
+            signer := shr(96, calldataload(sub(calldatasize(), 20)))
+        }
+        return signer;
+    }
+    return msg.sender;
+}
+
+// 메타 트랜잭션을 통해 실행되는 경우, Forwarder가 아닌 실제 사용자(Transaction Signer)의 주소를 반환합니다.
+// 스마트 컨트랙트가 올바른 사용자 권한을 확인할 수 있도록 보장합니다.`}</SyntaxHighlighter>
+
+				<h3>3. _msgData() → bytes calldata</h3>
+				<pre>{`✅ 일반 트랜잭션에서는 msg.data를 그대로 반환하지만,
+✅ 메타 트랜잭션에서는 추가된 데이터(사용자 주소를 포함) 부분을 제거하고 반환합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function _msgData() internal view returns (bytes calldata) {
+    if (msg.data.length >= 20 && isTrustedForwarder(msg.sender)) {
+        return msg.data[:msg.data.length - 20];
+    }
+    return msg.data;
+}
+
+// 메타 트랜잭션을 사용할 때, 추가된 Forwarder 정보 없이 원래의 데이터를 처리할 수 있도록 합니다.`}</SyntaxHighlighter>
+
+				<h3>4. execute(ForwardRequest request) → bool</h3>
+				<pre>{`✅ Relayer가 메타 트랜잭션을 실제로 실행하는 함수입니다.
+✅ 사용자의 서명을 검증한 후, Forwarder가 Recipient 컨트랙트에 트랜잭션을 전달합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function execute(ForwardRequest calldata request) public payable;
+
+// Forwarder가 요청을 받아 서명을 검증한 후, 실제 트랜잭션을 실행합니다.`}</SyntaxHighlighter>
+
+				<h3>5. verify(ForwardRequest request) → bool</h3>
+				<pre>{`✅ 사용자의 서명이 올바른지 검증하는 함수입니다.
+✅ 잘못된 서명이 제출될 경우, 메타 트랜잭션이 실행되지 않도록 방지합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function verify(ForwardRequest calldata request) public view returns (bool);
+
+// 서명을 검증하여 Replay Attack 및 위조된 트랜잭션을 방지합니다.
+// Forwarder가 악성 서명을 실행하지 않도록 보장합니다.`}</SyntaxHighlighter>
+
+				<h3>5. verify(ForwardRequest request) → bool</h3>
+				<pre>{`✅ 사용자의 서명이 올바른지 검증하는 함수입니다.
+✅ 잘못된 서명이 제출될 경우, 메타 트랜잭션이 실행되지 않도록 방지합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function verify(ForwardRequest calldata request) public view returns (bool);
+
+// 서명을 검증하여 Replay Attack 및 위조된 트랜잭션을 방지합니다.
+// Forwarder가 악성 서명을 실행하지 않도록 보장합니다.`}</SyntaxHighlighter>
+
+				<h3>6. nonces(address signer) → uint256</h3>
+				<pre>{`✅ 각 사용자의 Nonce(트랜잭션 실행 순서)를 관리합니다.
+✅ 메타 트랜잭션이 중복 실행되지 않도록 방지하는 역할을 합니다.`}</pre>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function nonces(address signer) public view returns (uint256);
+
+// 동일한 서명이 여러 번 사용되지 않도록 방지 (Replay Attack 방지)`}</SyntaxHighlighter>
 			</div>
 		),
 	},
