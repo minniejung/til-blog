@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
 import { useState } from 'react'
 
@@ -16,7 +17,7 @@ export const Nav = () => {
 
 	return (
 		<>
-			<nav className='hidden gap-8 xs:flex'>
+			<nav className='z-50 flex hidden items-center gap-8 xs:flex'>
 				{links.map((link, i) => {
 					if (link.startsWith('TIL-')) {
 						if (i === links.findIndex(l => l.startsWith('TIL-'))) {
@@ -64,6 +65,11 @@ export const Nav = () => {
 						</div>
 					)
 				})}
+				<Link href='https://mint-scob.vercel.app/mint' target='_blank'>
+					<div className='rounded-full bg-purple-100 px-4 py-2 font-bold text-[#777] hover:text-purple-500'>
+						Mint Page {'>>'}
+					</div>
+				</Link>
 			</nav>
 
 			<HiMenu
@@ -106,8 +112,6 @@ const links = [
 	'TIL-Lab',
 	'Scoby',
 	'Chart',
-	'Mint',
-	'Testmint',
 	'Explorer',
 	'Wallet',
 ]
