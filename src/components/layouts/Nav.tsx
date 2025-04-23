@@ -107,6 +107,7 @@ const links = [
 	'Scoby',
 	'Chart',
 	'Mint',
+	'Testmint',
 	'Explorer',
 	'Wallet',
 ]

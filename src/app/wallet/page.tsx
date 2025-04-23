@@ -8,7 +8,6 @@ import { ButtonGoBack } from '@/components/buttons/ButtonGoBack'
 import { ButtonCreateWallet } from '@/features/wallets/ButtonCreateWallet'
 import { ButtonImportWalletByKey } from '@/features/wallets/ButtonImportWalletByKey'
 import { ButtonImportWalletByMnemonic } from '@/features/wallets/ButtonImportWalletByMnemonic'
-// import { ButtonMetamaskWallet } from '@/features/wallets/ButtonMetamaskWallet'
 import { WalletContents } from '@/features/wallets/WalletContents'
 import { txHashesAtom, web3WalletAtom } from '@/stores/atoms'
 

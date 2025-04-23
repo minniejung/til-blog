@@ -20,6 +20,7 @@ type UploadAreaProps = {
 export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 	const router = useRouter()
 	const wallet = useAtomValue(web3WalletAtom)
+	// const wallet = useAtomValue(ethersWalletAtom)
 
 	const [img, setImg] = useState<Timage>({ url: '', preview: '' })
 	const [metadata, setMetadata] = useState<Tmetadata>({
@@ -61,6 +62,31 @@ export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 		}
 	}
 
+	// const handleMintWithMetamask = async () => {
+	// 	setLoading(true)
+	// 	try {
+	// 		if (wallet) {
+	// 			const tokenUri = await uploadMetaData(metadata)
+	// 			if (!tokenUri) return
+
+	// 			const mintNFT = await mintWithEthers(wallet, tokenUri)
+	// 			if (mintNFT) {
+	// 				router.refresh()
+	// 				onMinted?.()
+	// 			}
+	// 		}
+	// 	} catch (error) {
+	// 		console.error(error)
+	// 	} finally {
+	// 		setLoading(false)
+	// 		setMetadata({
+	// 			name: '',
+	// 			description: '',
+	// 			image: '',
+	// 		})
+	// 	}
+	// }
+
 	const handleImageUpload = (img: Timage) => {
 		if (img.preview) {
 			setImg(img)
@@ -96,6 +122,7 @@ export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 					</div>
 
 					<Button
+						// onClick={handleMintWithMetamask}
 						onClick={handleMint}
 						className='h-[40px] w-full max-w-[300px] self-center border border-purple-500 bg-white text-sm text-purple-500 hover:bg-purple-500 hover:text-white'>
 						{loading ? <FaSpinner className='animate-spin text-xl text-gray-500' /> : 'Mint'}

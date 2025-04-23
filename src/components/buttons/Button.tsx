@@ -14,7 +14,7 @@ const Button = ({ onClick, children, className, disabled }: ButtonTypes) => {
 		<button
 			onClick={onClick}
 			className={cn(
-				'flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-8 py-4 font-bold',
+				'z-10 flex cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white px-8 py-4 font-bold',
 				className,
 				disabled && 'cursor-not-allowed bg-red-500 opacity-50',
 			)}>

@@ -1,58 +1,62 @@
 'use client'
 
-import { useEffect } from 'react'
+import Image from 'next/image'
+import { useState } from 'react'
 
 import { useAtomValue } from 'jotai'
-import { FaSpinner } from 'react-icons/fa'
 
-import { useNfts } from '@/features/nft/hooks/useNfts'
-import NFTCard from '@/features/nft/NFTCard'
-import { UploadArea } from '@/features/nft/UploadArea'
-import { ButtonImportWalletByKey } from '@/features/wallets/ButtonImportWalletByKey'
-import { web3WalletAtom } from '@/stores/atoms'
+import { Tabs } from '@/components/Tabs'
+import MintContainer from '@/features/nft/MintContainer'
+import MyNfts from '@/features/nft/MyNfts'
+import { ButtonMetamaskWallet } from '@/features/wallets/ButtonMetamask'
+import { ethersWalletAtom } from '@/stores/atoms'
+import { ScobyNfts } from '@/utils/consts'
 
+const TxTabs = [
+	{ id: 'mint', label: 'MINT' },
+	{ id: 'nfts', label: 'My NFTs' },
+]
 const MintPage = () => {
-	const wallet = useAtomValue(web3WalletAtom)
-	const { nfts, loading, refetch } = useNfts(wallet)
+	const wallet = useAtomValue(ethersWalletAtom)
 
-	useEffect(() => {
-		if (wallet) refetch()
-	}, [wallet])
+	const [activeTab, setActiveTab] = useState('mint')
 
 	return (
 		<div className='space-y-8'>
-			<div className='flex flex-col items-center space-y-4'>
-				{!wallet && (
-					<div className='w-[400px]'>
-						<ButtonImportWalletByKey />
-					</div>
-				)}
-				<div className='pl-4 text-sm'>
-					Connected wallet : {wallet ? <div className=''>{wallet.address}</div> : 'Not found'}
-				</div>
+			<div className='mt-4 w-full text-center font-baloo text-2xl font-extrabold text-gray-400'>
+				Mint the cutest cat in the world
 			</div>
 
-			{wallet && (
-				<div className='space-y-8'>
-					<UploadArea onMinted={refetch} />
-
-					<div className='flex w-full flex-wrap justify-center'>
-						{loading ? (
-							<FaSpinner className='animate-spin text-xl text-gray-500' />
-						) : (
-							<>
-								{nfts.length === 0 ? (
-									<p>No NFT found</p>
-								) : (
-									<div className='flex w-fit flex-wrap justify-center gap-4'>
-										{nfts.map((nft, index) => (
-											<NFTCard key={index} nft={nft} loading={loading} />
-										))}
-									</div>
-								)}
-							</>
-						)}
+			{!wallet && (
+				<>
+					<div className='w-full overflow-hidden'>
+						<div className='animate-marquee flex min-w-[200%] whitespace-nowrap'>
+							{[...ScobyNfts, ...ScobyNfts].map(scob => (
+								<div key={`${scob.id}-${Math.random()}`} className='relative mx-2 h-fit w-[256px]'>
+									<Image
+										src={scob.uri}
+										alt='scobynft'
+										width={256}
+										height={384}
+										className='rounded-2xl opacity-70 hover:opacity-100'
+									/>
+								</div>
+							))}
+						</div>
 					</div>
+
+					<div className='flex w-full items-center justify-center'>
+						<ButtonMetamaskWallet />
+					</div>
+				</>
+			)}
+
+			{wallet && (
+				<div className='space-y-4 pt-8'>
+					<Tabs tabs={TxTabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+
+					{activeTab === 'mint' && <MintContainer />}
+					{activeTab === 'nfts' && <MyNfts />}
 				</div>
 			)}
 		</div>

@@ -1,12 +1,23 @@
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
+import { useSetAtom } from 'jotai'
 import { FaSpinner } from 'react-icons/fa'
 
+import { selectedNftAtom } from '@/stores/atoms'
 import { Tnft } from '@/utils/types/nft.types'
 
 const NFTCard = ({ nft, loading }: { nft: Tnft; loading: boolean }) => {
+	const router = useRouter()
+	const setSelectedNft = useSetAtom(selectedNftAtom)
+
 	return (
-		<div className='flex h-[400px] w-fit flex-col gap-4 rounded-lg border p-2'>
+		<div
+			onClick={() => {
+				setSelectedNft(nft)
+				router.push(`/mint/${nft.tokenId}`)
+			}}
+			className='flex h-fit w-fit cursor-pointer flex-col gap-4 rounded-lg border p-2 hover:bg-gray-100'>
 			<div className='relative flex h-[200px] w-[200px] items-center justify-center overflow-hidden rounded-lg bg-gray-100'>
 				<div className='relative flex h-[200px] w-[200px] items-center justify-center overflow-hidden rounded-lg bg-gray-100'>
 					{loading ? (
@@ -17,25 +28,22 @@ const NFTCard = ({ nft, loading }: { nft: Tnft; loading: boolean }) => {
 						<span className='text-xs text-gray-400'>No Image</span>
 					)}
 				</div>
-				<div className='z-1 absolute bottom-2 right-2 rounded-lg border bg-white px-2 py-1 text-xs'>
+				<div className='z-1 absolute bottom-2 right-2 rounded-lg border bg-white px-2 py-1 text-xs font-semibold'>
 					# {nft.tokenId}
 				</div>
 			</div>
 			<div className='max-w-[200px] space-y-1 pl-2'>
-				<div className='font-bold capitalize'>{nft.name}</div>
-				<div className='whitespace-wrap max-h-[56px] overflow-hidden text-xs text-gray-500'>
+				<div className='whitespace-nowrap text-xl font-bold capitalize opacity-80'>
+					{nft.name.length > 16 ? nft.name.slice(0, 16) + '...' : nft.name}
+				</div>
+				<div className='whitespace-wrap h-[24px] overflow-hidden text-xs text-gray-500'>
 					{nft.description
-						? nft.description.length > 116
-							? nft.description.slice(0, 116) + '...'
+						? nft.description.length > 52
+							? nft.description.slice(0, 52) + '...'
 							: nft.description
-						: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi rem corrupti perferendis atque, consequatur soluta totam vero!'}
+						: 'No description'}
 				</div>
-				<div className='flex flex-col gap-1 pt-2 text-xs'>
-					<div>Owner: {`${nft.owner.toString().slice(0, 15)}...${nft.owner.toString().slice(-3)}`}</div>
-					<div>Contract: {`${nft.contract.toString().slice(0, 15)}...${nft.contract.toString().slice(-3)}`}</div>
-					<div>Network: {nft.network}</div>
-					<div>Symbol: {nft.symbol || ''}</div>
-				</div>
+				<div className='pr-2 pt-4 text-right font-bold opacity-80'>{(Math.random() * 19.99 + 0.01).toFixed(2)} ETH</div>
 			</div>
 		</div>
 	)

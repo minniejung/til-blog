@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { Contract } from 'ethers'
+import { toast } from 'react-toastify'
 import Web3 from 'web3'
 
 import MyNFT from '@/utils/abi/MyNFT.json'
 import { Taccount } from '@/utils/types/nft.types'
-import { MetaMaskAccount } from '@/utils/types/wallet.types'
+import { MetaMaskAccountType } from '@/utils/types/wallet.types'
 
 const web3 = new Web3('https://public-en-kairos.node.kaia.io')
 
@@ -31,6 +33,28 @@ export const mint = async (account: Taccount, tokenURI: string) => {
 		return receipt
 	} catch (error) {
 		console.error('❌ 트랜잭션 실패:', error)
+	}
+}
+
+export const mintWithEthers = async (account: MetaMaskAccountType, tokenURI: string) => {
+	try {
+		const signer = account.signer
+		const nftContract = new Contract(MyNFT.address, MyNFT.abi, signer)
+
+		toast.info('📝 Minting NFT... Please confirm in Metamask.')
+
+		const tx = await nftContract.mint(account.address, tokenURI)
+
+		toast.success('✅ Transaction sent. Waiting for confirmation...')
+
+		const receipt = await tx.wait()
+
+		toast.success(`NFT minted! tsx: ${receipt.transactionHash}`)
+		console.log('minted NFT:', receipt)
+		return receipt
+	} catch (error) {
+		console.error('❌ 트랜잭션 실패:', error)
+		toast.error(`${error}`)
 	}
 }
 

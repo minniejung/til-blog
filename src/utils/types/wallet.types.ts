@@ -1,6 +1,6 @@
 import { BrowserProvider, JsonRpcSigner } from 'ethers'
 
-export type MetaMaskAccount = {
+export type MetaMaskAccountType = {
 	address: string
 	provider: BrowserProvider
 	signer: JsonRpcSigner

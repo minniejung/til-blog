@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react'
 
-import { Tnft } from '@/utils/types/nft.types'
-import { MetaMaskAccount } from '@/utils/types/wallet.types'
+import { Taccount, Tnft } from '@/utils/types/nft.types'
+import { MetaMaskAccountType } from '@/utils/types/wallet.types'
 
 import { getNfts } from './web3'
 
-export const useNfts = (wallet: MetaMaskAccount | null) => {
-	const [loading, setLoading] = useState(false)
+export const useNfts = (wallet: MetaMaskAccountType | Taccount | null) => {
+	const [loading, setLoading] = useState<boolean>(false)
 	const [nfts, setNfts] = useState<Tnft[]>([])
 
 	const refetch = useCallback(async () => {
