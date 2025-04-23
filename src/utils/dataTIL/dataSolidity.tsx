@@ -3739,4 +3739,165 @@ getContractValue();
 			</div>
 		),
 	},
+	{
+		id: 37,
+		date: '21/04/2025',
+		tags: ['Test Driven', 'TDD', 'Smart Contract', 'Blockchain'],
+		title: 'Test-Driven Contract Development',
+		content: (
+			<div>
+				<pre>{`✔️ 스마트 컨트랙트 개발은 엄격한 의미에서 TDD는 아님
+✔️ 스마트 컨트랙트는 초기 설계가 중요하기 때문에, 기능을 먼저 정의한 후 테스트가 뒤따르는 경우가 많음
+✔️ 컨트랙트는 한번 배포되면 변경이 어렵기 때문에, 명확한 기능 정의 후 테스트를 거쳐야 함
+
+⚠️ 기능 설계 → 코드 작성 → 테스트 코드 작성 → 테스트 실행 → 수정/최적화 → 배포`}</pre>
+
+				<h3>컨트랙트 개발 프로세스</h3>
+				<pre>{`1️⃣ 핵심 기능 정의
+	스마트 컨트랙트에서 구현할 주요 기능을 정의합니다.
+	예: transfer(), mint(), approve(), stake(), withdraw() 등
+
+2️⃣ 테스트 케이스 설계
+	각 기능별로 예상되는 입력값과 반환값을 미리 정의합니다.
+	예: transfer()가 정상적으로 작동하는지, stake()가 올바르게 보상 계산을 수행하는지
+
+3️⃣ 기능 구현 & 테스트 코드 동시 작성
+	기능을 구현하면서 바로 테스트 코드를 작성합니다.
+	예: Hardhat, Foundry, Chai 등을 활용하여 테스트 코드 추가
+
+4️⃣ 테스트 실행 & 디버깅
+	기능이 의도대로 동작하는지 확인하고, 테스트를 통과하지 못한 부분을 수정합니다.
+
+5️⃣ 테스트 자동화 & 시뮬레이션
+	가스 비용, 보안 취약점 등을 시뮬레이션하여 추가 검증을 수행합니다.`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 38,
+		date: '21/04/2025',
+		tags: ['Chai', 'Test Driven', 'TDD', 'Smart Contract', 'Blockchain'],
+		title: 'Chai',
+		content: (
+			<div>
+				<h3>Chai의 주요 기능</h3>
+				<pre>{`✔️ Chai는 세 가지 스타일의 Assertion(검증 방식 or Test)을 지원합니다.
+✔️ 스마트 컨트랙트 테스트에서는 보통 expect() 스타일이 가장 많이 사용됨.
+
+✅ Expect 스타일	: 자연어 문장처럼 테스트 가능`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`expect(value).to.equal(42);`}</SyntaxHighlighter>
+				<pre>{`✅ Should 스타일	: 객체 기반 테스트`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`value.should.equal(42);`}</SyntaxHighlighter>
+				<pre>{`✅ Assert 스타일 : 전통적인 TDD 스타일`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`assert.equal(value, 42);`}</SyntaxHighlighter>
+
+				<h3>e.g. 기본적인 Expect 스타일 테스트</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`const { expect } = require("chai");
+
+describe("테스트 예제", function () {
+  it("2 + 2는 4가 되어야 한다.", function () {
+    expect(2 + 2).to.equal(4);
+  });
+
+  it("배열에 특정 요소가 포함되어야 한다.", function () {
+    expect([1, 2, 3]).to.include(2);
+  });
+});`}</SyntaxHighlighter>
+
+				<h3>e.g. Chai를 활용한 ERC-20 테스트</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`const { expect } = require("chai");
+
+describe("MyToken", function () {
+  let token, owner, addr1;
+
+  beforeEach(async function () {
+    [owner, addr1] = await ethers.getSigners();
+    const Token = await ethers.getContractFactory("MyToken");
+    token = await Token.deploy();
+    await token.deployed();
+  });
+
+  it("토큰 배포 후 총 공급량 확인", async function () {
+    expect(await token.totalSupply()).to.equal(1000000);
+  });
+
+  it("토큰 전송 테스트", async function () {
+    await token.transfer(addr1.address, 100);
+    expect(await token.balanceOf(addr1.address)).to.equal(100);
+  });
+});`}</SyntaxHighlighter>
+
+				<h3>Chai에서 자주 사용하는 Assertion</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 1. 값 비교
+expect(2 + 2).to.equal(4);  // 2 + 2 = 4
+expect("hello").to.not.equal("world"); // hello ≠ world
+
+// 2. 객체와 배열 확인
+expect({ name: "Alice" }).to.deep.equal({ name: "Alice" }); // 객체 비교
+expect([1, 2, 3]).to.include(2); // 배열에 특정 값 포함 여부 확인
+
+// 3. 오류 발생 여부 확인
+expect(() => { throw new Error("에러 발생!"); }).to.throw("에러 발생!");
+
+// 4. 스마트 컨트랙트 Revert 테스트
+await expect(token.transfer(addr1.address, 1000000000))
+  .to.be.revertedWith("ERC20: transfer amount exceeds balance");
+
+// 컨트랙트에서 예상된 오류가 발생하는지 검증 가능`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 39,
+		date: '21/04/2025',
+		tags: ['Hardhat', 'Test Driven', 'TDD', 'Smart Contract', 'Blockchain'],
+		title: 'Hardhat testing',
+		content: (
+			<div>
+				<h3>Hardhat 로컬 네트워크를 사용하면?</h3>
+				<pre>{`✔️ 빠르게 테스트 및 디버깅 가능
+✔️ 가상 계정(Signers) 제공 → 계정과 자금을 즉시 사용
+✔️ 자동 롤백 기능 → 테스트 후 상태가 초기화`}</pre>
+
+				<h3>Hardhat 로컬 네트워크 실행</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`// 아래 명령어를 실행하면 Hardhat 로컬 네트워크(Ganache와 유사한 환경)가 실행됩니다.
+
+npx hardhat node
+
+// 실행하면 다음과 같은 메시지가 출력됩니다.
+
+Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+// 자동 생성된 테스트 계정(ETH 포함) 예시
+
+Accounts:
+0x5B3...eddC4 → 10000 ETH
+0xAb8...E4b57 → 10000 ETH
+...
+
+// Hardhat은 테스트용 계정 20개를 자동 생성하며, 각각 10,000 ETH를 보유하고 있습니다.`}</SyntaxHighlighter>
+
+				<h3>Hardhat Test</h3>
+				<pre>{`✔️ Hardhat에서는 테스트를 실행할 때 자동으로 임시 로컬 네트워크를 생성하고 테스트가 끝나면 종료합니다.
+✔️ npx hardhat test를 실행하면 별도로 npx hardhat node를 실행하지 않아도 테스트가 가능합니다.
+
+Test 실행하면 다음과 같은 동작이 수행됨
+	* 임시 로컬 블록체인 생성
+	* 테스트 실행
+	* 테스트가 끝나면 블록체인 종료 및 초기화`}</pre>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// Test 명령어
+// test 폴더에 있는 모든 테스트들이 실행됩니다.
+
+npx hardhat test
+
+// 만약, 특정 테스트 파일만 실행하고 싶다면
+
+npx hardhat test test/{파일 이름}.ts
+`}</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]

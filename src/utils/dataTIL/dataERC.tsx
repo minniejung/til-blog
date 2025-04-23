@@ -731,4 +731,333 @@ Pinata API Key를 발급 받을 때의 JWT 토큰을 사용.`}</pre>
 			</div>
 		),
 	},
+	{
+		id: 12,
+		date: '22/04/2025',
+		tags: ['Permit', 'EIP-2612', 'Gasless', 'Blockchain'],
+		title: 'Gas를 소모하는 tx',
+		content: (
+			<div>
+				<h3>e.g. 기본 트랜잭션 (ETH 전송)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`await sender.sendTransaction({
+  to: recipient,
+  value: ethers.utils.parseEther("1.0"),
+});
+
+// Gas 소모: 약 21,000 Gas (가장 기본적인 트랜잭션)
+// 이더리움 네트워크에서의 단순 전송도 블록 검증 및 서명을 요구하기 때문에 Gas가 필요함`}</SyntaxHighlighter>
+
+				<h3>e.g. 스마트 컨트랙트 실행 트랜잭션</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`await token.transfer(recipient, ethers.utils.parseUnits("100", 18));
+
+// 예제: USDT, DAI, LINK 같은 ERC-20 토큰 전송
+// Gas 소모: 40,000 ~ 65,000 Gas
+// ETH 전송보다 더 많은 Gas가 소모됨 → 컨트랙트 상태 변경 필요`}</SyntaxHighlighter>
+
+				<h3>ERC-20의 기본 전송 메커니즘</h3>
+				<pre>{`1. transfer : 기본 전송 → 직접 송신자가 수신자에게 토큰을 전송
+2. approve + transferFrom : 승인 후 대리 전송 → 제3자가 송신자를 대신해 토큰을 전송`}</pre>
+
+				<h3>approve: 토큰 사용 권한 부여</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function approve(address spender, uint256 amount) public returns (bool)
+						
+// approve 함수는 지정된 spender(위임받을 주소)가 amount 만큼의 토큰을 사용하도록 허가하는 역할을 합니다.`}</SyntaxHighlighter>
+
+				<h3>transferFrom: 위임받은 토큰 전송</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={
+						vscDarkPlus
+					}>{`function transferFrom(address sender, address recipient, uint256 amount) public returns (bool)
+
+// ransferFrom은 미리 approve를 받은 토큰을 spender가 송신자를 대신해 전송할 때 사용됩니다.`}</SyntaxHighlighter>
+
+				<h3>transferFrom의 주요 조건</h3>
+				<pre>{`1. 소유자(Owner)가 먼저 approve를 실행해야 함. >> 이 때 사용자에게서 가스비가 소모됨.
+2. 스마트 컨트랙트가 transferFrom을 실행할 때 approve한 금액 내에서만 전송 가능.
+3. 성공적인 실행 후 Approval 이벤트가 발생하여 허용된 금액이 업데이트됨.`}</pre>
+
+				<h3>approve와 transferFrom을 활용하는 이유</h3>
+				<pre>{`* 스마트 컨트랙트를 통한 자동 결제 시스템
+	- 사용자가 서비스에 가입할 때, 일정량의 토큰을 컨트랙트에 위임하여 자동 결제가 가능하도록 설정할 수 있습니다.
+	- 예시: 구독 서비스, 게임 내 결제, 스테이킹 및 리워드 시스템
+* Dapp에서의 토큰 거래
+	- Uniswap 같은 DEX or Dapp에서 ERC-20 토큰을 거래할 때, DEX 컨트랙트에 먼저 approve를 호출하여 토큰을 사용할 권한을 부여해야 합니다.`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 13,
+		date: '22/04/2025',
+		tags: ['Typed Structured Data Signing', 'EIP-712', 'Gasless', 'Blockchain'],
+		title: 'EIP-712 : Typed Structured Data Signing',
+		content: (
+			<div>
+				<pre>{`✔️ EIP-712는 Ethereum 서명 방식의 표준
+✔️ Typed Structured Data Signing (타입이 지정된 구조화된 데이터 서명)을 지원하는 EIP (Ethereum Improvement Proposal)
+✔️ 기존의 일반적인 Ethereum 서명 방식에서는 단순히 메시지를 서명(sign)하지만,
+✔️ EIP-712를 사용하면 타입과 구조가 정의된 데이터를 보다 안전하고 직관적으로 서명할 수 있음`}</pre>
+
+				<h3>Ethereum 서명 방식</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// 1️⃣ 메시지를 먼저 Keccak256 해싱
+
+const hashedMessage = ethers.hashMessage("Allow 100 tokens for Spender");
+console.log(hashedMessage);
+// "0x4e07408562bedb8b60ce05c1decfe3ad16b7223091b5eae9f07759b7c6e01c6f"
+
+// 2️⃣ 이 해시 값(0x4e07...6e01c6f)을 사용자의 프라이빗 키(private key) 로 서명(signing)
+
+const signature = await wallet.signMessage(hashedMessage);
+console.log(signature);
+// "0x6b3a55e29d63a73978...f74a80e5a94b3a727"
+
+// 3️⃣ ECDSA(Elliptic Curve Digital Signature Algorithm)를 사용하여 서명 검증
+
+const recoveredAddress = ethers.verifyMessage(message, signature);
+console.log(recoveredAddress === wallet.address); // true
+
+// 서명된 signature와 원본 메시지를 사용하여 공개 키(주소)를 복원
+// 복원된 주소가 원래 서명자의 주소와 일치하는지 확인
+// 일치하면 서명이 유효한 것!`}</SyntaxHighlighter>
+
+				<h3>기존 서명 방식의 문제점(왜 EIP-712가 필요할까?)</h3>
+				<pre>{`기존 서명 방식(EIP-191)에서는,
+사용자가 지갑이나 익스플로러에서 서명을 확인할 때 의미를 알 수 없는 긴 Hex 코드만 보게 됩니다. 
+이렇게 되면 서명하는 내용이 어떤 의미인지 사용자 입장에서 알기 어려움.
+
+* signMessage()는 원본 메시지가 아니라, 해싱된 데이터를 서명
+* 서명된 Hex 값만 표시되므로, 사용자가 직관적으로 이해하기 어려움.
+* 해결책: signTypedData()(EIP-712)를 사용하면, 원본 메시지를 확인할 수 있음.
+`}</pre>
+
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`🔐 서명 요청 (사용자가 지갑에서 서명할 때 보이는 화면(MetaMask 예시)
+---------------------------------------------------
+서명할 데이터:
+0x4e07408562bedb8b60ce05c1decfe3ad16b7223091b5eae9f07759b7c6e01c6f
+---------------------------------------------------
+⚠️주의: Hex 코드만 표시되어, 사용자는 정확한 메시지를 알기 어려움!`}</SyntaxHighlighter>
+
+				<h3>보안 문제 (Phishing 공격)</h3>
+				<pre>{`기존 방식에서는 단순한 string 또는 hex 데이터를 서명하므로,
+악의적인 스마트 컨트랙트가 사용자가 서명한 메시지를 재사용(replay attack)하여 악용할 가능성이 있습니다.
+
+⚠️ 문제점 예시
+	* 사용자가 signMessage()로 단순한 승인 메시지를 서명
+	* 악의적인 컨트랙트가 이 서명을 가져가 다른 거래에 재사용 (Replay Attack)
+		=> 즉, 서명된 데이터가 정확히 어떤 내용인지 사용자가 확인하기 어려운 문제 발생.`}</pre>
+
+				<h3>EIP-712의 해결책</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`// EIP-712 방식의 서명 예시 (Typed Structured Data Signing)
+
+const domain = {
+  name: "MyToken",
+  version: "1",
+  chainId: 1,
+  verifyingContract: "0x1234567890abcdef...",
+};
+
+const types = {
+  Permit: [
+    { name: "owner", type: "address" },
+    { name: "spender", type: "address" },
+    { name: "value", type: "uint256" },
+    { name: "nonce", type: "uint256" },
+    { name: "deadline", type: "uint256" },
+  ],
+};
+
+const message = {
+  owner: "0xabc...",
+  spender: "0xdef...",
+  value: 100,
+  nonce: 1,
+  deadline: 1713200000, // Math.floor(Date.now() / 1000) + 3600;
+};
+
+const signature = await signer.signTypedData(domain, types, message);
+
+// EIP-712에서는 데이터의 구조를 명확하게 정의한 후 서명할 수 있도록 함.
+// 즉, 사용자가 정확히 무엇을 서명하는지 사람이 읽을 수 있는 방식으로 변환 가능!`}</SyntaxHighlighter>
+
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`// 사용자가 지갑에서 서명할 때 보이는 화면 (MetaMask 예시)
+
+🔐 서명 요청
+---------------------------------------------------
+도메인: MyToken (ver.1) 
+컨트랙트: 0x1234567890abcdef...
+---------------------------------------------------
+서명 데이터:
+- Owner: 0xabc...
+- Spender: 0xdef...
+- Amount: 100 tokens
+- Nonce: 1
+- Deadline: 2025-04-15 12:00:00 UTC
+---------------------------------------------------
+✅ 서명할 내용을 직관적으로 확인 가능!
+`}</SyntaxHighlighter>
+
+				<h3>EIP-712의 핵심 요소</h3>
+				<pre>{`EIP-712 서명에는 다음 3가지 핵심 요소가 필요합니다.
+
+1️⃣ 도메인(domain) : 어떤 컨트랙트와 체인에서 서명이 이루어지는지 지정
+2️⃣ 데이터 타입(types) : 서명할 데이터의 타입 정의
+3️⃣ 메시지(message)	: 실제 서명할 데이터`}</pre>
+
+				<h3>1️⃣ domain (도메인 정보)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`const domain = {
+  name: "MyToken",
+  version: "1",
+  chainId: 1,
+  verifyingContract: "0x1234567890abcdef...",
+};
+
+// 도메인은 서명을 검증할 때 고유한 환경을 설정하는 역할.
+// chainId나 verifyingContract 값을 포함하여 다른 체인에서 서명이 재사용되지 않도록 방지.
+
+// name	: 서명하는 토큰 또는 애플리케이션의 이름
+// version	: 버전 정보
+// chainId : 이 서명이 유효한 체인 (Ethereum Mainnet = 1, Goerli = 5 등)
+// verifyingContract : 이 서명을 검증할 스마트 컨트랙트 주소`}</SyntaxHighlighter>
+
+				<h3>2️⃣ types (데이터 타입 정의)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`const types = {
+  Permit: [
+    { name: "owner", type: "address" },
+    { name: "spender", type: "address" },
+    { name: "value", type: "uint256" },
+    { name: "nonce", type: "uint256" },
+    { name: "deadline", type: "uint256" },
+  ],
+};
+
+// Permit 타입을 정의하여 어떤 데이터를 서명하는지 명확하게 만듦.
+// 여기서 name, type은 각각 필드명과 데이터 타입을 의미.
+`}</SyntaxHighlighter>
+
+				<h3>3️⃣ message (실제 서명할 데이터)</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`const message = {
+  owner: "0xabc...",
+  spender: "0xdef...",
+  value: 100,
+  nonce: 1,
+  deadline: 1713200000,
+};
+
+// 서명할 데이터를 Permit 타입의 구조에 맞게 정의.
+// 사용자가 어떤 값을 서명하는지 명확하게 알 수 있음.
+`}</SyntaxHighlighter>
+
+				<h3>EIP-712의 장점</h3>
+				<pre>{`* 사람이 읽을 수 있는 서명 데이터 제공
+* Replay Attack(리플레이 공격) 방지
+* 도메인(네트워크, 컨트랙트) 바인딩으로 보안 강화
+* Gasless 트랜잭션(ERC-2612 Permit) 가능`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 14,
+		date: '22/04/2025',
+		tags: ['Permit', 'EIP-2612', 'Gasless', 'Blockchain'],
+		title: 'EIP-2612: Permit (Gasless)',
+		content: (
+			<div>
+				<pre>{`✔️ EIP-2612는 ERC-20 토큰에서 approve를 가스 없이 서명(signature)만으로 수행할 수 있도록 확장하는 표준
+✔️ 기존 approve는 직접적인 트랜잭션이 필요하여 사용자가 가스를 지불해야 하는 문제가 있었음
+✔️  EIP-2612를 적용하면, MetaTransaction 방식으로 approve를 처리하여 사용자의 가스비 부담을 줄일 수 있음
+
+* (사용자) 기존 approve는 가스비 필요 => permit 은 가스비 불필요
+* Permit을 사용하면 서명만으로 허가 가능
+* e.g. sDEX, DeFi, NFT 등 사용자 경험(UX) 개선`}</pre>
+
+				<h3>기존 ERC-20 approve의 문제점</h3>
+				<pre>{`1. 사용자가 approve(spender, amount)를 실행 → 트랜잭션을 생성해야 함(setter 함수)으로 가스비 필요
+2. 이후 spender가 transferFrom을 실행하여 토큰 전송
+
+⚠️ 문제점
+	* 사용자의 가스비 부담 증가
+	* 프론트엔드 UX가 불편함 (사용자가 먼저 approve를 해야 하는 문제)
+	* 가스 없는 지갑(Gasless Wallet) 지원 어려움`}</pre>
+
+				<h3>EIP-2612 Permit 동작 방식</h3>
+				<pre>{`EIP-2612에서는 트랜잭션을 직접 실행하지 않고, 사용자의 서명(Signature)만으로 허가가 가능
+
+✅ Permit 흐름 (Gasless Approve)
+	1. 사용자가 permit()을 위한 서명 생성 (EIP-712 구조체 서명)
+	2. 가스 지불자가 서명을 permit() 함수로 제출하여 approve 실행 (사용자가스 없음)
+	3. spender가 transferFrom()을 실행하여 토큰 전송`}</pre>
+
+				<h3>Permit 함수 정의</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// EIP-2612의 permit 함수
+
+function permit(
+    address owner,
+    address spender,
+    uint256 value,
+    uint256 deadline,
+    uint8 v,
+    bytes32 r,
+    bytes32 s
+) external;
+ 
+// owner	토큰 소유자의 주소
+// spender	토큰을 사용할 주소
+// value	허가할 토큰 수량
+// deadline	서명이 유효한 기한 (타임스탬프)
+// v, r, s	EIP-712 서명 데이터
+`}</SyntaxHighlighter>
+				<pre>{`📌 동작 방식
+	1. 사용자는 permit()을 호출하지 않고, EIP-712 형식으로 서명(signature)을 생성
+	2. 이 서명을 permit() 함수에 전달하여, 스마트 컨트랙트가 approve() 없이 직접 승인 처리
+	3. spender는 transferFrom()을 호출하여 토큰을 사용할 수 있음
+	4. 이 과정에서 msg.sender는 필요 없음! (즉, Gas가 필요하지 않음)
+
+📌 permit() 조건
+	1. 현재 블록 시간이 deadline보다 작아야 함 (즉, 만료되지 않아야 함)
+	2. owner가 0x0이 아니어야 함
+	3. nonce 값이 현재 nonces[owner]와 같아야 함 (Replay Attack 방지)
+	4. r, s, v 값이 secp256k1 서명 검증을 통과해야 함`}</pre>
+
+				<h3>nonces</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function nonces(address owner) external view returns (uint);
+
+// 각 owner 주소별로 서명이 사용된 횟수를 관리하는 Nonce 카운터
+// permit()이 호출될 때마다 nonces[owner]가 증가하며, 같은 서명이 반복 사용되지 않도록 방지
+`}</SyntaxHighlighter>
+
+				<h3>DOMAIN_SEPARATOR</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={vscDarkPlus}>{`function DOMAIN_SEPARATOR() external view returns (bytes32);
+
+// EIP-712에서 사용되는 도메인 분리자(Domain Separator) 값을 반환
+// 도메인 분리자는 네트워크, 컨트랙트 주소 등을 포함하여 서명이 특정 컨트랙트에서만 유효하도록 보장
+// 체인 간 리플레이 공격(Replay Attack) 방지 기능을 수행
+
+e.g.
+
+DOMAIN_SEPARATOR = keccak256(
+    abi.encode(
+        keccak256('EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)'),
+        keccak256(bytes(name)),
+        keccak256(bytes(version)),
+        chainid,
+        address(this)
+    )
+);`}</SyntaxHighlighter>
+			</div>
+		),
+	},
 ]
