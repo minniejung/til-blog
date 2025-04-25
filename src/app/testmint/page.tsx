@@ -12,7 +12,6 @@ import { ButtonImportWalletByKey } from '@/features/wallets/ButtonImportWalletBy
 import { web3WalletAtom } from '@/stores/atoms'
 
 const TestMintPage = () => {
-	// const wallet = useAtomValue(ethersWalletAtom)
 	const wallet = useAtomValue(web3WalletAtom)
 	const { nfts, loading, refetch } = useNfts(wallet)
 

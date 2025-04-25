@@ -20,7 +20,6 @@ type UploadAreaProps = {
 export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 	const router = useRouter()
 	const wallet = useAtomValue(web3WalletAtom)
-	// const wallet = useAtomValue(ethersWalletAtom)
 
 	const [img, setImg] = useState<Timage>({ url: '', preview: '' })
 	const [metadata, setMetadata] = useState<Tmetadata>({
@@ -61,31 +60,6 @@ export const UploadArea = ({ onMinted }: UploadAreaProps) => {
 			})
 		}
 	}
-
-	// const handleMintWithMetamask = async () => {
-	// 	setLoading(true)
-	// 	try {
-	// 		if (wallet) {
-	// 			const tokenUri = await uploadMetaData(metadata)
-	// 			if (!tokenUri) return
-
-	// 			const mintNFT = await mintWithEthers(wallet, tokenUri)
-	// 			if (mintNFT) {
-	// 				router.refresh()
-	// 				onMinted?.()
-	// 			}
-	// 		}
-	// 	} catch (error) {
-	// 		console.error(error)
-	// 	} finally {
-	// 		setLoading(false)
-	// 		setMetadata({
-	// 			name: '',
-	// 			description: '',
-	// 			image: '',
-	// 		})
-	// 	}
-	// }
 
 	const handleImageUpload = (img: Timage) => {
 		if (img.preview) {
