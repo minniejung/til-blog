@@ -3900,4 +3900,235 @@ npx hardhat test test/{파일 이름}.ts
 			</div>
 		),
 	},
+	{
+		id: 40,
+		date: '29/04/2025',
+		tags: ['Upgradable', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Upgradable Contract',
+		content: (
+			<div>
+				<pre>{`✔️ 프록시 컨트랙트는 상태(state)를 보관하고, 실제 실행할 로직(implementation)은 별도의 구현 컨트랙트에 위임(delegate)하는 컨트랙트
+✔️ 우리는 프록시 컨트랙트를 고정된 주소에 유지하면서도, 로직 컨트랙트를 교체하는 방식으로 스마트 컨트랙트를 '업그레이드'할 수 있음
+✔️ 사용자가 프록시 컨트랙트에 함수를 호출하면, 프록시 컨트랙트(Proxy Contract)는 내부에 저장된 로직 컨트랙트(Implementation Contract)의 주소를 참조해 실제 기능을 대신 실행`}</pre>
+
+				<h3>Proxy Contract (프록시 컨트랙트) : 중계자</h3>
+				<pre>{`✔️ 사용자가 직접 사용하는 외부 인터페이스
+✔️ 사용자의 함수 호출을 받아서, 실제 로직이 구현된 Implementation Contract로 위임(delegate)
+✔️ 자신의 상태 변수(Storage)는 유지한 채, 로직만 외부 컨트랙트에 위임
+
+📌 핵심 기능
+	* delegatecall을 통해 로직을 실행
+	* implementation 주소를 저장하고 있음
+	* 업그레이드 시, 이 주소만 바꿔주면 다른 로직을 실행할 수 있음`}</pre>
+
+				<h3>Implementation Contract (로직 컨트랙트) : 실제 비즈니스 로직 수행</h3>
+				<pre>{`✔️ 함수 로직이 실제로 구현되어 있는 컨트랙트
+✔️ 직접 사용되지 않고, 항상 Proxy를 통해서만 호출
+✔️ 상태변수는 가지지만, 실제로 저장은 Proxy의 storage에 저장 (delegatecall 때문)
+
+📌 특징
+	* 단독으로는 호출되지 않음
+	* 필요한 경우, 새로운 로직 버전을 만들어 Proxy에 연결시켜 업그레이드 가능`}</pre>
+			</div>
+		),
+	},
+	{
+		id: 41,
+		date: '29/04/2025',
+		tags: ['Upgradable', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Storage - 스마트 컨트랙트에서 데이터가 저장되는 방식(storage)',
+		content: (
+			<div>
+				<h3>storage는 블록체인 상의 “디스크 저장소” 같은 것</h3>
+				<pre>{`✔️ 컨트랙트 주소와 연결된 고유한 저장공간
+✔️ 값은 트랜잭션 이후에도 계속 유지됨
+✔️ 가스 비용이 높음 (쓰기 비용이 큼)
+`}</pre>
+
+				<h3>저장 방식 — Slot 단위로 저장됨</h3>
+				<pre>{`✔️ storage는 기본적으로 32바이트 단위(slot)로 구성`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`📌 예시:
+contract Example {
+    uint256 public a = 10;         // slot 0
+    address public b = address(0); // slot 1
+    bool public c = true;          // slot 2
+}
+
+// a는 0번 슬롯
+// b는 1번 슬롯
+// c는 2번 슬롯에 저장됨
+// Solidity는 상태 변수 선언 순서대로 슬롯을 할당합니다.`}</SyntaxHighlighter>
+
+				<h3>Storage: Proxy 패턴 & Upgradable</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={
+						vscDarkPlus
+					}>{`bytes32 constant IMPLEMENTATION_SLOT = keccak256("eip1967.proxy.implementation") - 1;`}</SyntaxHighlighter>
+				<pre>{`업그레이더블 컨트랙트에서는 로직 컨트랙트를 교체해도 storage는 Proxy 쪽에만 남겨야 하므로, 
+슬롯 충돌이 나지 않도록 주의가 필요합니다.
+
+이를 위해 등장한 개념이: EIP-1967 슬롯 고정 방식
+
+- 이 슬롯은 implementation address를 저장하기 위해 정해둔 고유 슬롯
+- 다른 상태 변수와 절대 슬롯 충돌이 안 나게 하기 위해 고정된 위치 사용`}</pre>
+
+				<h3>상태 변수 저장 흐름 정리</h3>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`contract MyContract {
+    uint public value = 1;
+}`}</SyntaxHighlighter>
+				<pre>{`- value는 storage에 저장됨
+- 이 storage는 MyContract의 주소에 귀속된 블록체인 디스크 공간
+- 트랜잭션으로 값이 변경되면 value의 슬롯이 업데이트됨
+- view 함수로 읽을 수 있고, pure에서는 접근 못 함`}</pre>
+
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`// Storage 관련 예제 코드
+
+contract SlotExample {
+    uint256 public a = 123; // slot 0
+    uint256 public b = 456; // slot 1
+
+    function getSlot0() public view returns (bytes32 result) {
+        assembly {
+            result := sload(0) // slot 0 읽기
+        }
+    }
+}
+
+// 이렇게 하면 직접 슬롯 0에 있는 값(123)을 가져올 수 있습니다.`}</SyntaxHighlighter>
+
+				<h3>ERC-1967: Proxy Storage Slots</h3>
+				<u>
+					<a href='https://eips.ethereum.org/EIPS/eip-1967' target='_blank'>
+						https://eips.ethereum.org/EIPS/eip-1967
+					</a>
+				</u>
+
+				<h3>openzeppelin-contracts-upgradeable</h3>
+				<u>
+					<a href='https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable' target='_blank'>
+						https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
+					</a>
+				</u>
+			</div>
+		),
+	},
+	{
+		id: 42,
+		date: '29/04/2025',
+		tags: ['Upgradable', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Upgradable 핵심 기능 - fallback & delegatecall',
+		content: (
+			<div>
+				<h3>fallback 함수 — 사용자 진입점</h3>
+				<pre>{`✔️ 사용자가 Proxy 컨트랙트에 정의되지 않은 함수를 호출하면,
+✔️ 이 fallback() 함수가 실행되고,
+✔️ 내부에서 delegatecall()을 통해 실제 로직 컨트랙트로 요청을 넘깁니다.
+✔️ 📌 업그레이더블 구조에서는 반드시 필요
+`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`fallback() external payable {
+    _delegate(implementation); // 프록시 컨트랙트로 함수 실행이 되었을시 실행되는 함수
+}`}</SyntaxHighlighter>
+
+				<h3>delegatecall — 핵심 위임 로직</h3>
+				<pre>{`✔️ Proxy 컨트랙트에서 다른 컨트랙트(= Implementation)의 코드를 실행시킴
+✔️ 단, Proxy의 상태(storage) 를 그대로 사용함
+✔️ 📌 즉, "로직은 Implementation이 제공, 저장은 Proxy가 담당"`}</pre>
+				<SyntaxHighlighter language='solidity' style={vscDarkPlus}>{`(bool success, ) = impl.delegatecall(msg.data);
+				
+// delegatecall이 없다면 업그레이더블 패턴은 불가능합니다.`}</SyntaxHighlighter>
+
+				<h3>전체 흐름</h3>
+				<SyntaxHighlighter
+					language='solidity'
+					style={
+						vscDarkPlus
+					}>{`유저가 프록시에 호출 → fallback 작동 → delegatecall 실행 → 로직 컨트랙트의 코드 실행 → 결과는 프록시의 storage에 저장`}</SyntaxHighlighter>
+			</div>
+		),
+	},
+	{
+		id: 43,
+		date: '29/04/2025',
+		tags: ['Proxy Pattern', 'Upgradable', 'Solidity', 'Smart Contract', 'Blockchain'],
+		title: 'Proxy Pattern 종류 정리',
+		content: (
+			<div>
+				<h3>🧱 Proxy 구조 핵심 요소 3가지</h3>
+				<pre>{`• Proxy Contract: 사용자의 진입점. 실제 로직 없음, delegatecall만 수행
+	• Implementation Contract: 실제 로직이 들어간 스마트 컨트랙트
+	• Storage (Proxy 내부): Proxy에 저장됨 (delegatecall 특성상)`}</pre>
+
+				<h3>🔁 Transparent Proxy Pattern</h3>
+				<pre>{`(OpenZeppelin에서 기본으로 제공하는 패턴이며, OpenZeppelin자체적으로 개발한 패턴입니다.)
+
+	✔️ Admin만 Implementation 변경 가능 (upgradeTo)
+	✔️ 일반 사용자는 delegatecall로 로직 실행만 가능
+	✔️ Proxy에 upgrade 권한 존재 → 구조 명확
+	
+	✅ 장점: 
+		- 사용자와 관리자 역할이 명확히 분리되어 있어 안전
+		- 구조가 직관적이고 사용자/관리자 오용 방지
+
+	❌ 단점: 
+		- Proxy자체에 Admin 로직 존재 → 복잡도 증가
+		- 업그레이드 로직이 Proxy에 고정됨 (유연성 ↓) 비용↑`}</pre>
+
+				<h3>🔄 UUPS (Universal Upgradeable Proxy Standard)</h3>
+				<pre>{`(더 최근의 업그레이드 패턴이며, OpenZeppelin도 권장하는 방식입니다.)
+
+	✔️ upgradeTo 함수가 Implementation에 있음
+	✔️ Proxy는 delegatecall만 수행 → 가볍고 유연
+	✔️ upgradeTo(address) 같은 업그레이드 함수가 Implementation에 존재
+	
+	✅ 장점: 
+		- Proxy가 매우 가볍고 간단함
+		- 업그레이드 로직도 버전마다 바꿀 수 있어서 유연성 ↑
+		- 저장 슬롯 충돌 걱정이 적음
+
+	❌ 단점: 
+		- Implementation에 실수로 upgradeTo 삭제 가능 → 위험
+		- 업그레이드 로직이 로직 컨트랙트에 있으므로 실수하면 위험
+		- 잘못된 Implementation이 upgradeTo를 덮어쓸 수도 있음 (보안 이슈 주의)`}</pre>
+
+				<h3>📡 Beacon Proxy Pattern</h3>
+				<pre>{`(많은 Proxy들이 하나의 Beacon을 공유하는 구조)
+
+	✔️ Beacon 컨트랙트에 로직 주소 보관
+	✔️ 여러 Proxy들이 Beacon 참조 → 업그레이드 시 전체 반영
+	✔️ Beacon이 가리키는 로직으로 delegatecall
+	✔️ 업그레이드는 Beacon 컨트랙트만 바꾸면 됨
+	
+	✅ 장점: 여러 Proxy 동시 업그레이드 가능(동일 로직 공유 시 유용)
+	❌ 단점: 
+		- 모든 Proxy가 동일 로직 사용해야 함
+		- Beacon이 단일 실패 지점(SPoF)이 될 수 있음`}</pre>
+
+				<h3>💎 Diamond Proxy Pattern</h3>
+				<pre>{`복잡한 스마트 컨트랙트를 모듈화하고 확장성을 높이기 위해 등장한 업그레이더블 방식입니다.
+특히 함수 수가 많아지면 발생하는 contract size 한도 초과 문제를 해결하기 위해 사용됩니다.
+
+	✔️ 하나의 Proxy에 여러 Logic(Facet) 연결
+	✔️ 함수 → Facet 주소 → delegatecall 수행
+	✔️ DiamondLoupe로 어떤 함수가 어떤 Facet에 있는지 조회 가능
+	
+	📌 구성요소:
+		- Diamond : Proxy 역할, delegatecall만 수행
+		- Facet : 실제 로직 컨트랙트 (여러 개 존재 가능)
+		- DiamondCut : Facet을 추가/제거/업데이트하는 관리자
+		- DiamondLoupe : 현재 구조를 외부에서 조회할 수 있게 함
+
+	✅ 장점:
+		- 대형/복합 컨트랙트에 유리, 유연성↑
+		- 모듈화: 기능별로 로직을 분리해 관리
+		- 유연한 확장성: 필요한 기능만 교체 또는 추가 가능
+		- 컨트랙트 크기 문제 해결: Facet으로 나눠 사이즈 제한 회피
+
+	❌ 단점: 
+		- 복잡도 높고 delegatecall 많아 가스비 ↑
+		- 구현이 복잡하고, 설계 미숙 시 보안 취약점 유발 가능
+		- delegatecall 로직 및 함수 라우팅이 복잡`}</pre>
+			</div>
+		),
+	},
 ]
