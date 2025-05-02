@@ -22,7 +22,6 @@ export const Nav = () => {
 					if (link.startsWith('TIL-')) {
 						if (i === links.findIndex(l => l.startsWith('TIL-'))) {
 							return (
-								
 								<div key='TIL' className='group relative cursor-pointer text-[#777] hover:text-black'>
 									<span className='font-semibold'>* T I L *</span>
 									<div className='absolute -right-40 top-6 hidden min-w-max flex-row gap-4 rounded-lg border bg-white p-4 shadow-md group-hover:flex'>
@@ -97,6 +96,11 @@ export const Nav = () => {
 							{link}
 						</div>
 					))}
+					<Link href='https://mint-scob.vercel.app/mint' target='_blank'>
+						<div className='rounded-full bg-purple-100 px-4 py-2 font-bold text-[#777] hover:text-purple-500'>
+							Mint Page {'>>'}
+						</div>
+					</Link>
 				</nav>
 			)}
 		</>
