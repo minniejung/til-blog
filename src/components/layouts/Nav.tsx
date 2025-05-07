@@ -1,75 +1,59 @@
 'use client'
 
 import Link from 'next/link'
-import { redirect, usePathname } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { HiMenu } from 'react-icons/hi'
-import { IoWallet, IoWalletOutline } from 'react-icons/io5'
 
 import { cn } from '@/utils/helpers/cn'
 
 export const Nav = () => {
+	const router = useRouter()
 	const path = usePathname()
 
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
-	const [isHovered, setIsHovered] = useState<boolean>(false)
 
 	return (
 		<>
 			<nav className='z-50 flex hidden items-center gap-8 xs:flex'>
-				{links.map((link, i) => {
-					if (link.startsWith('TIL-')) {
-						if (i === links.findIndex(l => l.startsWith('TIL-'))) {
-							return (
-								<div key='TIL' className='group relative cursor-pointer text-[#777] hover:text-black'>
-									<span className='font-semibold'>* T I L *</span>
-									<div className='absolute -right-40 top-6 hidden min-w-max flex-row gap-4 rounded-lg border bg-white p-4 shadow-md group-hover:flex'>
-										{links
-											.filter(l => l.startsWith('TIL-'))
-											.map(til => (
-												<div
-													key={til}
-													onClick={() => redirect(`/${til.toLowerCase()}`)}
-													className={cn(
-														'hover:cursor-pointer hover:underline',
-														path.slice(1) === til.toLowerCase() && 'font-bold',
-													)}>
-													{til}
-												</div>
-											))}
-									</div>
+				{links.map(link => {
+					const isTIL = link === 'TIL'
+					const isActive = path.slice(1) === link.toLowerCase()
+
+					if (isTIL) {
+						return (
+							<div
+								key='TIL'
+								onClick={() => redirect('/til')}
+								className='group relative cursor-pointer text-[#777] hover:text-black'>
+								<span className='font-semibold'>T I L</span>
+								<div className='absolute -right-40 top-6 hidden min-w-max flex-row gap-4 rounded-lg border bg-white p-4 shadow-md group-hover:flex'>
+									{tilLinks.map(til => (
+										<div
+											key={til}
+											onClick={e => {
+												e.stopPropagation()
+												router.push(`/til/${til.toLowerCase()}`)
+											}}
+											className='hover:cursor-pointer hover:underline'>
+											TIL-{til}
+										</div>
+									))}
 								</div>
-							)
-						} else {
-							return null
-						}
+							</div>
+						)
 					}
 
 					return (
 						<div
 							key={link}
-							onMouseEnter={() => link === 'Wallet' && setIsHovered(true)}
-							onMouseLeave={() => link === 'Wallet' && setIsHovered(false)}
 							onClick={() => redirect(`/${link.toLowerCase()}`)}
-							className={cn(
-								'relative cursor-pointer',
-								path.slice(1) === link.toLowerCase() && 'font-bold',
-								link === 'Wallet' ? 'text-purple-500' : 'text-[#777] hover:text-black',
-							)}>
-							{link === 'Wallet' ? (
-								<span className='text-2xl'>{isHovered ? <IoWallet /> : <IoWalletOutline />}</span>
-							) : (
-								link
-							)}
+							className={cn('relative cursor-pointer', isActive && 'font-bold')}>
+							{link}
 						</div>
 					)
 				})}
-				<Link href='https://mint-scob.vercel.app/mint' target='_blank'>
-					<div className='rounded-full bg-purple-100 px-4 py-2 font-bold text-[#777] hover:text-purple-500'>
-						Mint Page {'>>'}
-					</div>
-				</Link>
 			</nav>
 
 			<HiMenu
@@ -96,9 +80,15 @@ export const Nav = () => {
 							{link}
 						</div>
 					))}
+
 					<Link href='https://mint-scob.vercel.app/mint' target='_blank'>
 						<div className='rounded-full bg-purple-100 px-4 py-2 font-bold text-[#777] hover:text-purple-500'>
 							Mint Page {'>>'}
+						</div>
+					</Link>
+					<Link href='https://attendance-meow.vercel.app/home' target='_blank'>
+						<div className='rounded-full bg-purple-100 px-4 py-2 font-bold text-[#777] hover:text-purple-500'>
+							Meta Tx {'>>'}
 						</div>
 					</Link>
 				</nav>
@@ -107,17 +97,6 @@ export const Nav = () => {
 	)
 }
 
-const links = [
-	'About',
-	'TIL-Blockchain',
-	'TIL-Solidity',
-	'TIL-ERC',
-	'TIL-Defi',
-	'TIL-Lab',
-	'TIL-Front',
-	'TIL-Back',
-	'Scoby',
-	'Chart',
-	'Explorer',
-	'Wallet',
-]
+const links = ['About', 'TIL', 'Projects', 'Scoby', 'Chart']
+
+const tilLinks = ['Blockchain', 'Solidity', 'ERC', 'Defi', 'Lab', 'Front', 'Back']
