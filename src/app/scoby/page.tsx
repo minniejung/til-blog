@@ -28,8 +28,11 @@ import Scoby24 from '../../assets/scoby/24.jpeg'
 
 const ScobyPage = () => {
 	return (
-		<div className='w-full space-y-12'>
-			<p className='text-2xl font-bold'>SCOBY THE CAT 🩶</p>
+		<div className='w-full space-y-8'>
+			<div>
+				<p className='text-2xl font-bold'>SCOBY THE CAT 🩶</p>
+				<p className='pt-1'>I just wanna show you the cutest cat in the world! and she&#39;s my girl!</p>
+			</div>
 
 			<ul>
 				<li>👑 Princess</li>
@@ -38,30 +41,30 @@ const ScobyPage = () => {
 			</ul>
 
 			<div className='flex w-full flex-row flex-wrap justify-center gap-4'>
-				<Image src={Scoby1} width={198} height={352} alt='scoby' />
-				<Image src={Scoby2} width={198} height={352} alt='scoby' />
-				<Image src={Scoby3} width={198} height={352} alt='scoby' />
-				<Image src={Scoby4} width={198} height={352} alt='scoby' />
-				<Image src={Scoby5} width={198} height={352} alt='scoby' />
-				<Image src={Scoby6} width={198} height={352} alt='scoby' />
-				<Image src={Scoby7} width={198} height={352} alt='scoby' />
-				<Image src={Scoby8} width={198} height={352} alt='scoby' />
-				<Image src={Scoby9} width={198} height={352} alt='scoby' />
-				<Image src={Scoby10} width={198} height={352} alt='scoby' />
-				<Image src={Scoby11} width={198} height={352} alt='scoby' />
-				<Image src={Scoby12} width={198} height={352} alt='scoby' />
-				<Image src={Scoby13} width={198} height={352} alt='scoby' />
-				<Image src={Scoby14} width={198} height={352} alt='scoby' />
-				<Image src={Scoby15} width={198} height={352} alt='scoby' />
-				<Image src={Scoby16} width={198} height={352} alt='scoby' />
-				<Image src={Scoby17} width={198} height={352} alt='scoby' />
-				<Image src={Scoby18} width={198} height={352} alt='scoby' />
-				<Image src={Scoby19} width={198} height={352} alt='scoby' />
-				<Image src={Scoby20} width={198} height={352} alt='scoby' />
-				<Image src={Scoby21} width={198} height={352} alt='scoby' />
-				<Image src={Scoby22} width={198} height={352} alt='scoby' />
-				<Image src={Scoby23} width={198} height={352} alt='scoby' />
-				<Image src={Scoby24} width={198} height={352} alt='scoby' />
+				<Image src={Scoby1} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby2} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby3} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby4} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby5} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby6} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby7} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby8} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby9} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby10} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby11} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby12} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby13} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby14} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby15} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby16} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby17} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby18} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby19} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby20} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby21} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby22} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby23} width={198} height={352} alt='scoby' className='object-cover' />
+				<Image src={Scoby24} width={198} height={352} alt='scoby' className='object-cover' />
 			</div>
 		</div>
 	)

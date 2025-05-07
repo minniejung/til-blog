@@ -10,12 +10,12 @@ export const Footer = () => {
 			<Link href='https://www.linkedin.com/in/minyoungjung/' target='_blank'>
 				Linkedin
 			</Link>
-			<Link href='https://pf.kakao.com/_jxcvzn/posts' target='_blank' className='pl-12'>
+			{/* <Link href='https://pf.kakao.com/_jxcvzn/posts' target='_blank' className='pl-12'>
 				Babpl-3
-			</Link>
-			<Link href='https://pf.kakao.com/_Kyxlxbn/posts' target='_blank'>
+			</Link> */}
+			{/* <Link href='https://pf.kakao.com/_Kyxlxbn/posts' target='_blank'>
 				Babpl-6
-			</Link>
+			</Link> */}
 		</footer>
 	)
 }

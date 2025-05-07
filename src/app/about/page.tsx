@@ -31,9 +31,10 @@ const AboutPage = () => {
 
 			<div className='space-y-2 pl-4'>
 				<p className='font-bold'>Skills I have: </p>
-				<p>ReactJS / NextJS / TypeScript / Styled Components / Tailwind CSS /</p>
-				<p>Wagmi / Viem / Taquito / Tanstack Query / GraphQL / Axios NodeJS / ExpressJS / MongoDB / </p>
-				<p>Cypress / Jest / (Little bit of) Vue & Nuxt ... (Soon) Solidity / Python</p>
+				<p>JavaScript/ TypeScript / NextJS / ReactJS / Tailwind CSS / Styled Components /</p>
+				<p>Solidity / Ethers.js / Web3.js / Wagmi / Viem / Taquito /</p>
+				<p>Hardhat / Truffle / Cypress / Jest /</p>
+				<p>Tanstack Query / GraphQL / Axios NodeJS / ExpressJS / MongoDB</p>
 			</div>
 		</div>
 	)

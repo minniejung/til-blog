@@ -36,7 +36,7 @@ const WalletPage = () => {
 			) : (
 				<div>
 					<ButtonGoBack onClick={disconnect}>Prev Page</ButtonGoBack>
-					<div className='flex w-full flex-col items-center gap-8'>
+					<div className='mt-4 flex w-full flex-col items-center gap-8'>
 						<WalletContents />
 					</div>
 				</div>

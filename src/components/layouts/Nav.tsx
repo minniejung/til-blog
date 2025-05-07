@@ -97,6 +97,6 @@ export const Nav = () => {
 	)
 }
 
-const links = ['About', 'TIL', 'Projects', 'Scoby', 'Chart']
+const links = ['About', 'TIL', 'Projects', 'Scoby', 'BTC/USDT']
 
 const tilLinks = ['Blockchain', 'Solidity', 'ERC', 'Defi', 'Lab', 'Front', 'Back']
