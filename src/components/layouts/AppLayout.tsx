@@ -9,7 +9,6 @@ import { Footer } from './Footer'
 
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
 	const pathname = usePathname()
-	console.log('pathname', pathname)
 
 	return (
 		<main className='flex min-h-screen flex-col'>
